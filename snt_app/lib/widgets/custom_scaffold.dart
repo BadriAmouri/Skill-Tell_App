@@ -5,7 +5,9 @@ import 'package:snt_app/Screens/login/login_screen.dart';
 import 'package:snt_app/Theme/theme.dart';
 class CustomScaffold extends StatelessWidget {
   final Widget? child;
-  const CustomScaffold({super.key,required this.child});
+  final bool isLogin;
+  final bool zoomheight;
+  const CustomScaffold({super.key,required this.child, this.isLogin = true, this.zoomheight = false});
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +25,12 @@ class CustomScaffold extends StatelessWidget {
             child: Column(
                 children: [
                   Expanded(
-                    flex: 2,
+                    flex: !zoomheight? 2 : 3,
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                        top:30,
-                        left:30,
-                        right:30,
+                      padding: EdgeInsets.only(
+                        top: !zoomheight? 30 : 0,
+                        left:!zoomheight? 30 : 0,
+                        right:!zoomheight? 30 : 0,
                         bottom:0,
                       ),
                       child: Image.asset(
@@ -38,12 +40,12 @@ class CustomScaffold extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: !zoomheight? 30 : 0),
                   Expanded(
-                    flex: 7,
+                    flex: !zoomheight? 7 : 15,
                     child: Container(
                       padding: EdgeInsets.only(
-                        top: 14,
+                        top: 10,
                       ),
                       decoration: const BoxDecoration(
                         color: Colors.white,
@@ -62,20 +64,20 @@ class CustomScaffold extends StatelessWidget {
                                 alignment: Alignment.topCenter,
                                 child: Row(
                                   children: [
-                                    const Expanded(
+                                    Expanded(
                                       child: CustomButton(
                                         onTap: SignupScreen(),
                                         color: Colors.white,
                                         buttonText: "Sign up",
-                                        textColor:AppColors.Text300,
+                                        textColor: isLogin ? AppColors.Text300 : AppColors.Main400,
                                       ),
                                     ),
-                                    const Expanded(
+                                    Expanded(
                                       child: CustomButton(
                                         onTap: LoginScreen(),
                                         color: Colors.white,
                                         buttonText: "Login",
-                                        textColor: AppColors.Main400,
+                                        textColor: isLogin ? AppColors.Main400 : AppColors.Text300,
                                       ),
                                     ),
                                   ],

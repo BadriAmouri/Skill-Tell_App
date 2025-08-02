@@ -20,8 +20,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
     myEmailController.dispose();
     super.dispose();
   }
-    @override
-    Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return CustomScaffold(
       child: Align(
         alignment: Alignment.topCenter,
