@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:snt_app/Theme/text_styles.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/Widgets/General/bottom_navbar.dart';
+import 'package:snt_app/Widgets/HomePage/UpcomingEvents/upcoming_events_section.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -36,6 +37,10 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
 
               // upcoming events
+              Padding(
+                padding: EdgeInsets.only(left: 24, bottom: 32),
+                child: UpcomingEventsSection(title: "Upcoming Events")),
+              
 
               // prev events
 

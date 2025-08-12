@@ -17,6 +17,8 @@ class AppColors {
   static const Color Error200 = Color(0xFFDD3030);
   static const Color Error100 = Color(0xFFFF6E6E);
   static const Color Neutral400 = Color.fromRGBO(101, 112, 132, 1);
+  static const Color Neutral200 = Color.fromRGBO(224, 229, 235, 1);
+  static const Color Neutral600 = Color.fromRGBO(34, 38, 49, 1);
   static const Color White = Color.fromRGBO(255, 255, 255, 1);
 
 }
