@@ -9,7 +9,7 @@ class UpcomingEventScrollingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 12, bottom: 22),
+      padding: const EdgeInsets.only(bottom: 22, top:12),
       child: SizedBox(
         height: 369, // card height
         child: ListView.separated(

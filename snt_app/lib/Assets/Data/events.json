@@ -3,7 +3,7 @@
     "id": 1,
     "name": "Tech & Innovation Expo",
     "date": "2025-09-15",
-    "location": "Algiers, Algeria",
+    "location": "ENSIA",
     "description": "A large exhibition showcasing the latest in AI, robotics, and emerging technologies.",
     "image_url": "",
     "key_features": ["AI", "Robotics", "Startups"]
@@ -15,15 +15,15 @@
     "location": "Oran, Algeria",
     "description": "Conference focusing on sustainable energy, climate solutions, and eco-friendly innovations.",
     "image_url": "",
-    "key_features": ["Sustainability", "Energy", "Climate"]
+    "key_features": ["Energy", "Climate"]
   },
   {
     "id": 3,
     "name": "Youth Entrepreneurship Forum",
     "date": "2025-11-20",
-    "location": "Constantine, Algeria",
+    "location": "HEC",
     "description": "An event for young entrepreneurs to network, pitch ideas, and meet investors.",
     "image_url": "",
-    "key_features": ["Startups", "Networking", "Pitching"]
+    "key_features": ["Startups", "Networking"]
   }
 ]

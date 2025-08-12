@@ -7,12 +7,13 @@ class UpcomingEventCard extends StatelessWidget {
 
   final EventModel event;
   const UpcomingEventCard({super.key, required this.event});
+  
+  // final double cardWidth = MediaQuery.of(context).size.width * 0.7;
+  final double cardWidth = 284;
+  final double cardHeight = 359;
 
   @override
   Widget build(BuildContext context) {
-    // final double cardWidth = MediaQuery.of(context).size.width * 0.7;
-    final double cardWidth = 284;
-    final double cardHeight = 359;
     return Container(
       width: cardWidth,
       height: cardHeight,
@@ -91,14 +92,16 @@ class UpcomingEventCard extends StatelessWidget {
                   children: [
                       Text(
                       event.name,
-                      style: TextStyles.EventTitle
+                      style: TextStyles.EventTitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
 
                     
                     Text(
                       event.description,
                       style: TextStyles.EventDesc,
-                      maxLines: 3,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
@@ -123,6 +126,7 @@ class UpcomingEventCard extends StatelessWidget {
                     Text(
                       event.date,
                       style: TextStyles.DateAndLocation,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
@@ -139,6 +143,7 @@ class UpcomingEventCard extends StatelessWidget {
                     Text(
                       event.location,
                       style: TextStyles.DateAndLocation,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),

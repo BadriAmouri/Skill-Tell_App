@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:snt_app/Models-jass/event_model.dart';
 import 'package:snt_app/Services-jass/event_service.dart';
 import 'package:snt_app/Theme/text_styles.dart';
-import 'package:snt_app/Widgets/HomePage/UpcomingEvents/upcoming_event_scrolling_view.dart';
+import 'package:snt_app/Widgets/HomePage/PreviousEvents/previous_events_scrolling_view.dart';
 
-class UpcomingEventsSection extends StatelessWidget {
+class PreviousEventsSection extends StatelessWidget {
 
   final String title;
   final EventService eventService = EventService();
   
 
-  UpcomingEventsSection({
+  PreviousEventsSection({
     super.key,
     required this.title,
   });
@@ -29,9 +29,12 @@ class UpcomingEventsSection extends StatelessWidget {
 
       children: [
         // title
-        Text(
-          title,
-          style: TextStyles.Subtitle
+        Padding(
+          padding: const EdgeInsets.only(left: 24),
+          child: Text(
+            title,
+            style: TextStyles.Subtitle
+          ),
         ),
 
         FutureBuilder<List<EventModel>>(
@@ -40,14 +43,14 @@ class UpcomingEventsSection extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Container(
                 alignment: Alignment.center,
-                height: 359,
+                height: 460,
                 width: MediaQuery.of(context).size.width,
                 child: CircularProgressIndicator()
               );
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
-              return UpcomingEventScrollingView(events: snapshot.data!);
+              return PreviousEventScrollingView(events: snapshot.data!);
             }
           }
         )
