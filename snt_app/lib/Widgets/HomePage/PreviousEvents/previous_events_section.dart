@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:snt_app/Models-jass/event_model.dart';
-import 'package:snt_app/Services-jass/event_service.dart';
+import 'package:snt_app/Models/event_model.dart';
+import 'package:snt_app/Services/event_service.dart';
 import 'package:snt_app/Theme/text_styles.dart';
 import 'package:snt_app/Widgets/HomePage/PreviousEvents/previous_events_scrolling_view.dart';
 

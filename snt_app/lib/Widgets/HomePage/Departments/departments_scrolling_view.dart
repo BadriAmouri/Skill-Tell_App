@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:snt_app/Models-jass/department_model.dart';
+import 'package:snt_app/Models/department_model.dart';
 import 'package:snt_app/Widgets/HomePage/Departments/department_card.dart';
 
 class DepartmentsScrollingView extends StatelessWidget {

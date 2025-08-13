@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'package:snt_app/Models-jass/department_model.dart';
+import 'package:snt_app/Models/department_model.dart';
 
 class DepartmentService {
   Future<List<DepartmentModel>> fetchDepartments() async {

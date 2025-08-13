@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'package:snt_app/Models-jass/event_model.dart';
+import 'package:snt_app/Models/event_model.dart';
 
 class EventService {
 

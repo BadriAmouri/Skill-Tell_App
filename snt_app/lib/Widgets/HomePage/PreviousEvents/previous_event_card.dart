@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:snt_app/Models-jass/event_model.dart';
+import 'package:snt_app/Models/event_model.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:intl/intl.dart';
 

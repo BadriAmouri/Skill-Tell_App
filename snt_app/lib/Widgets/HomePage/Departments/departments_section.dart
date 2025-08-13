@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:snt_app/Models-jass/department_model.dart';
-import 'package:snt_app/Services-jass/department_service.dart';
+import 'package:snt_app/Models/department_model.dart';
+import 'package:snt_app/Services/department_service.dart';
 import 'package:snt_app/Theme/text_styles.dart';
 import 'package:snt_app/Widgets/HomePage/Departments/departments_scrolling_view.dart';
 
