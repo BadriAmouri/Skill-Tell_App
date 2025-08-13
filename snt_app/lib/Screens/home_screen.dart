@@ -1,37 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:snt_app/Theme/text_styles.dart';
 import 'package:snt_app/Theme/theme.dart';
+import 'package:snt_app/Widgets/General/bottom_navbar.dart';
+import 'package:snt_app/Widgets/HomePage/Departments/departments_section.dart';
+import 'package:snt_app/Widgets/HomePage/PreviousEvents/previous_events_section.dart';
+import 'package:snt_app/Widgets/HomePage/UpcomingEvents/upcoming_events_section.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  int _selectedIndex = 2;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.Main100,
+      backgroundColor: AppColors.White,
       appBar: AppBar(
         title: const Text(
           'Home',
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w600,
-            fontSize: 20,
-            color: Colors.white,
-          ),
+          style: TextStyles.TopNavBarTitle,
         ),
-        backgroundColor: AppColors.Main600,
+        centerTitle: true,
+        backgroundColor: AppColors.White,
         elevation: 0,
       ),
-      body: const Center(
-        child: Text(
-          'Welcome to Home Screen!',
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w500,
-            fontSize: 18,
-            color: AppColors.Main600,
+      bottomNavigationBar: BottomNavBar(currentIndex: _selectedIndex,),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          // gotta fix the padding
+          child: Column(
+            // fix the spacing
+            children: [
+
+              // upcoming events
+              Padding(
+                padding: EdgeInsets.only(left: 24, bottom: 2, top: 32),
+                child: UpcomingEventsSection(title: "Upcoming Events")
+              ),
+
+              // prev events
+              Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: PreviousEventsSection(title: "Previous Events")
+              ),
+
+              // depatments
+              Padding(
+                padding: EdgeInsets.only(top: 32),
+                child: DepartmentsSection(title: "Our Departments")
+              )
+            ],
           ),
         ),
-      ),
+      )
     );
   }
 }
+

@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:
@@ -17,6 +18,13 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  
+  assets:
+    - lib/Assets/Data/events.json
+    - lib/Assets/Data/departments.json
+    - lib/Assets/Images/event_bg.jpg
+    - lib/Assets/Images/badri.jpg
 
   fonts:
     - family: Poppins
