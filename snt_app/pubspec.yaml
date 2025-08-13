@@ -22,7 +22,9 @@ flutter:
   
   assets:
     - lib/Assets/Data/events.json
+    - lib/Assets/Data/departments.json
     - lib/Assets/Images/event_bg.jpg
+    - lib/Assets/Images/badri.jpg
 
   fonts:
     - family: Poppins

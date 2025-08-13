@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:snt_app/Theme/text_styles.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/Widgets/General/bottom_navbar.dart';
+import 'package:snt_app/Widgets/HomePage/Departments/departments_section.dart';
 import 'package:snt_app/Widgets/HomePage/PreviousEvents/previous_events_section.dart';
 import 'package:snt_app/Widgets/HomePage/UpcomingEvents/upcoming_events_section.dart';
 
@@ -47,9 +48,13 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding: EdgeInsets.only(top: 10),
                 child: PreviousEventsSection(title: "Previous Events")
-              )
+              ),
 
               // depatments
+              Padding(
+                padding: EdgeInsets.only(top: 32),
+                child: DepartmentsSection(title: "Our Departments")
+              )
             ],
           ),
         ),
