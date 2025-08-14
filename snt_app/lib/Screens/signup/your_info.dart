@@ -196,7 +196,7 @@ class _YourInfoState extends State<YourInfo>{
                         });
               
                         if (!_showUsernameError && !_showSkillsError) {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(builder: (e) => HomeScreen()),
                           );

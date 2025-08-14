@@ -12,11 +12,12 @@ class CustomScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true, 
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
           Image.asset(
-            'lib/Assets/images/Splash-screen.png',
+            'lib/Assets/Images/Splash-screen.png',
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
@@ -34,7 +35,7 @@ class CustomScaffold extends StatelessWidget {
                         bottom:0,
                       ),
                       child: Image.asset(
-                        'lib/Assets/images/logo.png',
+                        'lib/Assets/Images/logo.png',
                         height: 250,
                         width: 200,
                       ),
@@ -54,41 +55,47 @@ class CustomScaffold extends StatelessWidget {
                           topRight: Radius.circular(32),
                         ),
                       ),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 50,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 60.0),
-                              child: Align(
-                                alignment: Alignment.topCenter,
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: CustomButton(
-                                        onTap: SignupScreen(),
-                                        color: Colors.white,
-                                        buttonText: "Sign up",
-                                        textColor: isLogin ? AppColors.Text300 : AppColors.Main400,
+                      child: SingleChildScrollView(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom, // avoids keyboard overlap
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              height: 50,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 60.0),
+                                child: Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: CustomButton(
+                                          onTap: SignupScreen(),
+                                          color: Colors.white,
+                                          buttonText: "Sign up",
+                                          textColor: isLogin ? AppColors.Text300 : AppColors.Main400,
+                                        ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      child: CustomButton(
-                                        onTap: LoginScreen(),
-                                        color: Colors.white,
-                                        buttonText: "Login",
-                                        textColor: isLogin ? AppColors.Main400 : AppColors.Text300,
+                                      Expanded(
+                                        child: CustomButton(
+                                          onTap: LoginScreen(),
+                                          color: Colors.white,
+                                          buttonText: "Login",
+                                          textColor: isLogin ? AppColors.Main400 : AppColors.Text300,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            child: child!,
-                          ),
-                        ],
+                            SizedBox(
+                              child: child!,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

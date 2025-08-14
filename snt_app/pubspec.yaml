@@ -23,10 +23,9 @@ flutter:
 
   
   assets:
-    - lib/Assets/Data/events.json
-    - lib/Assets/Data/departments.json
-    - lib/Assets/Images/event_bg.jpg
-    - lib/Assets/Images/badri.jpg
+    - lib/Assets/Data/
+    - lib/Assets/Images/
+    - lib/Assets/icons/
 
   fonts:
     - family: Poppins
@@ -35,6 +34,3 @@ flutter:
           weight: 400
         - asset: lib/Assets/Fonts/Poppins-Medium.ttf
           weight: 500
-  assets:
-    - lib/Assets/images/
-    - lib/Assets/icons/
