@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  int _selectedIndex = 2;
+  int _selectedIndex = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: AppColors.White,
         elevation: 0,
       ),
-      bottomNavigationBar: BottomNavBar(currentIndex: _selectedIndex,),
+      bottomNavigationBar: CustomBottomNavBar(currentIndex: _selectedIndex,),
       body: SafeArea(
         child: SingleChildScrollView(
           // gotta fix the padding
@@ -54,7 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding: EdgeInsets.only(top: 32),
                 child: DepartmentsSection(title: "Our Departments")
-              )
+              ),
+
+              SizedBox(height: 32,)
             ],
           ),
         ),
