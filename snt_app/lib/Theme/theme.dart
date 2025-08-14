@@ -16,6 +16,11 @@ class AppColors {
   static const Color Success100 = Color(0xFF67FFA5);
   static const Color Error200 = Color(0xFFDD3030);
   static const Color Error100 = Color(0xFFFF6E6E);
+
+  static const Color Text500 = Color(0xFF373E4E);
+  static const Color Text400 = Color(0xFF657084);
+  static const Color Text300 = Color(0xFFBFC7D4);
+
   static const Color Neutral400 = Color.fromRGBO(101, 112, 132, 1);
   static const Color Neutral200 = Color.fromRGBO(224, 229, 235, 1);
   static const Color Neutral600 = Color.fromRGBO(34, 38, 49, 1);
