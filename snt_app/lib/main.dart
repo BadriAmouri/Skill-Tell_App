@@ -10,6 +10,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -21,6 +22,7 @@ class MainApp extends StatelessWidget {
       home: Scaffold(
         body: LoginScreen(),
       ),
+
     );
   }
 }
