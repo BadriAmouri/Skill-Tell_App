@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: AppColors.White,
         elevation: 0,
       ),
-      bottomNavigationBar: CustomBottomNavBar(currentIndex: _selectedIndex,),
+      bottomNavigationBar: BottomNavBar(currentIndex: _selectedIndex,),
       body: SafeArea(
         child: SingleChildScrollView(
           // gotta fix the padding

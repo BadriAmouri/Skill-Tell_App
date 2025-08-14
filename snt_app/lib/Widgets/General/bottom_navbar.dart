@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:snt_app/Screens/empty_screen.dart';
 import 'package:snt_app/Screens/home_screen.dart';
 import 'package:snt_app/Theme/theme.dart';
-class CustomBottomNavBar extends StatelessWidget {
+class BottomNavBar extends StatelessWidget {
 
   final int currentIndex;
 
@@ -13,7 +13,7 @@ class CustomBottomNavBar extends StatelessWidget {
     );
   }
 
-  const CustomBottomNavBar({
+  const BottomNavBar({
     
     Key? key,
     required this.currentIndex,

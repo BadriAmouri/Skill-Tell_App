@@ -21,7 +21,7 @@ class EmptyScreen extends StatelessWidget {
         backgroundColor: AppColors.White,
         elevation: 0,
       ),
-      bottomNavigationBar: CustomBottomNavBar(currentIndex: selectedIndex,),
+      bottomNavigationBar: BottomNavBar(currentIndex: selectedIndex,),
       body: const Center(
         child: Text(
           'EMPTY Screen!',
