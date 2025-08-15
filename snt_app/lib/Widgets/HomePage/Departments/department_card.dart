@@ -71,6 +71,7 @@ class DepartmentCard extends StatelessWidget {
                 ),
 
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "Discover the department",
