@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:snt_app/widgets/button.dart';
-import 'package:snt_app/widgets/custom_scaffold.dart';
+import 'package:snt_app/Widgets/General/button.dart';
+import 'package:snt_app/Widgets/General/input.dart';
+import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:snt_app/widgets/input.dart';
 import 'package:snt_app/Screens/login/verify_code_screen.dart';
 
 class ForgotPasswordScreen extends StatefulWidget{
@@ -42,7 +42,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
                       Navigator.pop(context);
                     },
                     child: SvgPicture.asset(
-                      'lib/Assets/icons/arrowLeft_.svg', 
+                      'lib/Assets/Icons/arrowLeft_.svg', 
                       width: 25,
                       height: 25,
                     ),
@@ -92,7 +92,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
                     ),
                     const SizedBox(height: 6),
                     Input(
-                      prefixIcon: 'lib/Assets/icons/profile_.svg', 
+                      prefixIcon: 'lib/Assets/Icons/profile_.svg', 
                       placeholder: 'Email/Username',
                       controller: myEmailController,
                     ),

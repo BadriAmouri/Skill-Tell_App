@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:snt_app/Screens/home_screen.dart';
-import 'package:snt_app/widgets/button.dart';
-import 'package:snt_app/widgets/custom_scaffold.dart';
+import 'package:snt_app/Widgets/General/button.dart';
+import 'package:snt_app/Widgets/General/input.dart';
+import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
 import 'package:snt_app/Theme/theme.dart';
-import 'package:snt_app/widgets/input.dart';
 
 class YourInfo extends StatefulWidget{
   const YourInfo({super.key});
@@ -88,7 +88,7 @@ class _YourInfoState extends State<YourInfo>{
                           Navigator.pop(context);
                         },
                         child: SvgPicture.asset(
-                          'lib/Assets/icons/arrowLeft_.svg', 
+                          'lib/Assets/Icons/arrowLeft_.svg', 
                           width: 25,
                           height: 25,
                         ),
@@ -138,7 +138,7 @@ class _YourInfoState extends State<YourInfo>{
                           ),
                           const SizedBox(height: 4),
                           Input(
-                            prefixIcon: 'lib/Assets/icons/profile_.svg', 
+                            prefixIcon: 'lib/Assets/Icons/profile_.svg', 
                             placeholder: 'Username',
                             controller: usernameController,
                           ),
@@ -171,7 +171,7 @@ class _YourInfoState extends State<YourInfo>{
                           ),
                           const SizedBox(height: 4),
                           Input(
-                            prefixIcon: 'lib/Assets/icons/skills_.svg', 
+                            prefixIcon: 'lib/Assets/Icons/skills_.svg', 
                             placeholder: 'e.g., Leadership, UX Design, Basketball, Reading',
                             controller: skillsController,
                           ),
@@ -253,7 +253,7 @@ class _YourInfoState extends State<YourInfo>{
                       ),
                       child: Row(
                         children: [
-                          SvgPicture.asset('lib/Assets/icons/member_.svg', width: 20, height: 20,),
+                          SvgPicture.asset('lib/Assets/Icons/member_.svg', width: 20, height: 20,),
                           const SizedBox(width: 10,),
                           Expanded(
                             child: Text(
@@ -269,7 +269,7 @@ class _YourInfoState extends State<YourInfo>{
                           AnimatedRotation(
                             turns: isRoleOpen ? 0.25 : 0.0, 
                             duration: const Duration(milliseconds: 100),
-                            child: SvgPicture.asset('lib/Assets/icons/arrowDown_.svg'),
+                            child: SvgPicture.asset('lib/Assets/Icons/arrowDown_.svg'),
                           ),
                         ],
                       ),
@@ -394,7 +394,7 @@ class _YourInfoState extends State<YourInfo>{
                       ),
                       child: Row(
                         children: [
-                          SvgPicture.asset('lib/Assets/icons/department_.svg', width: 20, height: 20,),
+                          SvgPicture.asset('lib/Assets/Icons/department_.svg', width: 20, height: 20,),
                           const SizedBox(width: 10,),
                           Expanded(
                             child: Text(
@@ -410,7 +410,7 @@ class _YourInfoState extends State<YourInfo>{
                           AnimatedRotation(
                             turns: isDepartmentOpen ? 0.25 : 0.0, 
                             duration: const Duration(milliseconds: 100),
-                            child: SvgPicture.asset('lib/Assets/icons/arrowDown_.svg'),
+                            child: SvgPicture.asset('lib/Assets/Icons/arrowDown_.svg'),
                           ),
                         ],
                       ),

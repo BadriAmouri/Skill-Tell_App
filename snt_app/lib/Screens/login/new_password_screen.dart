@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:snt_app/widgets/custom_scaffold.dart';
+import 'package:snt_app/Widgets/General/button.dart';
+import 'package:snt_app/Widgets/General/input.dart';
+import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:snt_app/widgets/button.dart';
 import 'package:snt_app/Screens/home_screen.dart';
-import 'package:snt_app/widgets/input.dart';
 
 class NewPasswordScreen extends StatefulWidget{
   const NewPasswordScreen({super.key});
@@ -46,7 +46,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen>{
                       Navigator.pop(context);
                     },
                     child: SvgPicture.asset(
-                      'lib/Assets/icons/arrowLeft_.svg', 
+                      'lib/Assets/Icons/arrowLeft_.svg', 
                       width: 25,
                       height: 25,
                     ),
@@ -96,7 +96,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen>{
                     ),
                     const SizedBox(height: 6),
                     Input(
-                      prefixIcon: 'lib/Assets/icons/profile_.svg', 
+                      prefixIcon: 'lib/Assets/Icons/profile_.svg', 
                       placeholder: 'Password',
                       controller: myPasswordController,
                       obscureText: _obscurePassword1,
@@ -111,8 +111,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen>{
                             right: 20,
                           ),
                           child: _obscurePassword1
-                            ? SvgPicture.asset('lib/Assets/icons/hide_.svg', height: 20, width: 20,) 
-                            : SvgPicture.asset('lib/Assets/icons/show_.svg', height: 18, width: 18,), 
+                            ? SvgPicture.asset('lib/Assets/Icons/hide_.svg', height: 20, width: 20,) 
+                            : SvgPicture.asset('lib/Assets/Icons/show_.svg', height: 18, width: 18,), 
                         ),
                       ),
                     ),
@@ -146,7 +146,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen>{
                     ),
                     const SizedBox(height: 6),
                     Input(
-                      prefixIcon: 'lib/Assets/icons/profile_.svg', 
+                      prefixIcon: 'lib/Assets/Icons/profile_.svg', 
                       placeholder: 'Confirm Password',
                       controller: confirmPasswordController,
                       obscureText: _obscurePassword2,
@@ -161,8 +161,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen>{
                             right: 20,
                           ),
                           child: _obscurePassword2
-                            ? SvgPicture.asset('lib/Assets/icons/hide_.svg', height: 20, width: 20,) 
-                            : SvgPicture.asset('lib/Assets/icons/show_.svg', height: 18, width: 18,), 
+                            ? SvgPicture.asset('lib/Assets/Icons/hide_.svg', height: 20, width: 20,) 
+                            : SvgPicture.asset('lib/Assets/Icons/show_.svg', height: 18, width: 18,), 
                         ),
                       ),
                     ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:snt_app/widgets/custom_button.dart';
+import 'package:snt_app/Widgets/SignUp&LogIn/custom_button.dart';
 import 'package:snt_app/Screens/signup/signup_screen.dart';
 import 'package:snt_app/Screens/login/login_screen.dart';
 import 'package:snt_app/Theme/theme.dart';

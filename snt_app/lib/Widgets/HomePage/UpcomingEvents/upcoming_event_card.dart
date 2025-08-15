@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:snt_app/Models/event_model.dart';
 import 'package:snt_app/Theme/text_styles.dart';
 import 'package:snt_app/Theme/theme.dart';
@@ -74,10 +75,11 @@ class UpcomingEventCard extends StatelessWidget {
                           color: Color.fromRGBO(255, 255, 255, 0.2),
                           borderRadius: BorderRadius.circular(15), // Radius of 12px
                         ),
-                        child: Icon(
-                          Icons.notifications_none, 
-                          color: AppColors.Accent300,
-                          size: 20,
+                        child: SvgPicture.asset(
+                          'lib/Assets/Icons/Notification.svg',
+                          color: AppColors.Accent300,  // optional, applies tint
+                          width: 20,
+                          height: 20,
                         ),
                       ),
                     ),
@@ -118,10 +120,11 @@ class UpcomingEventCard extends StatelessWidget {
                 Row(
                   spacing: 4,
                   children: [
-                    Icon(
-                      Icons.calendar_month_outlined,
-                      size: 20,
-                      color: AppColors.Accent300
+                    SvgPicture.asset(
+                      'lib/Assets/Icons/Calendar.svg',
+                      color: AppColors.Accent300,  // optional, applies tint
+                      width: 20,
+                      height: 20,
                     ),
                     Text(
                       event.date,
@@ -135,10 +138,11 @@ class UpcomingEventCard extends StatelessWidget {
                 Row(
                   spacing: 4,
                   children: [
-                    Icon(
-                      Icons.location_on_outlined,
-                      size: 20,
-                      color: AppColors.Accent300
+                    SvgPicture.asset(
+                      'lib/Assets/Icons/Location.svg',
+                      color: AppColors.Accent300,  // optional, applies tint
+                      width: 20,
+                      height: 20,
                     ),
                     Text(
                       event.location,
