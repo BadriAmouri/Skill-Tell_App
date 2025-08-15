@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:snt_app/Models/event_model.dart';
 import 'package:snt_app/Theme/theme.dart';
@@ -38,19 +40,19 @@ class PreviousEventCard extends StatelessWidget {
           ),
 
           // Dark gradient overlay
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [
-                  Colors.black,
-                  Colors.transparent,
-                ],
-              ),
-            ),
-          ),
+          // Container(
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(16),
+          //     gradient: LinearGradient(
+          //       begin: Alignment.bottomCenter,
+          //       end: Alignment.topCenter,
+          //       colors: [
+          //         Colors.black,
+          //         Colors.transparent,
+          //       ],
+          //     ),
+          //   ),
+          // ),
 
           // Event content
           Positioned(
@@ -101,93 +103,120 @@ class PreviousEventCard extends StatelessWidget {
               width: 336,
               height: 188,
               decoration: BoxDecoration(
-                color: Color.fromRGBO(167, 167, 167, 0.7),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color: AppColors.Neutral200, // border color
                   width: 1, // border width
                 ),
+                image: DecorationImage(
+                  image: AssetImage('lib/Assets/Images/blur-bg.png'),
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                    Color.fromRGBO(167, 167, 167, 0.6),
+                    BlendMode.dstATop
+                  ),
+                ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 2,
-                      children: [
-                        Text(
-                          event.name,
-                          style: const TextStyle(
-                            fontFamily: AppFonts.primaryFontFamily,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                            color: AppColors.White,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Text(
-                          event.description,
-                          style: TextStyle(
-                            fontFamily: AppFonts.primaryFontFamily,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: AppColors.Neutral200,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
+            ),
+          ),
 
 
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 8,
-                      children: [
-                        Text(
-                          "Key features",
-                          style: const TextStyle(
-                            fontFamily: AppFonts.primaryFontFamily,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                            color: AppColors.White,
-                          ),
-                        ),
-
-                        Wrap(
-                          spacing: 8, 
-                          children: event.keyFeatures.map((feature) {
-                            return Container(
-                              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-                              decoration: BoxDecoration(
-                                color: const Color.fromRGBO(255, 214, 168, 1), 
-                                border: Border.all(
-                                  color: AppColors.Accent400, 
-                                  width: 1,
+          Positioned(
+            top: 260,
+            left: 12,
+            bottom: 12,
+            child: Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), // Blur amount
+                  child: Container(
+                    width: 336,
+                    height: 188, // Frosted effect
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: 2,
+                            children: [
+                              Text(
+                                event.name,
+                                style: const TextStyle(
+                                  fontFamily: AppFonts.primaryFontFamily,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  color: AppColors.White,
                                 ),
-                                borderRadius: BorderRadius.circular(20),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              child: Text(
-                                feature,
+                              Text(
+                                event.description,
                                 style: TextStyle(
                                   fontFamily: AppFonts.primaryFontFamily,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w400,
                                   fontSize: 12,
-                                  color: AppColors.Accent400
+                                  color: AppColors.Neutral200,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+
+
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: 8,
+                            children: [
+                              Text(
+                                "Key features",
+                                style: const TextStyle(
+                                  fontFamily: AppFonts.primaryFontFamily,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  color: AppColors.White,
                                 ),
                               ),
-                            );
-                          }).toList(),
-                        )
 
-                      ],
-                    )
-                
-                  ],
+                              Wrap(
+                                spacing: 8, 
+                                children: event.keyFeatures.map((feature) {
+                                  return Container(
+                                    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromRGBO(255, 214, 168, 1), 
+                                      border: Border.all(
+                                        color: AppColors.Accent400, 
+                                        width: 1,
+                                      ),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      feature,
+                                      style: TextStyle(
+                                        fontFamily: AppFonts.primaryFontFamily,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12,
+                                        color: AppColors.Accent400
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              )
+
+                            ],
+                          )
+                      
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
