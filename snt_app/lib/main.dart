@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:snt_app/Screens/home_screen.dart';
 import 'package:snt_app/Screens/login/login_screen.dart';
 import 'package:snt_app/Theme/theme.dart';
 void main() {
@@ -20,7 +21,7 @@ class MainApp extends StatelessWidget {
         ),
       ),
       home: Scaffold(
-        body: LoginScreen(),
+        body: HomeScreen(),
       ),
 
     );

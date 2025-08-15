@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:snt_app/Screens/empty_screen.dart';
 import 'package:snt_app/Screens/home_screen.dart';
 import 'package:snt_app/Theme/theme.dart';
@@ -40,11 +41,11 @@ class BottomNavBar extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _navItem(Icons.credit_card_rounded, "Card", 0, context),
-                    _navItem(Icons.notifications_outlined, "Notifications", 1, context),
+                    _navItem('lib/Assets/Icons/solar_card-outline.svg', "Card", 0, context),
+                    _navItem('lib/Assets/Icons/Notification.svg', "Notifications", 1, context),
                     const SizedBox(width: 48), // space for FAB
-                    _navItem(Icons.call_outlined, "Contacts", 2, context),
-                    _navItem(Icons.person_outline, "Profile", 3, context),
+                    _navItem('lib/Assets/Icons/Call.svg', "Contacts", 2, context),
+                    _navItem('lib/Assets/Icons/Profile.svg', "Profile", 3, context),
                   ],
                 ),
               ),
@@ -71,11 +72,7 @@ class BottomNavBar extends StatelessWidget {
                     color: AppColors.Main400,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
-                    Icons.home_filled,
-                    size: 32,
-                    color: AppColors.White,
-                  ),
+                  child: Image.asset('lib/Assets/Icons/Home.png', width: 15, height: 15),
                 ),
               ),
             ),
@@ -86,16 +83,18 @@ class BottomNavBar extends StatelessWidget {
 
   }
 
-  Widget _navItem(IconData icon, String label, int index, BuildContext context) {
+  Widget _navItem(String icon, String label, int index, BuildContext context) {
     final isActive = currentIndex == index;
     return InkWell(
       onTap: () => onTap(index, context),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
+          SvgPicture.asset(
             icon,
             color: isActive ? AppColors.Main400 : AppColors.Neutral400,
+            width: 20,
+            height: 20,
           ),
           Text(
             label,

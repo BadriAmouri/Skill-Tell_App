@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:snt_app/Models/department_model.dart';
 import 'package:snt_app/Theme/theme.dart';
 
@@ -69,14 +70,24 @@ class DepartmentCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
 
-                Text(
-                  "Discover the department",
-                  style: TextStyle(
-                    fontFamily: AppFonts.primaryFontFamily,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 8,
-                    color: AppColors.Accent400,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      "Discover the department",
+                      style: TextStyle(
+                        fontFamily: AppFonts.primaryFontFamily,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 8,
+                        color: AppColors.Accent400,
+                      ),
+                    ),
+                    SvgPicture.asset(
+                      'lib/Assets/Icons/ArrowUp.svg',
+                      color: AppColors.Accent400,  // optional, applies tint
+                      width: 15,
+                      height: 15,
+                    ),
+                  ],
                 ),  
 
               ],
