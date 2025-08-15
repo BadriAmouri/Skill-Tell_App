@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snt_app/Screens/home_screen.dart';
-
+import 'Screens/Profile_screen.dart';
 void main() {
   runApp(const MainApp());
 }
@@ -12,7 +12,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: Scaffold(
-        body: HomeScreen()
+        body: ProfileScreen()
       ),
     );
   }
