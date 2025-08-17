@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snt_app/Screens/Home/home_screen.dart';
+import 'package:snt_app/Screens/Splash/splash_screen.dart';
 import 'package:snt_app/Screens/login/login_screen.dart';
 import 'package:snt_app/Theme/theme.dart';
 void main() {
@@ -21,7 +22,7 @@ class MainApp extends StatelessWidget {
         ),
       ),
       home: Scaffold(
-        body: HomeScreen(),
+        body: SplashScreen(),
       ),
 
     );
