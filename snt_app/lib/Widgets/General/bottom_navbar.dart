@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:snt_app/Screens/empty_screen.dart';
 import 'package:snt_app/Screens/Home/home_screen.dart';
+import 'package:snt_app/Screens/empty_screen.dart';
+import 'package:snt_app/Screens/notifications.dart';
+
 import 'package:snt_app/Theme/theme.dart';
 class BottomNavBar extends StatelessWidget {
 
   final int currentIndex;
 
   void onTap(int index, BuildContext context) {
+  if (index == 1) {
+    // Navigate to NotificationsPage
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => EmptyScreen(selectedIndex: index,)),
+      MaterialPageRoute(builder: (context) => const NotificationsPage()),
     );
+  } else {
+    // Default navigation for other indexes
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => EmptyScreen(selectedIndex: index)),
+    );
+  }
   }
 
   const BottomNavBar({
