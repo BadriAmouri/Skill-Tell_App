@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:snt_app/Screens/home_screen.dart';
+import 'package:snt_app/Screens/Home/home_screen.dart';
 import 'package:snt_app/Widgets/General/button.dart';
 import 'package:snt_app/Widgets/General/input.dart';
 import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:snt_app/Screens/home_screen.dart';
+import 'package:snt_app/Screens/Home/home_screen.dart';
 import 'package:snt_app/Screens/login/forgot_password_screen.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';

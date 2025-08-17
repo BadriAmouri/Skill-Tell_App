@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:snt_app/Screens/empty_screen.dart';
 import 'package:snt_app/Screens/home_screen.dart';
 import 'package:snt_app/Screens/notifications.dart';
+
 import 'package:snt_app/Theme/theme.dart';
 class BottomNavBar extends StatelessWidget {
 
