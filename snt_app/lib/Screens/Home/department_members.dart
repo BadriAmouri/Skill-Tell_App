@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:snt_app/Theme/text_styles.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/Widgets/General/bottom_navbar.dart';
+import 'package:snt_app/Widgets/General/input.dart';
+import 'package:snt_app/Widgets/HomePage/Departments/DepartmentMember/department_members_list.dart';
 
 
 class DepartmentMembers extends StatelessWidget{
@@ -26,11 +28,19 @@ class DepartmentMembers extends StatelessWidget{
       ),
       bottomNavigationBar: BottomNavBar(currentIndex: _selectedIndex,),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-            ],
-          ),
+        child: Padding(
+          padding: EdgeInsets.all(0),
+          child: Center(
+            child: Column(
+              spacing: 22,
+              crossAxisAlignment: CrossAxisAlignment.center,
+
+              children: [
+                Input(prefixIcon: 'lib/Assets/Icons/Search.svg', placeholder: "Search", height: 48, width: 379,),
+                DepartmentMembersList(departmentName: department_name)
+              ],
+            ),
+          )
         ),
       )
     );

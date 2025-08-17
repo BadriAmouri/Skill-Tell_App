@@ -7,7 +7,7 @@
     "skills": ["Recruitment", "Conflict Resolution", "Onboarding"],
     "interests": ["Leadership", "People Management"],
     "role": "Manager",
-    "pfp": "https://example.com/profiles/hr_manager.jpg",
+    "pfp": "",
     "date_of_birth": "1985-06-12",
     "phone_number": "+123456789",
     "Department": "HR Department"
@@ -20,7 +20,7 @@
     "skills": ["Recruitment", "Conflict Resolution", "Onboarding"],
     "interests": ["Leadership", "People Management"],
     "role": "Member",
-    "pfp": "https://example.com/profiles/hr_manager.jpg",
+    "pfp": "",
     "date_of_birth": "1985-06-12",
     "phone_number": "+123456789",
     "Department": "HR Department"
@@ -33,7 +33,7 @@
     "skills": ["Recruitment", "Conflict Resolution", "Onboarding"],
     "interests": ["Leadership", "People Management"],
     "role": "Co-Manager",
-    "pfp": "https://example.com/profiles/hr_manager.jpg",
+    "pfp": "",
     "date_of_birth": "1985-06-12",
     "phone_number": "+123456789",
     "Department": "HR Department"
@@ -46,7 +46,7 @@
     "skills": ["Recruitment", "Conflict Resolution", "Onboarding"],
     "interests": ["Leadership", "People Management"],
     "role": "Manager",
-    "pfp": "https://example.com/profiles/hr_manager.jpg",
+    "pfp": "",
     "date_of_birth": "1985-06-12",
     "phone_number": "+123456789",
     "Department": "Design Department"
@@ -59,7 +59,7 @@
     "skills": ["Recruitment", "Conflict Resolution", "Onboarding"],
     "interests": ["Leadership", "People Management"],
     "role": "Member",
-    "pfp": "https://example.com/profiles/hr_manager.jpg",
+    "pfp": "",
     "date_of_birth": "1985-06-12",
     "phone_number": "+123456789",
     "Department": "HR Department"
@@ -72,7 +72,7 @@
     "skills": ["Recruitment", "Conflict Resolution", "Onboarding"],
     "interests": ["Leadership", "People Management"],
     "role": "Member",
-    "pfp": "https://example.com/profiles/hr_manager.jpg",
+    "pfp": "",
     "date_of_birth": "1985-06-12",
     "phone_number": "+123456789",
     "Department": "HR Department"
@@ -85,7 +85,7 @@
     "skills": ["Recruitment", "Conflict Resolution", "Onboarding"],
     "interests": ["Leadership", "People Management"],
     "role": "Member",
-    "pfp": "https://example.com/profiles/hr_manager.jpg",
+    "pfp": "",
     "date_of_birth": "1985-06-12",
     "phone_number": "+123456789",
     "Department": "Design Department"
@@ -98,7 +98,7 @@
     "skills": ["Recruitment", "Conflict Resolution", "Onboarding"],
     "interests": ["Leadership", "People Management"],
     "role": "Member",
-    "pfp": "https://example.com/profiles/hr_manager.jpg",
+    "pfp": "",
     "date_of_birth": "1985-06-12",
     "phone_number": "+123456789",
     "Department": "HR Department"
@@ -111,7 +111,7 @@
     "skills": ["Recruitment", "Conflict Resolution", "Onboarding"],
     "interests": ["Leadership", "People Management"],
     "role": "Member",
-    "pfp": "https://example.com/profiles/hr_manager.jpg",
+    "pfp": "",
     "date_of_birth": "1985-06-12",
     "phone_number": "+123456789",
     "Department": "HR Department"
@@ -124,7 +124,7 @@
     "skills": ["Recruitment", "Conflict Resolution", "Onboarding"],
     "interests": ["Leadership", "People Management"],
     "role": "Member",
-    "pfp": "https://example.com/profiles/hr_manager.jpg",
+    "pfp": "",
     "date_of_birth": "1985-06-12",
     "phone_number": "+123456789",
     "Department": "HR Department"
@@ -137,7 +137,7 @@
     "skills": ["Recruitment", "Conflict Resolution", "Onboarding"],
     "interests": ["Leadership", "People Management"],
     "role": "Member",
-    "pfp": "https://example.com/profiles/hr_manager.jpg",
+    "pfp": "",
     "date_of_birth": "1985-06-12",
     "phone_number": "+123456789",
     "Department": "Design Department"
