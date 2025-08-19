@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:snt_app/Screens/home_screen.dart';
+
 import 'Screens/Profile_screen.dart';
+
+import 'package:snt_app/Screens/Home/department_members.dart';
+import 'package:snt_app/Screens/Home/home_screen.dart';
+import 'package:snt_app/Screens/Splash/splash_screen.dart';
+import 'package:snt_app/Screens/login/login_screen.dart';
+import 'package:snt_app/Theme/theme.dart';
+
 void main() {
   runApp(const MainApp());
 }
@@ -10,10 +17,22 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: ProfileScreen()
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        fontFamily: AppFonts.primaryFontFamily,
+        textTheme: ThemeData.light().textTheme.apply(
+          fontFamily: AppFonts.primaryFontFamily,
+        ),
       ),
+      home: Scaffold(
+
+        body: ProfileScreen()
+
+//         body: SplashScreen(),
+      ),
+
     );
   }
 }
