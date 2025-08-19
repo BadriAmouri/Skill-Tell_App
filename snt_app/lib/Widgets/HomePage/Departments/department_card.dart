@@ -71,7 +71,7 @@ class DepartmentCard extends StatelessWidget {
         
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  spacing: 16,
+                  spacing: 15,
                   children: [
                     Text(
                       department.name,

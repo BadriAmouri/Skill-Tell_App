@@ -42,12 +42,32 @@ class _DepartmentMembersListState extends State<DepartmentMembersList> {
 
         final users = snapshot.data!;
 
+        users.sort((a, b) {
+          int getPriority(String role) {
+            switch (role.toLowerCase()) {
+              case 'manager':
+                return 0;
+              case 'co-manager':
+                return 1;
+              case 'member':
+                return 2;
+              default:
+                return 3; // fallback for unknown roles
+            }
+          }
+
+          return getPriority(a.role).compareTo(getPriority(b.role));
+        });
+
         return Expanded(
           child: ListView.builder(
             padding: const EdgeInsets.symmetric(vertical: 10),
             itemCount: users.length,
             itemBuilder: (context, index) {
-              return DepartmentMemberCard(user: users[index]);
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                child: DepartmentMemberCard(user: users[index]),
+              );
             },
           ),
         );

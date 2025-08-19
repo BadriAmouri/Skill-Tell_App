@@ -9,7 +9,6 @@ class Input extends StatelessWidget {
   final bool obscureText;
   final TextEditingController? controller;
   final double height;
-  final double width;
 
   const Input({
     super.key,
@@ -19,13 +18,11 @@ class Input extends StatelessWidget {
     this.obscureText = false,
     this.controller,
     this.height = 44,
-    this.width = 380,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: width,
       height: height,
       child: TextField(
         controller: controller,

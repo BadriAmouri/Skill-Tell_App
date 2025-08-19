@@ -29,14 +29,14 @@ class DepartmentMembers extends StatelessWidget{
       bottomNavigationBar: BottomNavBar(currentIndex: _selectedIndex,),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(0),
+          padding: EdgeInsets.symmetric(horizontal: 22, vertical: 22),
           child: Center(
             child: Column(
               spacing: 22,
               crossAxisAlignment: CrossAxisAlignment.center,
 
               children: [
-                Input(prefixIcon: 'lib/Assets/Icons/Search.svg', placeholder: "Search", height: 48, width: 379,),
+                Input(prefixIcon: 'lib/Assets/Icons/Search.svg', placeholder: "Search", height: 48),
                 DepartmentMembersList(departmentName: department_name)
               ],
             ),

@@ -1,56 +1,137 @@
 import 'package:flutter/material.dart';
 import 'package:snt_app/Models/user_model.dart';
+import 'package:snt_app/Theme/theme.dart';
+
+
+
 
 class DepartmentMemberCard extends StatelessWidget {
+
   final UserModel user;
 
   const DepartmentMemberCard({Key? key, required this.user}) : super(key: key);
 
+  static BoxDecoration ManagerCardBoxDecoration = BoxDecoration(
+    color: AppColors.Main100,
+    borderRadius: BorderRadius.circular(12),
+    boxShadow: [
+      BoxShadow(
+        color: const Color.fromRGBO(0, 0, 0, 0.08),
+        offset: const Offset(2, 2),
+        blurRadius: 4,
+        spreadRadius: 0,
+      ),
+    ],
+  );
+  static BoxDecoration CoManagerCardBoxDecoration = BoxDecoration(
+    color: const Color.fromARGB(255, 255, 240, 229),
+    borderRadius: BorderRadius.circular(12),
+    boxShadow: [
+      BoxShadow(
+        color: const Color.fromRGBO(0, 0, 0, 0.08),
+        offset: const Offset(2, 2),
+        blurRadius: 4,
+        spreadRadius: 0,
+      ),
+    ],
+  );
+  static BoxDecoration MemberCardBoxDecoration = BoxDecoration(
+    color: AppColors.White,
+    borderRadius: BorderRadius.circular(12),
+    boxShadow: [
+      BoxShadow(
+        color: const Color.fromRGBO(0, 0, 0, 0.08),
+        offset: const Offset(2, 2),
+        blurRadius: 4,
+        spreadRadius: 0,
+      ),
+    ],
+  );
+
+
+  static  BoxDecoration ManagerCardBorder = BoxDecoration(
+    borderRadius: BorderRadius.circular(12),
+    border: Border.all(
+      width: 1,
+      color: Colors.transparent, // Required for gradient border
+    ),
+    gradient: const LinearGradient(
+      colors: [
+        Color.fromRGBO(123, 44, 191, 1),
+        Color.fromRGBO(123, 44, 191, 0.1),
+      ],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    ),
+  );
+  static BoxDecoration CoManagerCardBorder = BoxDecoration(
+    borderRadius: BorderRadius.circular(12),
+    border: Border.all(
+      width: 1,
+      color: Colors.transparent, // Required for gradient border
+    ),
+    gradient: const LinearGradient(
+      colors: [
+        Color.fromRGBO(255, 109, 0, 1),
+        Color.fromRGBO(255, 109, 0, 0.1),
+      ],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    ),
+  );
+  static BoxDecoration MemberCardBorder = BoxDecoration(
+    borderRadius: BorderRadius.circular(12),
+    border: Border.all(
+      width: 1,
+      color: AppColors.Neutral200, // Required for gradient border
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: user.role.toLowerCase() == "manager"
-              ? Colors.purple
-              : user.role.toLowerCase() == "co-manager"
-                  ? Colors.orange
-                  : Colors.grey.shade300,
-          width: 1.5,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.15),
-            blurRadius: 6,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: ListTile(
-        leading: user.pfp != null && user.pfp!.isNotEmpty
+      height: 80,
+      margin: const EdgeInsets.all(10),
+      decoration: user.role.toLowerCase() == "manager"? ManagerCardBorder
+                  : user.role.toLowerCase() == "co-manager"? CoManagerCardBorder
+                  : MemberCardBorder,
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: user.role.toLowerCase() == "manager"? ManagerCardBoxDecoration
+                  : user.role.toLowerCase() == "co-manager"? CoManagerCardBoxDecoration
+                  : MemberCardBoxDecoration,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          spacing: 10,
+          children: [
+
+            user.pfp != null && user.pfp!.isNotEmpty
             ? CircleAvatar(
                 backgroundImage: NetworkImage(user.pfp!),
-                radius: 24,
+                radius: 30,
               )
             : CircleAvatar(
-                radius: 24,
-                backgroundColor: Colors.primaries[user.username.hashCode % Colors.primaries.length],
-                child: Text(
-                  user.username[0].toUpperCase(),
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                ),
+                radius: 30,
+                backgroundColor: AppColors.Main300
               ),
-        title: Text(
-          user.username,
-          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-        ),
-        subtitle: Text(
-          user.role,
-          style: const TextStyle(fontSize: 13, color: Colors.grey),
-        ),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  user.username,
+                  style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 16, fontFamily: AppFonts.primaryFontFamily,),
+                ),
+                Text(
+                  user.role,
+                  style: const TextStyle(fontSize: 10, color: Color.fromRGBO(0,0,0,0.5), fontFamily: AppFonts.primaryFontFamily,),
+                ),
+              ],
+            )
+
+          ],
+        )
       ),
     );
   }

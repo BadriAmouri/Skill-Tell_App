@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snt_app/Screens/Home/home_screen.dart';
+import 'package:snt_app/Screens/login/login_screen.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/Theme/text_styles.dart';
 
@@ -78,7 +79,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     // Replace this with your actual home screen navigation
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => const HomeScreen(), // Replace with your home screen
+        builder: (context) => const LoginScreen(), // Replace with your home screen
       ),
     );
   }
