@@ -1,7 +1,7 @@
 // profile_screen.dart
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:snt_app/Screens/profile_settings.dart';
+import 'package:snt_app/Screens/Profile/profile_settings.dart';
 import 'package:snt_app/Widgets/General/bottom_navbar.dart';
 
 class ProfileScreen extends StatefulWidget {
