@@ -1,14 +1,19 @@
-import 'dart:convert';
-import 'package:flutter/services.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:snt_app/Models/department_model.dart';
 
 class DepartmentService {
-  Future<List<DepartmentModel>> fetchDepartments() async {
-    await Future.delayed(const Duration(seconds: 2));
+  final supabase = Supabase.instance.client;
 
-    final String response =
-        await rootBundle.loadString('lib/Assets/Data/departments.json');
-    final List<dynamic> data = json.decode(response);
-    return data.map((e) => DepartmentModel.fromJson(e)).toList();
+  Future<List<DepartmentModel>> fetchDepartments() async {
+    try {
+      final response = await supabase.from('departments').select();
+
+      return (response as List<dynamic>)
+          .map((e) => DepartmentModel.fromJson(e))
+          .toList();
+    } catch (e) {
+      print("Error fetching departments: $e");
+      return [];
+    }
   }
 }
