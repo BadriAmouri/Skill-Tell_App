@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
-
-import 'Screens/Profile/Profile_screen.dart';
-
-import 'package:snt_app/Screens/Home/department_members.dart';
+import 'package:snt_app/Config/supabass_config.dart';
 import 'package:snt_app/Screens/Home/home_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:snt_app/Screens/Splash/splash_screen.dart';
-import 'package:snt_app/Screens/login/login_screen.dart';
 import 'package:snt_app/Theme/theme.dart';
 
-void main() {
+Future<void> main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+    url: supabaseUrl,
+    anonKey: supabaseKey,
+  );
+  
   runApp(const MainApp());
 }
 
@@ -28,7 +33,8 @@ class MainApp extends StatelessWidget {
       ),
       home: Scaffold(
 
-        body: SplashScreen(),
+        // body: SplashScreen(),
+        body: HomeScreen(),
       ),
 
     );

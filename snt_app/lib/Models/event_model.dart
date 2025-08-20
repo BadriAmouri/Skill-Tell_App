@@ -1,40 +1,37 @@
-class EventModel {
+enum EventTiming { upcoming, previous }
 
+class EventModel {
   final String name;
   final String description;
-  final String date;
+  final DateTime date;
   final String location;
   final String? imageUrl;
   final List<String> keyFeatures;
+  final EventTiming eventTiming;
 
-  EventModel({
+  const EventModel({
     required this.name,
     required this.description,
     required this.date,
     required this.location,
     this.imageUrl,
     required this.keyFeatures,
+    required this.eventTiming,
   });
 
   factory EventModel.fromJson(Map<String, dynamic> json) {
     return EventModel(
-      name: json['name'],
-      description: json['description'],
-      date: json['date'],
-      location: json['location'],
-      imageUrl: json['image_url']==""?null:json['image_url'],
-      keyFeatures: List<String>.from(json['key_features'])
+      name: json['event_name'] ?? '',
+      description: json['description'] ?? '',
+      date: DateTime.parse(json['date'].toString()).toUtc(),
+      location: json['location'] ?? '',
+      imageUrl: json['image_url'] as String?, // null-safe
+      keyFeatures: json['key_features'] == null
+          ? []
+          : List<String>.from(json['key_features']),
+      eventTiming: (json['status']?.toString().toLowerCase() == 'upcoming')
+          ? EventTiming.upcoming
+          : EventTiming.previous,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'description': description,
-      'date': date,
-      'location': location,
-      'image_url': imageUrl==null?"":imageUrl,
-      'key_features': keyFeatures,
-    };
   }
 }
