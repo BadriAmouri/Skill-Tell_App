@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'Screens/Profile_screen.dart';
+import 'Screens/Profile/Profile_screen.dart';
 
 import 'package:snt_app/Screens/Home/department_members.dart';
 import 'package:snt_app/Screens/Home/home_screen.dart';
@@ -28,9 +28,7 @@ class MainApp extends StatelessWidget {
       ),
       home: Scaffold(
 
-        body: ProfileScreen()
-
-//         body: SplashScreen(),
+        body: SplashScreen(),
       ),
 
     );

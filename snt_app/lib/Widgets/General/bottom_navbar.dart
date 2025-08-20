@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:snt_app/Screens/Home/home_screen.dart';
+import 'package:snt_app/Screens/Profile/Profile_screen.dart';
 import 'package:snt_app/Screens/empty_screen.dart';
 import 'package:snt_app/Screens/notifications.dart';
 
@@ -14,9 +15,17 @@ class BottomNavBar extends StatelessWidget {
     // Navigate to NotificationsPage
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const NotificationsPage()),
+      MaterialPageRoute(builder: (context) => NotificationsPage()),
     );
-  } else {
+  } 
+  else if (index == 3) {
+    // Navigate to NotificationsPage
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => ProfileScreen()),
+    );
+  } 
+  else {
     // Default navigation for other indexes
     Navigator.pushReplacement(
       context,

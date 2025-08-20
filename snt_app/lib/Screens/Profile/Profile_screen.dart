@@ -1,8 +1,8 @@
 // profile_screen.dart
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:snt_app/Components/BottomNavBar.dart';
 import 'package:snt_app/Screens/profile_settings.dart';
+import 'package:snt_app/Widgets/General/bottom_navbar.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -128,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ]),
         ),
       ]),
-      bottomNavigationBar: CustomBottomNavBar(currentIndex: 3, onTap: (i){}, onHomePressed: () {}),
+      bottomNavigationBar: BottomNavBar(currentIndex: 3,)
     );
   }
 
