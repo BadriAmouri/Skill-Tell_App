@@ -7,8 +7,12 @@ environment:
   sdk: ^3.7.2
 
 dependencies:
+  dotted_border: ^2.0.0
+  url_launcher: ^6.2.5
+
   flutter:
     sdk: flutter
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_test:
@@ -17,7 +21,16 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
+  assets:
+    - lib/Assets/Fonts/
+    - lib/Assets/Images/logo.png
+    - lib/Assets/Images/_Instagram.png
+    - lib/Assets/Images/Gmail.png
+    - lib/Assets/Images/LinkedIn.png 
+    - lib/Assets/Images/Send.png
+    - lib/Assets/Images/backgroundQr.png
+    - lib/Assets/Images/backgroundContact.png
+    - lib/Assets/Images/backgroundS&TNumbers.png
   fonts:
     - family: Poppins
       fonts:
