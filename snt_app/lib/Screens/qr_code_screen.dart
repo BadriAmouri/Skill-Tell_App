@@ -70,7 +70,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
       // ===== Body Content =====
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: 100, left: 20, right: 20),
+          padding: const EdgeInsets.only(bottom: 70, left: 20, right: 20),
           child: _buildQrCard(context, screenWidth),
         ),
       ),
