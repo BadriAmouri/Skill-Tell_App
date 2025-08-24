@@ -46,7 +46,7 @@ class CustomScaffold extends StatelessWidget {
                     flex: !zoomheight? 7 : 15,
                     child: Container(
                       padding: EdgeInsets.only(
-                        top: 10,
+                        top: 40,
                       ),
                       decoration: const BoxDecoration(
                         color: Colors.white,
@@ -55,7 +55,7 @@ class CustomScaffold extends StatelessWidget {
                           topRight: Radius.circular(32),
                         ),
                       ),
-                      child: SingleChildScrollView(
+                      child: Container(
                         padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom, // avoids keyboard overlap
                         ),
@@ -65,7 +65,7 @@ class CustomScaffold extends StatelessWidget {
                             SizedBox(
                               height: 50,
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 60.0),
+                                padding: const EdgeInsets.symmetric(horizontal: 60.0,),
                                 child: Align(
                                   alignment: Alignment.topCenter,
                                   child: Row(
@@ -91,8 +91,13 @@ class CustomScaffold extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              child: child!,
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 30),
+                                  child: child!,
+                                ),
+                              ),
                             ),
                           ],
                         ),

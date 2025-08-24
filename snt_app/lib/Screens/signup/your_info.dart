@@ -6,14 +6,14 @@ import 'package:snt_app/Widgets/General/input.dart';
 import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
 import 'package:snt_app/Theme/theme.dart';
 
-class YourInfo extends StatefulWidget{
+class YourInfo extends StatefulWidget {
   const YourInfo({super.key});
 
   @override
   State<YourInfo> createState() => _YourInfoState();
 }
-class _YourInfoState extends State<YourInfo>{
-  double topValue = 340;
+
+class _YourInfoState extends State<YourInfo> {
   int hoveredIndex = -1;
   bool isRoleOpen = false;
   bool isDepartmentOpen = false;
@@ -21,7 +21,6 @@ class _YourInfoState extends State<YourInfo>{
   late String selectedDepartment;
   bool _showUsernameError = false;
   bool _showSkillsError = false;
-
 
   final List<String> roles = [
     "Member",
@@ -32,30 +31,39 @@ class _YourInfoState extends State<YourInfo>{
     "Secretary general",
     "Other"
   ];
-  final List<String>departments = [
-    "UI/UX department",
-    "Graphic design department",
-    "Marketing department",
-    "Logistics department",
-    "Production department",
-    "Sponsoring department",
-    "Media department",
-    "Communication department",
-    "HR department",
-    "AI department",
-    "Relax department",
-    "Dev department",
-    "Planning department",
-    "Event department"
+
+  final List<String> departments = [
+    "UI/UX Design",
+    "Graphic design",
+    "Marketing",
+    "Logistics",
+    "Production",
+    "Sponsoring",
+    "Media",
+    "Communication",
+    "HR",
+    "AI",
+    "Relax",
+    "Dev",
+    "Planning",
+    "Event"
   ];
+
   final TextEditingController usernameController = TextEditingController();
+  final TextEditingController dobController = TextEditingController();   // NEW
+  final TextEditingController phoneController = TextEditingController(); // NEW
   final TextEditingController skillsController = TextEditingController();
+  final TextEditingController interestsController = TextEditingController();
+
   @override
-  void dispose(){
+  void dispose() {
     usernameController.dispose();
+    dobController.dispose();     // NEW
+    phoneController.dispose();   // NEW
     skillsController.dispose();
     super.dispose();
   }
+
   @override
   void initState() {
     super.initState();
@@ -68,429 +76,324 @@ class _YourInfoState extends State<YourInfo>{
     return CustomScaffold(
       zoomheight: true,
       isLogin: false,
-      child: Align(
-        alignment: Alignment.topCenter,
-        child: Stack(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 29, vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SingleChildScrollView(
-              padding: const EdgeInsets.only(
-                top: 10,
-                left: 29,
-                right: 29,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: SvgPicture.asset(
-                          'lib/Assets/Icons/arrowLeft_.svg', 
-                          width: 25,
-                          height: 25,
-                        ),
-                      ),
-                      const SizedBox(width: 80,),
-                      Text(
-                        "Your info",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 23,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.Text500,
-                        ),
-                      )
-                    ],
+            // Top bar with back + title
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: SvgPicture.asset(
+                    'lib/Assets/Icons/arrowLeft_.svg',
+                    width: 25,
+                    height: 25,
                   ),
-                  const SizedBox(height: 8),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 16,
-                      right: 16,
-                    ),
-                    child: Text(
-                      "Lorem ipsum dolor sit amet consectetur. Tellus leo vitae aliquet vel tortor. Interdum tempus Interdum tempus",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w300,
-                        color: AppColors.Text400,
-                      ),
-                    ),
+                ),
+                Text(
+                  "Your Info",
+                  style: TextStyle(
+                    fontSize: 23,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.Text500,
                   ),
-                  const SizedBox(height: 15),
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Username",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w300,
-                              color: AppColors.Text400,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Input(
-                            prefixIcon: 'lib/Assets/Icons/profile_.svg', 
-                            placeholder: 'Username',
-                            controller: usernameController,
-                          ),
-                          if (_showUsernameError)
-                            Text(
-                              "This field is required",
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w300,
-                                color: AppColors.Error100,
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  const SizedBox(height: 76),
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Skills and Interests",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w300,
-                              color: AppColors.Text400,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Input(
-                            prefixIcon: 'lib/Assets/Icons/skills_.svg', 
-                            placeholder: 'e.g., Leadership, UX Design, Basketball, Reading',
-                            controller: skillsController,
-                          ),
-                          if (_showSkillsError)
-                            Text(
-                              "this field is required",
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w300,
-                                color: AppColors.Error100,
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  const SizedBox(height: 100,),
-                  Button(
-                      onTap: () {
-                        setState(() {
-                          _showUsernameError = usernameController.text.isEmpty;
-                          _showSkillsError = skillsController.text.isEmpty;
-                        });
-              
-                        if (!_showUsernameError && !_showSkillsError) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (e) => HomeScreen()),
-                          );
-                        } 
-                      },
-                      buttonText: "Sign up"
-                    ),
-                ],
-              ),
+                ),
+                const SizedBox(width: 25, height: 25),
+              ],
             ),
-            Positioned(
-              top:!_showUsernameError? 196 :209,
-              right: 29,
-              left: 29,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Role",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w300,
-                      color: AppColors.Text400,
-                    ),
-                  ),
-                  const SizedBox(height: 4,),
-                  InkWell(
-                    onTap: () => setState(() => isRoleOpen = !isRoleOpen),
-                    child: Container(
-                      width: 380,
-                      height: 44,
-                      padding: const EdgeInsets.only(
-                        left: 27,
-                        right: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border(
-                          bottom: BorderSide(
-                            color: AppColors.Text300,
-                            width: !isRoleOpen? 1 : 0.6,
-                          ),
-                          top: BorderSide(color: AppColors.Text300),
-                          left: BorderSide(color: AppColors.Text300),
-                          right: BorderSide(color: AppColors.Text300),
-                        ),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: !isRoleOpen? Radius.circular(22): Radius.circular(0),
-                          bottomRight: !isRoleOpen? Radius.circular(22): Radius.circular(0),
-                          topLeft: Radius.circular(22),
-                          topRight: Radius.circular(22),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset('lib/Assets/Icons/member_.svg', width: 20, height: 20,),
-                          const SizedBox(width: 10,),
-                          Expanded(
-                            child: Text(
-                              selectedRole,
-                              style: const TextStyle(
-                                color: AppColors.Text300,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
-                          ),
-                          Spacer(),
-                          AnimatedRotation(
-                            turns: isRoleOpen ? 0.25 : 0.0, 
-                            duration: const Duration(milliseconds: 100),
-                            child: SvgPicture.asset('lib/Assets/Icons/arrowDown_.svg'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  if (isRoleOpen)
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(22),
-                          bottomRight: Radius.circular(22),
-                        ),
-                        border: const Border(
-                          bottom: BorderSide(color: AppColors.Text300),
-                          left: BorderSide(color: AppColors.Text300),
-                          right: BorderSide(color: AppColors.Text300),
-                        ),
-                      ),
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxHeight: MediaQuery.of(context).size.height * 0.1, 
-                        ),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          itemCount: roles.length,
-                          itemBuilder: (context, index) {
-                            final item = roles[index];
-                            final isLast = index == roles.length - 1;
+            const SizedBox(height: 8),
 
-                            return MouseRegion(
-                              onEnter: (_) => setState(() => hoveredIndex = index),
-                              onExit: (_) => setState(() => hoveredIndex = -1),
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    selectedRole = item;
-                                    isRoleOpen = false;
-                                  });
-                                },
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 30,
-                                  padding: const EdgeInsets.only(left: 57),
-                                  alignment: Alignment.centerLeft,
-                                  decoration: BoxDecoration(
-                                    color: hoveredIndex == index
-                                        ? Colors.grey.shade100
-                                        : Colors.transparent,
-                                    border: isLast
-                                        ? null
-                                        : const Border(
-                                            bottom: BorderSide(
-                                              color: AppColors.Text300,
-                                              width: 0.6,
-                                            ),
-                                          ),
-                                  ),
-                                  child: Text(
-                                    item,
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w300,
-                                      color: AppColors.Text300,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                ],
+            // Subtitle
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                "Lorem ipsum dolor sit amet consectetur. Tellus leo vitae aliquet vel tortor. Interdum tempus Interdum tempus",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.Text400,
+                ),
               ),
             ),
-            const SizedBox(height: 8),
-            Positioned(
-              top: !_showSkillsError ? 340 : 366,
-              right: 29,
-              left: 29,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Department",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w300,
-                      color: AppColors.Text400,
-                    ),
-                  ),
-                  const SizedBox(height: 4,),
-                  InkWell(
-                    onTap: () => setState(() => isDepartmentOpen = !isDepartmentOpen),
-                    child: Container(
-                      width: 380,
-                      height: 44,
-                      padding: const EdgeInsets.only(
-                        left: 27,
-                        right: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border(
-                          bottom: BorderSide(
-                            color: AppColors.Text300,
-                            width: !isDepartmentOpen? 1 : 0.6,
-                          ),
-                          top: BorderSide(color: AppColors.Text300),
-                          left: BorderSide(color: AppColors.Text300),
-                          right: BorderSide(color: AppColors.Text300),
-                        ),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: !isDepartmentOpen? Radius.circular(22): Radius.circular(0),
-                          bottomRight: !isDepartmentOpen? Radius.circular(22): Radius.circular(0),
-                          topLeft: Radius.circular(22),
-                          topRight: Radius.circular(22),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset('lib/Assets/Icons/department_.svg', width: 20, height: 20,),
-                          const SizedBox(width: 10,),
-                          Expanded(
-                            child: Text(
-                              selectedDepartment,
-                              style: const TextStyle(
-                                color: AppColors.Text300,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
-                          ),
-                          Spacer(),
-                          AnimatedRotation(
-                            turns: isDepartmentOpen ? 0.25 : 0.0, 
-                            duration: const Duration(milliseconds: 100),
-                            child: SvgPicture.asset('lib/Assets/Icons/arrowDown_.svg'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  if (isDepartmentOpen)
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(22),
-                          bottomRight: Radius.circular(22),
-                        ),
-                        border: const Border(
-                          bottom: BorderSide(color: AppColors.Text300),
-                          left: BorderSide(color: AppColors.Text300),
-                          right: BorderSide(color: AppColors.Text300),
-                        ),
-                      ),
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxHeight: MediaQuery.of(context).size.height * 0.1, 
-                        ),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          itemCount: departments.length,
-                          itemBuilder: (context, index) {
-                            final item = departments[index];
-                            final isLast = index == departments.length - 1;
-                            return MouseRegion(
-                              onEnter: (_) => setState(() => hoveredIndex = index),
-                              onExit: (_) => setState(() => hoveredIndex = -1),
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    selectedDepartment = item;
-                                    isDepartmentOpen = false;
-                                  });
-                                },
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 30,
-                                  padding: const EdgeInsets.only(left: 57),
-                                  alignment: Alignment.centerLeft,
-                                  decoration: BoxDecoration(
-                                    color: hoveredIndex == index
-                                        ? Colors.grey.shade100
-                                        : Colors.transparent,
-                                    border: isLast
-                                        ? null
-                                        : const Border(
-                                            bottom: BorderSide(
-                                              color: AppColors.Text300,
-                                              width: 0.6,
-                                            ),
-                                          ),
-                                  ),
-                                  child: Text(
-                                    item,
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w300,
-                                      color: AppColors.Text300,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                ],
+            const SizedBox(height: 40),
+
+            // Username
+            Text(
+              "Username",
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w300,
+                color: AppColors.Text400,
               ),
             ),
-            const SizedBox(height: 8),
-          ], 
+            const SizedBox(height: 6),
+            Input(
+              prefixIcon: 'lib/Assets/Icons/profile_.svg',
+              placeholder: 'username',
+              controller: usernameController,
+            ),
+            if (_showUsernameError)
+              Text(
+                "This field is required",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.Error100,
+                ),
+              ),
+            const SizedBox(height: 10),
+            Text(
+              "Date of Birth",
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w300,
+                color: AppColors.Text400,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Input(
+              prefixIcon: 'lib/Assets/Icons/Calendar.svg', // add a calendar icon to assets
+              placeholder: 'DD/MM/YYYY',
+              controller: dobController,
+            ),
+            const SizedBox(height: 10),
+
+            Text(
+              "Phone Number",
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w300,
+                color: AppColors.Text400,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Input(
+              prefixIcon: 'lib/Assets/Icons/Call.svg', // add a phone icon to assets
+              placeholder: '+123 456 7890',
+              controller: phoneController,
+            ),
+            const SizedBox(height: 10),
+
+            // Role dropdown
+            Text(
+              "Role",
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w300,
+                color: AppColors.Text400,
+              ),
+            ),
+            const SizedBox(height: 6),
+            _buildDropdown(
+              icon: 'lib/Assets/Icons/Member.svg',
+              value: selectedRole,
+              items: roles,
+              isOpen: isRoleOpen,
+              onTap: () => setState(() => isRoleOpen = !isRoleOpen),
+              onSelect: (val) {
+                setState(() {
+                  selectedRole = val;
+                  isRoleOpen = false;
+                });
+              },
+            ),
+            const SizedBox(height: 10),
+
+            // Department dropdown
+            Text(
+              "Department",
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w300,
+                color: AppColors.Text400,
+              ),
+            ),
+            const SizedBox(height: 6),
+            _buildDropdown(
+              icon: 'lib/Assets/Icons/Chart.svg',
+              value: selectedDepartment,
+              items: departments,
+              isOpen: isDepartmentOpen,
+              onTap: () => setState(() => isDepartmentOpen = !isDepartmentOpen),
+              onSelect: (val) {
+                setState(() {
+                  selectedDepartment = val;
+                  isDepartmentOpen = false;
+                });
+              },
+            ),
+            const SizedBox(height: 10),
+
+            // Skills
+            Text(
+              "Skills",
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w300,
+                color: AppColors.Text400,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Input(
+              prefixIcon: 'lib/Assets/Icons/skills_.svg',
+              placeholder: 'e.g., Leadership, UX Design,',
+              controller: skillsController,
+            ),
+            if (_showSkillsError)
+              Text(
+                "This field is required",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.Error100,
+                ),
+            ),
+
+            const SizedBox(height: 10),
+
+            // Skills
+            Text(
+              "Interests",
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w300,
+                color: AppColors.Text400,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Input(
+              prefixIcon: 'lib/Assets/Icons/skills_.svg',
+              placeholder: 'e.g., Basketball, Reading',
+              controller: interestsController,
+            ),
+            if (_showSkillsError)
+              Text(
+                "This field is required",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.Error100,
+                ),
+            ),
+            
+            const SizedBox(height: 40),
+
+            // Button
+            Button(
+              onTap: () {
+                setState(() {
+                  _showUsernameError = usernameController.text.isEmpty;
+                  _showSkillsError = skillsController.text.isEmpty;
+                });
+
+                if (!_showUsernameError && !_showSkillsError) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => HomeScreen()),
+                  );
+                }
+              },
+              buttonText: "Sign up",
+            ),
+          ],
         ),
       ),
+    );
+  }
+
+  /// Reusable dropdown widget
+  Widget _buildDropdown({
+    required String icon,
+    required String value,
+    required List<String> items,
+    required bool isOpen,
+    required VoidCallback onTap,
+    required Function(String) onSelect,
+  }) {
+    return Column(
+      children: [
+        InkWell(
+          onTap: onTap,
+          child: Container(
+            height: 44,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: AppColors.Text300, width: 1),
+              borderRadius: BorderRadius.circular(22),
+            ),
+            child: Row(
+              children: [
+                SvgPicture.asset(icon, width: 20, height: 20),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    value,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w300,
+                      color: AppColors.Text300,
+                    ),
+                  ),
+                ),
+                AnimatedRotation(
+                  turns: isOpen ? 0.25 : 0,
+                  duration: const Duration(milliseconds: 100),
+                  child: SvgPicture.asset('lib/Assets/Icons/arrowDown_.svg'),
+                ),
+              ],
+            ),
+          ),
+        ),
+        if (isOpen)
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(22),
+                bottomRight: Radius.circular(22),
+              ),
+              border: const Border(
+                left: BorderSide(color: AppColors.Text300),
+                right: BorderSide(color: AppColors.Text300),
+                bottom: BorderSide(color: AppColors.Text300),
+              ),
+            ),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.2,
+              ),
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  final item = items[index];
+                  return GestureDetector(
+                    onTap: () => onSelect(item),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
+                      child: Text(
+                        item,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w300,
+                          color: AppColors.Text300,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

@@ -3,7 +3,7 @@ import 'package:snt_app/Theme/text_styles.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/Widgets/General/bottom_navbar.dart';
 import 'package:snt_app/Widgets/General/input.dart';
-import 'package:snt_app/Widgets/HomePage/Departments/DepartmentMember/department_members_list.dart';
+// import 'package:snt_app/Widgets/HomePage/Departments/DepartmentMember/department_members_list.dart';
 
 
 class DepartmentMembers extends StatelessWidget{
@@ -37,7 +37,7 @@ class DepartmentMembers extends StatelessWidget{
 
               children: [
                 Input(prefixIcon: 'lib/Assets/Icons/Search.svg', placeholder: "Search", height: 48),
-                DepartmentMembersList(departmentName: department_name)
+                // DepartmentMembersList(departmentName: department_name)
               ],
             ),
           )

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:snt_app/Screens/signup/otpcode_verification.dart';
 import 'package:snt_app/Theme/theme.dart';
-import 'package:snt_app/Screens/signup/create_password.dart';
 import 'package:snt_app/Widgets/General/button.dart';
 import 'package:snt_app/Widgets/General/input.dart';
 import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
@@ -26,198 +26,214 @@ class _SignupScreenState extends State<SignupScreen>{
 
   @override
   Widget build(BuildContext context) {
-  return CustomScaffold(
-    isLogin: false,
-    child: Align(
-      alignment: Alignment.topCenter,
-      child: Padding(
-        padding: const EdgeInsets.only(
-          top: 10,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "New member !",
-              style: TextStyle(
-                fontSize: 23,
-                fontWeight: FontWeight.w500,
-                color: AppColors.Text500,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 45,
-                right: 45,
-              ),
-              child: Text(
-                "Lorem ipsum dolor sit amet consectetur. Tellus leo vitae aliquet vel tortor. Interdum tempus Interdum tempus",
-                textAlign: TextAlign.center,
+    return CustomScaffold(
+      isLogin: false,
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: 10,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "New member !",
                 style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w300,
-                  color: AppColors.Text400,
+                  fontSize: 23,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.Text500,
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 29,
-                right: 29,
+              const SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 45,
+                  right: 45,
+                ),
+                child: Text(
+                  "Lorem ipsum dolor sit amet consectetur. Tellus leo vitae aliquet vel tortor. Interdum tempus Interdum tempus",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300,
+                    color: AppColors.Text400,
+                  ),
+                ),
               ),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Email",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w300,
-                        color: AppColors.Text400,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Input(
-                      prefixIcon: 'lib/Assets/Icons/profile_.svg', 
-                      placeholder: 'Email',
-                      controller: myEmailController,
-                    ),
-                    const SizedBox(height: 4),
-                    if (_showEmailError)
+              const SizedBox(height: 40),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 29,
+                  right: 29,
+                ),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Text(
-                        "Please enter a correct email",
+                        "Email",
+                        textAlign: TextAlign.left,
                         style: TextStyle(
-                          fontSize: 10,
+                          fontSize: 13,
                           fontWeight: FontWeight.w300,
-                          color: AppColors.Error100,
+                          color: AppColors.Text400,
                         ),
                       ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 29,
-                right: 29,
-              ),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Code",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w300,
-                        color: AppColors.Text400,
+                      const SizedBox(height: 6),
+                      Input(
+                        prefixIcon: 'lib/Assets/Icons/profile_.svg', 
+                        placeholder: 'Email',
+                        controller: myEmailController,
                       ),
-                    ),
-                    const SizedBox(height: 6),
-                    Input(
-                      prefixIcon: 'lib/Assets/Icons/profile_.svg', 
-                      placeholder: 'Code',
-                      controller: myCodeController,
-                    ),
-                    const SizedBox(height: 4),
-                    if (_showCodeError)
-                      Text(
-                        "Please enter a correct code",
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w300,
-                          color: AppColors.Error100,
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 20,
-                right: 25,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Checkbox(
-                    value: agree,
-                    onChanged: (bool? newValue) {
-                      setState(() {
-                        agree = newValue ?? false;
-                      });
-                    },
-                    activeColor: AppColors.Main400,
-                    side: BorderSide(color: AppColors.Text300, width: 2),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4.8),
-                    ),
-                  ),
-                  Text(
-                    "Agree with terms and conditions",
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w300,
-                      color: AppColors.Text400,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20,),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 29,
-                right: 29,
-              ),
-              child: Button(
-                onTap: () {
-                  setState(() {
-                    _showEmailError = myEmailController.text.isEmpty;
-                    _showCodeError = myCodeController.text.isEmpty;
-                  });
-        
-                  if (!_showEmailError && !_showCodeError && agree) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CreatePassword()),
-                    );
-                  }
-                  if(!agree && !_showEmailError && !_showCodeError){
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 0),
-                          child: Text(
-                            "You must agree on the terms and conditions to proceed",
-                            style: TextStyle(
-                              fontSize: 14, 
-                              color: Colors.white, 
-                              fontWeight: FontWeight.w400,
-                            ),
+                      const SizedBox(height: 4),
+                      if (_showEmailError)
+                        Text(
+                          "Please enter a correct email",
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w300,
+                            color: AppColors.Error100,
                           ),
                         ),
-                        backgroundColor: AppColors.Error100,
-                      ),
-                    );
-                  }
-                },
-                buttonText: 'Continue',
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 29,
+                  right: 29,
+                ),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Code",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w300,
+                          color: AppColors.Text400,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Input(
+                        prefixIcon: 'lib/Assets/Icons/profile_.svg', 
+                        placeholder: 'Code',
+                        controller: myCodeController,
+                      ),
+                      const SizedBox(height: 4),
+                      if (_showCodeError)
+                        Text(
+                          "Please enter a correct code",
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w300,
+                            color: AppColors.Error100,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  right: 25,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Checkbox(
+                      value: agree,
+                      onChanged: (bool? newValue) {
+                        setState(() {
+                          agree = newValue ?? false;
+                        });
+                      },
+                      activeColor: AppColors.Main400,
+                      side: BorderSide(color: AppColors.Text300, width: 2),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4.8),
+                      ),
+                    ),
+                    Text(
+                      "Agree with terms and conditions",
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w300,
+                        color: AppColors.Text400,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20,),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 29,
+                  right: 29,
+                  top: 30,
+                ),
+                child: Button(
+                  onTap: () {
+                    _continue();
+                  },
+                  buttonText: 'Continue',
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
+    );
   }
+
+
+  void _continue() {
+    setState(() {
+      _showEmailError = myEmailController.text.isEmpty || !isValidEmail(myEmailController.text.trim());
+      _showCodeError = myCodeController.text.isEmpty;
+    });
+
+    if (!_showEmailError && !_showCodeError && agree) {
+      // go to OTP code verification !
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => OTPCodeVerification()),
+      );
+    }
+    if(!agree && !_showEmailError && !_showCodeError){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 0),
+            child: Text(
+              "You must agree on the terms and conditions to proceed",
+              style: TextStyle(
+                fontSize: 14, 
+                color: Colors.white, 
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+          backgroundColor: AppColors.Error100,
+        ),
+      );
+    }
+  }
+
+
+  bool isValidEmail(String email) {
+    final RegExp emailRegex = RegExp(
+      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+    );
+    return emailRegex.hasMatch(email);
+  }
+
 }

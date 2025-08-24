@@ -41,6 +41,7 @@ class Input extends StatelessWidget {
               prefixIcon,
               width: 24,
               height: 24,
+              color: AppColors.Text400,
             )
           ),
           suffixIcon: suffixIcon,

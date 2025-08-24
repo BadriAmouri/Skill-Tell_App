@@ -1,32 +1,27 @@
-import 'dart:convert';
-import 'package:flutter/services.dart';
 import 'package:snt_app/Models/user_model.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserService {
-  Future<List<UserModel>> fetchUsers() async {
-    await Future.delayed(const Duration(seconds: 2));
 
-    final String response = await rootBundle.loadString('lib/Assets/Data/users.json');
-    final List<dynamic> data = json.decode(response);
-    return data.map((e) => UserModel.fromJson(e)).toList();
+  final supabase = Supabase.instance.client;
+  
+  Future<UserModel?> getCurrentUser() async {
+    final currentUser = supabase.auth.currentUser;
+
+    if (currentUser == null) {
+      return null; // no user is logged in
+    }
+
+    final response = await supabase
+        .from('users')
+        .select()
+        .eq('user_id', currentUser.id)
+        .single();
+
+    // Map JSON to UserModel
+    final userModel = UserModel.fromJson(response);
+    return userModel;
   }
 
-
-  Future<List<UserModel>> fetchUsersByDepartment(String department_name) async {
-    await Future.delayed(const Duration(seconds: 2));
-
-    final String response = await rootBundle.loadString('lib/Assets/Data/users.json');
-    final List<dynamic> data = json.decode(response);
-
-    // Convert JSON to List<UserModel>
-    List<UserModel> allUsers = data.map((e) => UserModel.fromJson(e)).toList();
-
-    // Filter by department
-    List<UserModel> filteredUsers = allUsers
-        .where((user) => user.department == department_name)
-        .toList();
-
-    return filteredUsers;
-  }
 
 }

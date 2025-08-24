@@ -42,6 +42,7 @@ class _CreatePasswordState extends State<CreatePassword>{
             mainAxisSize: MainAxisSize.min,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -53,7 +54,6 @@ class _CreatePasswordState extends State<CreatePassword>{
                       height: 25,
                     ),
                   ),
-                  const SizedBox(width: 26,),
                   Text(
                     "Create password",
                     textAlign: TextAlign.center,
@@ -62,7 +62,8 @@ class _CreatePasswordState extends State<CreatePassword>{
                       fontWeight: FontWeight.w500,
                       color: AppColors.Text500,
                     ),
-                  )
+                  ),
+                  SizedBox(width: 25, height: 25,)
                 ],
               ),
               const SizedBox(height: 8),
@@ -81,7 +82,7 @@ class _CreatePasswordState extends State<CreatePassword>{
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 50),
               Align(
                 alignment: Alignment.topLeft,
                 child: Column(
@@ -181,7 +182,7 @@ class _CreatePasswordState extends State<CreatePassword>{
                   ],
                 ),
               ),
-              const SizedBox(height: 30,),
+              const SizedBox(height: 50,),
               Button(
                 onTap: () {
                   setState(() {

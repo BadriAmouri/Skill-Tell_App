@@ -9,7 +9,6 @@ class UserModel {
   final String? pfp;
   final String dateOfBirth;
   final String phoneNumber;
-  final String department;
 
   UserModel({
     required this.userId,
@@ -22,7 +21,6 @@ class UserModel {
     this.pfp,
     required this.dateOfBirth,
     required this.phoneNumber,
-    required this.department,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -36,8 +34,7 @@ class UserModel {
       role: json['role'],
       pfp: json['pfp'] == "" ? null : json['pfp'],
       dateOfBirth: json['date_of_birth'],
-      phoneNumber: json['phone_number'],
-      department: json['Department'], // note: key is "Department"
+      phoneNumber: json['phone_number'], 
     );
   }
 
@@ -53,7 +50,6 @@ class UserModel {
       'pfp': pfp ?? "",
       'date_of_birth': dateOfBirth,
       'phone_number': phoneNumber,
-      'Department': department,
     };
   }
 }
