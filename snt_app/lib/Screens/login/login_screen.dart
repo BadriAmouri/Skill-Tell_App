@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:snt_app/Screens/Home/home_screen.dart';
 import 'package:snt_app/Screens/login/forgot_password_screen.dart';
+import 'package:snt_app/Services/auth_service.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:snt_app/Widgets/General/button.dart';
@@ -20,6 +21,9 @@ class _LoginScreenState extends State<LoginScreen>{
   bool _showPasswordError = false;
   final TextEditingController myEmailController = TextEditingController();
   final TextEditingController myPasswordController = TextEditingController();
+
+  final auth_service = AuthService();
+
   @override
   void dispose(){
     myEmailController.dispose();
@@ -75,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen>{
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Email/Username",
+                        "Email",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: 13,
@@ -86,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen>{
                       const SizedBox(height: 6),
                       Input(
                         prefixIcon: 'lib/Assets/Icons/profile_.svg', 
-                        placeholder: 'Email/Username',
+                        placeholder: 'Email',
                         controller: myEmailController,
                       ),
                       const SizedBox(height: 4),
@@ -221,19 +225,7 @@ class _LoginScreenState extends State<LoginScreen>{
                   right: 29,
                 ),
                 child: Button(
-                  onTap: () {
-                    setState(() {
-                      _showEmailError = myEmailController.text.isEmpty;
-                      _showPasswordError = myPasswordController.text.length < 8;
-                    });
-          
-                    if (!_showEmailError && !_showPasswordError) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (e) => HomeScreen()),
-                      );
-                    }
-                  },
+                  onTap: _login,
                   buttonText: 'Login',
                 ),
               ),
@@ -242,6 +234,47 @@ class _LoginScreenState extends State<LoginScreen>{
         ),
       ),
     );
+  }
+
+  void _login() async{
+    setState(() {
+      _showEmailError = myEmailController.text.isEmpty || !isValidEmail(myEmailController.text.trim());
+      _showPasswordError = myPasswordController.text.length < 8;
+    });
+
+    if (!_showEmailError && !_showPasswordError) {
+      showLoadingDialog(context);
+      auth_service.signInWithEmailPassword(myEmailController.text, myPasswordController.text);
+      hideLoadingDialog(context);
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => HomeScreen()),
+        (Route<dynamic> route) => false,
+      );
+    }
+  }
+
+  void showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+
+  void hideLoadingDialog(BuildContext context) {
+    Navigator.of(context).pop(); 
+  }
+
+  bool isValidEmail(String email) {
+    final RegExp emailRegex = RegExp(
+      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+    );
+    return emailRegex.hasMatch(email);
   }
 }
   

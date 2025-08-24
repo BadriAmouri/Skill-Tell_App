@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:snt_app/Screens/signup/create_password.dart';
+import 'package:snt_app/Services/auth_service.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/Widgets/General/button.dart';
 import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
 
 class OTPCodeVerification extends StatefulWidget {
-  const OTPCodeVerification({super.key});
+  
+  final String email;
+
+  const OTPCodeVerification({
+    super.key,
+    required this.email,
+  });
 
   @override
   State<OTPCodeVerification> createState() => _OTPCodeVerificationState();
@@ -15,7 +22,8 @@ class OTPCodeVerification extends StatefulWidget {
 
 class _OTPCodeVerificationState extends State<OTPCodeVerification> {
 
-  final List<TextEditingController> _controllers = List.generate(5, (_) => TextEditingController());
+  final List<TextEditingController> _controllers = List.generate(6, (_) => TextEditingController());
+  final auth_service = AuthService();
 
   @override
   void initState() {
@@ -91,7 +99,7 @@ class _OTPCodeVerificationState extends State<OTPCodeVerification> {
               Row(
                 spacing: 8,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(5, (index) {
+                children: List.generate(6, (index) {
                   return SizedBox(
                     width: 52,
                     height: 52,
@@ -150,11 +158,7 @@ class _OTPCodeVerificationState extends State<OTPCodeVerification> {
                   ),
                   const SizedBox(width: 4,),
                   GestureDetector(
-                    onTap: () {
-                      for (final controller in _controllers) {
-                        controller.clear();
-                      }
-                    },
+                    onTap: _resendCode,
                     child: Text(
                       "Resend",
                       style: TextStyle(
@@ -168,27 +172,7 @@ class _OTPCodeVerificationState extends State<OTPCodeVerification> {
               ),
               const SizedBox(height: 70,),
               Button(
-                onTap: () {
-                  bool allFilled = _controllers.every((controller) => controller.text.isNotEmpty);
-
-                  if (allFilled) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (e) => CreatePassword()),
-                    );
-                  } else {
-                    String errorMessage = !allFilled
-                        ? 'Please fill in all the code boxes'
-                        : 'The verification code has expired';
-
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(errorMessage),
-                        backgroundColor: AppColors.Error100,
-                      ),
-                    );
-                  }
-                },
+                onTap: _continue,
                 buttonText: "Continue",
               ),
             ],
@@ -196,5 +180,72 @@ class _OTPCodeVerificationState extends State<OTPCodeVerification> {
         ),
       ),
     );
+  }
+
+  void _resendCode(){
+
+    for (final controller in _controllers) {
+      controller.clear();
+    }
+
+    auth_service.requestEmailOtp(widget.email);
+  }
+
+
+  void _continue() async{
+
+    bool allFilled = _controllers.every((controller) => controller.text.isNotEmpty);
+
+    if (allFilled) {
+
+      String otpCode = _controllers.map((c) => c.text).join();
+      
+      showLoadingDialog(context);
+
+      bool otpVerification = await auth_service.verifyEmailOtp(widget.email, otpCode);
+
+      hideLoadingDialog(context);
+
+      if(otpVerification) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (e) => CreatePassword(email: widget.email,)),
+        );
+      }
+      else {
+        showErrorMessage(context, "OTP verification failed or the code has expired");
+      }
+    } else {
+      String errorMessage = !allFilled
+          ? 'Please fill in all the code boxes'
+          : 'The verification code has expired';
+      showErrorMessage(context, errorMessage);
+      
+    }
+  }
+
+  void showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+
+  void hideLoadingDialog(BuildContext context) {
+    Navigator.of(context).pop(); 
+  }
+
+  void showErrorMessage(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: AppColors.Error100,
+        ),
+      );
   }
 }

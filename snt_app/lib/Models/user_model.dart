@@ -6,9 +6,9 @@ class UserModel {
   final List<String> skills;
   final List<String> interests;
   final String role;
-  final String? pfp;
+  final String? pfp; // Nullable
   final String dateOfBirth;
-  final String phoneNumber;
+  final String? phoneNumber; // Nullable
 
   UserModel({
     required this.userId,
@@ -20,21 +20,25 @@ class UserModel {
     required this.role,
     this.pfp,
     required this.dateOfBirth,
-    required this.phoneNumber,
+    this.phoneNumber,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      userId: json['user_id'],
-      username: json['username'],
-      email: json['email'],
-      password: json['password'],
-      skills: List<String>.from(json['skills']),
-      interests: List<String>.from(json['interests']),
-      role: json['role'],
-      pfp: json['pfp'] == "" ? null : json['pfp'],
-      dateOfBirth: json['date_of_birth'],
-      phoneNumber: json['phone_number'], 
+      userId: json['user_id'] as String,
+      username: json['username'] as String,
+      email: json['email'] as String,
+      password: json['password'] as String,
+      skills: json['skills'] != null
+          ? List<String>.from(json['skills'])
+          : <String>[],
+      interests: json['interests'] != null
+          ? List<String>.from(json['interests'])
+          : <String>[],
+      role: json['role'] as String,
+      pfp: json['pfp'] as String?, // stays null if missing or null
+      dateOfBirth: json['date_of_birth'] as String,
+      phoneNumber: json['phone_number'] as String?, // stays null
     );
   }
 
@@ -47,9 +51,9 @@ class UserModel {
       'skills': skills,
       'interests': interests,
       'role': role,
-      'pfp': pfp ?? "",
+      'pfp': pfp, // null stays null
       'date_of_birth': dateOfBirth,
-      'phone_number': phoneNumber,
+      'phone_number': phoneNumber, // null stays null
     };
   }
 }

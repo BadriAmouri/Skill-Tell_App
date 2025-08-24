@@ -21,7 +21,7 @@ class AuthService {
 
 
   // verify otp
-  Future<User?> verifyEmailOtp(String email, String otp) async {
+  Future<bool> verifyEmailOtp(String email, String otp) async {
     try {
       final res = await supabase.auth.verifyOTP(
         type: OtpType.email,
@@ -30,13 +30,17 @@ class AuthService {
       );
 
       final user = res.user;
-      if (user == null) throw Exception("OTP verification failed");
+      if (user == null) {
+        print("OTP verification failed");
+        return false;
+      }
+      
 
       print("OTP verified for user ${user.id}");
-      return user;
+      return true;
     } catch (e) {
       print("Error verifying OTP: $e");
-      rethrow;
+      return false;
     }
   }
 
@@ -47,47 +51,41 @@ class AuthService {
     required String username,
     required List<String> skills,
     required List<String> interests,
-    required List<String> departmentNames,
-    String role = 'member',
+    required String departmentName, // only one department now
+    required String dateOfBirth,
+    String? phoneNumber,
+    required String role,
   }) async {
     try {
       final user = supabase.auth.currentUser;
       if (user == null) throw Exception("No authenticated user");
 
-      // 1) Set password
       await supabase.auth.updateUser(UserAttributes(password: password));
 
-      // 2) Create profile
-      final profile = {
+      await supabase.from('users').upsert({
         'user_id': user.id,
         'username': username,
-        'email': user.email,
         'skills': skills,
         'interests': interests,
         'role': role,
         'pfp': null,
-      };
+        'date_of_birth': dateOfBirth,
+        'phone_number': phoneNumber,
+      });
 
-      await supabase.from('users').upsert(profile);
 
-      // 3) Add to departments
-      if (departmentNames.isNotEmpty) {
-        final deptRows = departmentNames.map((deptName) {
-          return {
-            'department_name': deptName,
-            'user_id': user.id,
-          };
-        }).toList();
+      await supabase.from('department_members').insert({
+        'department_name': departmentName,
+        'user_id': user.id,
+      });
 
-        await supabase.from('department_members').insert(deptRows);
-      }
-
-      print("Password set + Profile + Departments created!");
+      print("Password set + Profile created + Department assigned!");
     } catch (e) {
       print("Error setting password or saving profile: $e");
       rethrow;
     }
   }
+
 
 
 

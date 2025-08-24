@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snt_app/Screens/signup/otpcode_verification.dart';
+import 'package:snt_app/Services/auth_service.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/Widgets/General/button.dart';
 import 'package:snt_app/Widgets/General/input.dart';
@@ -12,11 +13,15 @@ class SignupScreen extends StatefulWidget{
   State<SignupScreen> createState() => _SignupScreenState();
 }
 class _SignupScreenState extends State<SignupScreen>{
+
   bool agree = false;
   bool _showEmailError = false;
   bool _showCodeError = false;
   final TextEditingController myEmailController = TextEditingController();
   final TextEditingController myCodeController = TextEditingController();
+
+  final auth_service = AuthService();
+
   @override
   void dispose(){
     myEmailController.dispose();
@@ -202,10 +207,11 @@ class _SignupScreenState extends State<SignupScreen>{
     });
 
     if (!_showEmailError && !_showCodeError && agree) {
+      auth_service.requestEmailOtp(myEmailController.text.trim());
       // go to OTP code verification !
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => OTPCodeVerification()),
+        MaterialPageRoute(builder: (context) => OTPCodeVerification(email: myEmailController.text.trim(),)),
       );
     }
     if(!agree && !_showEmailError && !_showCodeError){

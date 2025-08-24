@@ -7,7 +7,8 @@ import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
 import 'package:snt_app/Screens/signup/your_info.dart';
 
 class CreatePassword extends StatefulWidget{
-  const CreatePassword({super.key});
+  final String email;
+  const CreatePassword({super.key, required this.email});
 
   @override
   State<CreatePassword> createState() => _CreatePasswordState();
@@ -184,21 +185,7 @@ class _CreatePasswordState extends State<CreatePassword>{
               ),
               const SizedBox(height: 50,),
               Button(
-                onTap: () {
-                  setState(() {
-                    _passwordTooShort = myPasswordController.text.length < 8;
-                    _passwordsDoNotMatch = myPasswordController.text != confirmPasswordController.text;
-                  });
-
-                  if (!_passwordTooShort && !_passwordsDoNotMatch) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (e) => YourInfo()
-                      ),
-                    );
-                  }
-                },
+                onTap: _continue,
                 buttonText: "Continue",
               ),
             ],
@@ -206,5 +193,21 @@ class _CreatePasswordState extends State<CreatePassword>{
         ),
       ),
     );
+  }
+
+  void _continue() {
+    setState(() {
+      _passwordTooShort = myPasswordController.text.length < 8;
+      _passwordsDoNotMatch = myPasswordController.text != confirmPasswordController.text;
+    });
+
+    if (!_passwordTooShort && !_passwordsDoNotMatch) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (e) => YourInfo(password: myPasswordController.text, email: widget.email)
+        ),
+      );
+    }
   }
 }
