@@ -1,8 +1,7 @@
 class UserModel {
   final String userId;
   final String username;
-  final String email;
-  final String password;
+  final String email; // still comes from auth.users
   final List<String> skills;
   final List<String> interests;
   final String role;
@@ -14,7 +13,6 @@ class UserModel {
     required this.userId,
     required this.username,
     required this.email,
-    required this.password,
     required this.skills,
     required this.interests,
     required this.role,
@@ -23,12 +21,11 @@ class UserModel {
     this.phoneNumber,
   });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
+  factory UserModel.fromJson(Map<String, dynamic> json, String email) {
     return UserModel(
       userId: json['user_id'] as String,
       username: json['username'] as String,
-      email: json['email'] as String,
-      password: json['password'] as String,
+      email: email, // we inject it from auth.users
       skills: json['skills'] != null
           ? List<String>.from(json['skills'])
           : <String>[],
@@ -36,9 +33,9 @@ class UserModel {
           ? List<String>.from(json['interests'])
           : <String>[],
       role: json['role'] as String,
-      pfp: json['pfp'] as String?, // stays null if missing or null
+      pfp: json['pfp'] as String?, 
       dateOfBirth: json['date_of_birth'] as String,
-      phoneNumber: json['phone_number'] as String?, // stays null
+      phoneNumber: json['phone_number'] as String?,
     );
   }
 
@@ -47,13 +44,12 @@ class UserModel {
       'user_id': userId,
       'username': username,
       'email': email,
-      'password': password,
       'skills': skills,
       'interests': interests,
       'role': role,
-      'pfp': pfp, // null stays null
+      'pfp': pfp,
       'date_of_birth': dateOfBirth,
-      'phone_number': phoneNumber, // null stays null
+      'phone_number': phoneNumber,
     };
   }
 }

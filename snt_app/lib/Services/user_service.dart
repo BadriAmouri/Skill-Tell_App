@@ -18,10 +18,12 @@ class UserService {
         .eq('user_id', currentUser.id)
         .single();
 
-    // Map JSON to UserModel
-    final userModel = UserModel.fromJson(response);
+    // email comes from auth, other fields from public users
+    print(response);
+    final userModel = UserModel.fromJson(response, currentUser.email ?? '');
     return userModel;
   }
+
 
 
 }
