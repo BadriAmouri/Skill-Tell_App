@@ -10,10 +10,10 @@ class DepartmentCard extends StatelessWidget {
   const DepartmentCard({Key? key, required this.department}) : super(key: key);
 
   void onTap(String department_name, BuildContext context) {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (e) => DepartmentMembers(department_name: department_name,)),
-    // );
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (e) => DepartmentMembers(department_name: department_name,)),
+    );
   }
 
   @override

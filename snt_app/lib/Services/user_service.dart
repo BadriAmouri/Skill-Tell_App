@@ -17,10 +17,11 @@ class UserService {
         .eq('user_id', currentUser.id)
         .single();
 
-    // email comes from auth, other fields from public users
-    final userModel = UserModel.fromJson(response, currentUser.email ?? '');
+    // now email is already inside response
+    final userModel = UserModel.fromJson(response, response['email'] ?? '');
     return userModel;
-  }
+}
+
 
   // ----------------- USER UPDATES -----------------
 

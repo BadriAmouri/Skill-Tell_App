@@ -71,6 +71,7 @@ class AuthService {
         'pfp': null,
         'date_of_birth': dateOfBirth,
         'phone_number': phoneNumber,
+        'email': user.email,
       });
 
 
