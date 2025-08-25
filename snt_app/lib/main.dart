@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:snt_app/Config/supabass_config.dart';
 import 'package:snt_app/Screens/Home/home_screen.dart';
+import 'package:snt_app/Screens/login/login_screen.dart';
 import 'package:snt_app/Screens/signup/create_password.dart';
 import 'package:snt_app/Screens/signup/otpcode_verification.dart';
 import 'package:snt_app/Screens/signup/signup_screen.dart';
@@ -37,8 +38,9 @@ class MainApp extends StatelessWidget {
       ),
       home: Scaffold(
 
-        // body: SplashScreen(),
-        body: SignupScreen()
+        resizeToAvoidBottomInset: true,
+
+        body: SplashScreen(),
       ),
 
     );

@@ -74,7 +74,7 @@ class _YourInfoState extends State<YourInfo> {
     return CustomScaffold(
       zoomheight: true,
       isLogin: false,
-      child: SingleChildScrollView(
+      child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 29, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
