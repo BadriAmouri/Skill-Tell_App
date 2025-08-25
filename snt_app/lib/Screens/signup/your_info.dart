@@ -154,7 +154,7 @@ class _YourInfoState extends State<YourInfo>{
                         ],
                       ),
                     ),
-                  const SizedBox(height: 76),
+                  const SizedBox(height: 73),
                   Align(
                       alignment: Alignment.topLeft,
                       child: Column(
@@ -187,7 +187,7 @@ class _YourInfoState extends State<YourInfo>{
                         ],
                       ),
                     ),
-                  const SizedBox(height: 100,),
+                  const SizedBox(height: 90,),
                   Button(
                       onTap: () {
                         setState(() {
@@ -208,7 +208,7 @@ class _YourInfoState extends State<YourInfo>{
               ),
             ),
             Positioned(
-              top:!_showUsernameError? 196 :209,
+              top:!_showUsernameError? 215 :225,
               right: 29,
               left: 29,
               child: Column(
@@ -349,7 +349,7 @@ class _YourInfoState extends State<YourInfo>{
             ),
             const SizedBox(height: 8),
             Positioned(
-              top: !_showSkillsError ? 340 : 366,
+              top: !_showSkillsError ? 356 : 380,
               right: 29,
               left: 29,
               child: Column(
