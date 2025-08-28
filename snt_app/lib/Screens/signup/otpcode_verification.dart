@@ -202,7 +202,7 @@ class _OTPCodeVerificationState extends State<OTPCodeVerification> {
       
       showLoadingDialog(context);
 
-      bool otpVerification = await auth_service.verifyEmailOtp(widget.email, otpCode);
+      bool otpVerification = await auth_service.verifyEmailOtpForSignup(widget.email, otpCode);
 
       hideLoadingDialog(context);
 

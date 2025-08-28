@@ -21,7 +21,7 @@ class AuthService {
 
 
   // verify otp
-  Future<bool> verifyEmailOtp(String email, String otp) async {
+  Future<bool> verifyEmailOtpForSignup(String email, String otp) async {
     try {
       final res = await supabase.auth.verifyOTP(
         type: OtpType.email,
@@ -100,5 +100,70 @@ class AuthService {
   Future<void> signOut() async{
     return await supabase.auth.signOut();
   }
+
+  // verifying that the user exists
+  Future<bool> doesUserExist(String email) async {
+    final response = await supabase
+        .from('users') // your public profile table (if you sync users here)
+        .select('user_id')
+        .eq('email', email)
+        .maybeSingle(); // returns null if not found
+
+    return response != null;
+  }
+
+  // sent otp code while the user exists
+  Future<void> sendEmailOtp(String email) async {
+    if(! await doesUserExist(email)) {
+      print("User does not exists!");
+      return;
+    }
+    try {
+      await supabase.auth.resetPasswordForEmail(
+        email,
+      );
+      print("OTP sent successfully");
+    } on AuthException catch (e) {
+      print("Error: ${e.message}"); // will say "User not found"
+    } catch (e) {
+      print("Unexpected error: $e");
+    }
+  }
+
+  Future<bool> verifyEmailOtp({
+    required String email,
+    required String otpCode,
+  }) async {
+    try {
+      final response = await Supabase.instance.client.auth.verifyOTP(
+        email: email,
+        token: otpCode,
+        type: OtpType.email,
+      );
+
+      // If successful, you'll get a Session back
+      if (response.session != null) {
+        print("OTP verified ✅ User logged in");
+        return true;
+      } else {
+        print("OTP verification failed ❌");
+        return false;
+      }
+    } on AuthException catch (e) {
+      print("Invalid or expired OTP: ${e.message}");
+      return false;
+    } catch (e) {
+      print("Unexpected error: $e");
+      return false;
+    }
+  }
+
+
+  Future<void> setNewPasswordAfterOtp(String newPassword) async {
+    await Supabase.instance.client.auth.updateUser(
+      UserAttributes(password: newPassword),
+    );
+  }
+
 
 }

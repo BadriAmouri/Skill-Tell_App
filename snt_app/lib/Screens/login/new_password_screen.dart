@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:snt_app/Services/auth_service.dart';
 import 'package:snt_app/Widgets/General/button.dart';
 import 'package:snt_app/Widgets/General/input.dart';
 import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
@@ -18,6 +19,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen>{
   final TextEditingController myPasswordController = TextEditingController();
   bool _obscurePassword1 = true;
   bool _obscurePassword2 = true;
+  final authService = AuthService();
   @override
   void dispose(){
     confirmPasswordController.dispose();
@@ -79,7 +81,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen>{
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 50),
               Align(
                 alignment: Alignment.topLeft,
                 child: Column(
@@ -181,19 +183,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen>{
               ),
               const SizedBox(height: 30,),
               Button(
-                onTap: () {
-                  setState(() {
-                    _passwordTooShort = myPasswordController.text.length < 8;
-                    _passwordsDoNotMatch = myPasswordController.text != confirmPasswordController.text;
-                  });
-
-                  if (!_passwordTooShort && !_passwordsDoNotMatch) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HomeScreen()),
-                    );
-                  }
-                },
+                onTap: _continue,
                 buttonText: "Login",
               ),
             ],
@@ -202,4 +192,42 @@ class _NewPasswordScreenState extends State<NewPasswordScreen>{
       ),
     );
   }
+
+  void _continue() {
+    setState(() {
+      _passwordTooShort = myPasswordController.text.length < 8;
+      _passwordsDoNotMatch = myPasswordController.text != confirmPasswordController.text;
+    });
+
+    showAboutDialog(context: context);
+
+    authService.setNewPasswordAfterOtp(myPasswordController.text);
+
+    hideLoadingDialog(context);
+    
+    if (!_passwordTooShort && !_passwordsDoNotMatch) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => HomeScreen()),
+        (Route<dynamic> route) => false,
+      );
+    }
+  }
+
+  void showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+
+  void hideLoadingDialog(BuildContext context) {
+    Navigator.of(context).pop(); 
+  }
+
 }

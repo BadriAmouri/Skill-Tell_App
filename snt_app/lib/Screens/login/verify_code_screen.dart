@@ -1,47 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:snt_app/Screens/login/new_password_screen.dart';
+import 'package:snt_app/Services/auth_service.dart';
+import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/Widgets/General/button.dart';
 import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
-import 'package:snt_app/Theme/theme.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'dart:async';
-import 'package:snt_app/Screens/login/new_password_screen.dart';
-import 'package:flutter/services.dart';
 
-class VerifyCodeScreen extends StatefulWidget{
-  const VerifyCodeScreen({super.key});
+class VerifyCodeScreen extends StatefulWidget {
+  
+  final String email;
+
+  const VerifyCodeScreen({
+    super.key,
+    required this.email,
+  });
+
   @override
   State<VerifyCodeScreen> createState() => _VerifyCodeScreenState();
 }
-class _VerifyCodeScreenState extends State<VerifyCodeScreen>{
-  late Timer _timer;
-  int _secondsRemaining = 59;
-  final List<TextEditingController> _controllers = List.generate(5, (_) => TextEditingController());
+
+class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
+
+  final List<TextEditingController> _controllers = List.generate(6, (_) => TextEditingController());
+  final auth_service = AuthService();
+
   @override
   void initState() {
     super.initState();
-    _startTimer();
-  }
-
-  void _startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_secondsRemaining > 0) {
-        setState(() {
-          _secondsRemaining--;
-        });
-      } else {
-        _timer.cancel();
-      }
-    });
   }
 
   @override
   void dispose() {
-    _timer.cancel(); 
     for (final controller in _controllers) {
       controller.dispose();
     }
     super.dispose();
   }
+  
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -58,6 +54,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>{
             mainAxisSize: MainAxisSize.min,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -69,7 +66,6 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>{
                       height: 25,
                     ),
                   ),
-                  const SizedBox(width: 50,),
                   Text(
                     "Enter the code",
                     textAlign: TextAlign.center,
@@ -78,7 +74,8 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>{
                       fontWeight: FontWeight.w500,
                       color: AppColors.Text500,
                     ),
-                  )
+                  ),
+                  SizedBox(width: 25, height: 25,)
                 ],
               ),
               const SizedBox(height: 8),
@@ -97,19 +94,11 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>{
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
-              Text(
-                "00:${_secondsRemaining.toString().padLeft(2, '0')}",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.Main300,
-                ),
-              ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 50),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List.generate(5, (index) {
+                spacing: 8,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(6, (index) {
                   return SizedBox(
                     width: 52,
                     height: 52,
@@ -168,16 +157,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>{
                   ),
                   const SizedBox(width: 4,),
                   GestureDetector(
-                    onTap: () {
-                      _timer.cancel();
-                      setState(() {
-                        _secondsRemaining = 59;
-                      });
-                      _startTimer();
-                      for (final controller in _controllers) {
-                        controller.clear();
-                      }
-                    },
+                    onTap: _resendCode,
                     child: Text(
                       "Resend",
                       style: TextStyle(
@@ -189,30 +169,9 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>{
                   ),
                 ],
               ),
-              const SizedBox(height: 50,),
+              const SizedBox(height: 70,),
               Button(
-                onTap: () {
-                  bool allFilled = _controllers.every((controller) => controller.text.isNotEmpty);
-                  bool timeRemaining = _secondsRemaining > 0; 
-
-                  if (allFilled && timeRemaining) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (e) => NewPasswordScreen()),
-                    );
-                  } else {
-                    String errorMessage = !allFilled
-                        ? 'Please fill in all the code boxes'
-                        : 'The verification code has expired';
-
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(errorMessage),
-                        backgroundColor: AppColors.Error100,
-                      ),
-                    );
-                  }
-                },
+                onTap: _continue,
                 buttonText: "Continue",
               ),
             ],
@@ -220,5 +179,72 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>{
         ),
       ),
     );
+  }
+
+  void _resendCode(){
+
+    for (final controller in _controllers) {
+      controller.clear();
+    }
+
+    auth_service.sendEmailOtp(widget.email);
+  }
+
+
+  void _continue() async{
+
+    bool allFilled = _controllers.every((controller) => controller.text.isNotEmpty);
+
+    if (allFilled) {
+
+      String otpCode = _controllers.map((c) => c.text).join();
+      
+      showLoadingDialog(context);
+
+      bool otpVerification = await auth_service.verifyEmailOtp(email: widget.email, otpCode: otpCode);
+
+      hideLoadingDialog(context);
+
+      if(otpVerification) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (e) => NewPasswordScreen()),
+        );
+      }
+      else {
+        showErrorMessage(context, "OTP verification failed or the code has expired");
+      }
+    } else {
+      String errorMessage = !allFilled
+          ? 'Please fill in all the code boxes'
+          : 'The verification code has expired';
+      showErrorMessage(context, errorMessage);
+      
+    }
+  }
+
+  void showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+
+  void hideLoadingDialog(BuildContext context) {
+    Navigator.of(context).pop(); 
+  }
+
+  void showErrorMessage(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: AppColors.Error100,
+        ),
+      );
   }
 }

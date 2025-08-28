@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:snt_app/Services/auth_service.dart';
 import 'package:snt_app/Widgets/General/button.dart';
 import 'package:snt_app/Widgets/General/input.dart';
 import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
@@ -15,6 +16,8 @@ class ForgotPasswordScreen extends StatefulWidget{
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
   final TextEditingController myEmailController = TextEditingController();
   bool _showEmailError = false;
+
+  final authService = AuthService();
   @override
   void dispose(){
     myEmailController.dispose();
@@ -36,6 +39,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
             mainAxisSize: MainAxisSize.min,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -47,7 +51,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
                       height: 25,
                     ),
                   ),
-                  const SizedBox(width: 40,),
                   Text(
                     "Forgot password ?",
                     textAlign: TextAlign.center,
@@ -56,7 +59,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
                       fontWeight: FontWeight.w500,
                       color: AppColors.Text500,
                     ),
-                  )
+                  ),
+                  const SizedBox(width: 25,),
                 ],
               ),
               const SizedBox(height: 8),
@@ -75,14 +79,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 50),
               Align(
                 alignment: Alignment.topLeft,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Email/Username",
+                      "Email",
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontSize: 13,
@@ -93,7 +97,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
                     const SizedBox(height: 6),
                     Input(
                       prefixIcon: 'lib/Assets/Icons/profile_.svg', 
-                      placeholder: 'Email/Username',
+                      placeholder: 'Email',
                       controller: myEmailController,
                     ),
                     const SizedBox(height: 4),
@@ -111,18 +115,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
               ),
               const SizedBox(height: 100,),
               Button(
-                onTap: () {
-                  setState(() {
-                    _showEmailError = myEmailController.text.isEmpty;
-                  });
-
-                  if (!_showEmailError) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (e) => VerifyCodeScreen()),
-                    );
-                  }
-                },
+                onTap: _continue,
                 buttonText: 'Continue',
               ),
             ],
@@ -130,5 +123,44 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
         ),
       ),
     );
+  }
+
+  void _continue() async{
+    setState(() {
+      _showEmailError = myEmailController.text.isEmpty && !isValidEmail(myEmailController.text);
+    });
+
+    if (!_showEmailError) {
+      showLoadingDialog(context);
+      await authService.sendEmailOtp(myEmailController.text);
+      hideLoadingDialog(context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (e) => VerifyCodeScreen(email: myEmailController.text)),
+      );
+    }
+  }
+
+  bool isValidEmail(String email) {
+    final RegExp emailRegex = RegExp(
+      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+    );
+    return emailRegex.hasMatch(email);
+  }
+
+  void showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+
+  void hideLoadingDialog(BuildContext context) {
+    Navigator.of(context).pop(); 
   }
 }
