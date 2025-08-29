@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:snt_app/Components/BottomNavBar.dart';
+import 'package:snt_app/Widgets/General/bottom_navbar.dart';
 
 class SettingsResult {
   final String email;
@@ -61,6 +61,8 @@ class _SettingsPageState extends State<SettingsPage> {
   late List<String> skills;
   late List<String> interests;
   Uint8List? avatarBytes;
+
+  final int _selectedIndex = 3;
 
   @override
   void initState() {
@@ -239,11 +241,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ]),
       ),
-      bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: currentIndex,
-        onTap: (i) => setState(() => currentIndex = i),
-        onHomePressed: () {},
-      ),
+      bottomNavigationBar: BottomNavBar(currentIndex: _selectedIndex,),
     );
   }
 

@@ -1,48 +1,53 @@
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-
-void main() {
-  runApp(
-    MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: Colors.grey[300],
-        body: Center(child: RotatedBox(quarterTurns: 1, child: MemberCard())),
-      ),
-    ),
-  );
-}
+import 'package:snt_app/Theme/theme.dart';
 
 class MemberCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return FlipCard(
+      direction: FlipDirection.VERTICAL, 
+      front: _buildFrontCard(),
+      back: _buildBackCard(),
+    );
+  }
+
+  Widget _buildFrontCard() {
+    
     return Container(
-      width: 370,
-      height: 230,
+      height: 320,
+      width: 550,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
-          BoxShadow(color: Colors.black26, blurRadius: 8, offset: Offset(2, 4)),
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.11),
+            blurRadius: 40.4,
+            offset: Offset(0, 0),
+            spreadRadius: 0,
+          ),
         ],
+
       ),
       child: Column(
         children: [
           // Main content area
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.only(right: 25, left: 25, top: 5, bottom: 25),
               child: Column(
                 children: [
                   // Header with logo, title and QR code
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Image.asset("lib/Assets/Images/logo.png", width: 50),
+                      Image.asset("lib/Assets/Images/logoclub-2.png", width: 50,),
                       Text(
                         "Member card",
                         style: TextStyle(
-                          fontFamily: 'Poppins',
+                          fontFamily: AppFonts.primaryFontFamily,
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
                           color: Colors.purple[800],
@@ -56,28 +61,22 @@ class MemberCard extends StatelessWidget {
                     ],
                   ),
 
-                  SizedBox(height: 12),
+                  SizedBox(height: 10),
 
                   // Member information
                   Expanded(
                     child: Row(
+                      spacing: 16,
                       children: [
                         // Profile Image Placeholder
                         Container(
-                          width: 80,
+                          width: 200,
                           height: double.infinity,
                           decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Icon(
-                            Icons.person,
-                            size: 40,
-                            color: Colors.grey[700],
+                            color: Color.fromRGBO(217, 217, 217, 1),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-
-                        SizedBox(width: 16),
 
                         // Info
                         Expanded(
@@ -105,11 +104,31 @@ class MemberCard extends StatelessWidget {
           // Purple footer bar
           Container(
             height: 24,
+            width: 550,
             decoration: BoxDecoration(
               color: Colors.purple[800],
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20),
+              ),
+              image: DecorationImage(
+                image: AssetImage("lib/Assets/Images/Slide16_9-5.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Padding(
+              padding: EdgeInsets.only(left: 25),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "ID NO: 1234567890",
+                  style: TextStyle(
+                    fontFamily: AppFonts.primaryFontFamily,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.White,
+                  ),
+                ),
               ),
             ),
           ),
@@ -120,32 +139,48 @@ class MemberCard extends StatelessWidget {
 
   Widget _buildInfoRow(String label, String value) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
-          width: 100, // Fixed width for labels
-          child: Text(
+         Text(
             label,
             style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 12,
+              fontFamily: AppFonts.primaryFontFamily,
+              fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: Colors.grey[600],
+              color: AppColors.Neutral400,
             ),
           ),
-        ),
-        SizedBox(width: 8),
-        Expanded(
-          child: Text(
+          Text(
             value,
             style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 12,
+              fontFamily: AppFonts.primaryFontFamily,
+              fontSize: 14,
               fontWeight: FontWeight.w400,
-              color: Colors.black87,
+              color: AppColors.Neutral300,
             ),
           ),
-        ),
       ],
+    );
+  }
+
+  Widget _buildBackCard() {
+    return Container(
+      height: 320,
+      width: 550,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        image: DecorationImage(
+          image: AssetImage("lib/Assets/Images/state=off.png"),
+          fit: BoxFit.cover,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.11),
+            blurRadius: 40.4,
+            offset: Offset(0, 0),
+          ),
+        ],
+      ),
     );
   }
 }
