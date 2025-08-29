@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:snt_app/Screens/Card/profile_card_screen.dart';
-
-import 'Screens/Profile/Profile_screen.dart';
-
-import 'package:snt_app/Screens/Home/department_members.dart';
-import 'package:snt_app/Screens/Home/home_screen.dart';
 import 'package:snt_app/Screens/Splash/splash_screen.dart';
-import 'package:snt_app/Screens/login/login_screen.dart';
 import 'package:snt_app/Theme/theme.dart';
 
 void main() {
@@ -29,8 +22,7 @@ class MainApp extends StatelessWidget {
       ),
       home: Scaffold(
 
-        // body: SplashScreen(),
-        body: ProfileCard(),
+        body: SplashScreen(),
       ),
 
     );
