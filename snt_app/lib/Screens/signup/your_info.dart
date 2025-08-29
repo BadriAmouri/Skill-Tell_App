@@ -121,7 +121,7 @@ class _YourInfoState extends State<YourInfo>{
                       ),
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 8),
                   Align(
                       alignment: Alignment.topLeft,
                       child: Column(
@@ -154,7 +154,245 @@ class _YourInfoState extends State<YourInfo>{
                         ],
                       ),
                     ),
-                  const SizedBox(height: 73),
+                  const SizedBox(height: 8),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Role",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w300,
+                            color: AppColors.Text400,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        InkWell(
+                          onTap: () => setState(() => isRoleOpen = !isRoleOpen),
+                          child: Container(
+                            width: double.infinity,
+                            height: 44,
+                            padding: const EdgeInsets.only(left: 27, right: 12),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: AppColors.Text300),
+                              borderRadius: BorderRadius.circular(22),
+                            ),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset('lib/Assets/Icons/member_.svg', width: 20, height: 20),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(
+                                    selectedRole,
+                                    style: const TextStyle(
+                                      color: AppColors.Text300,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                  ),
+                                ),
+                                AnimatedRotation(
+                                  turns: isRoleOpen ? 0.25 : 0.0,
+                                  duration: const Duration(milliseconds: 100),
+                                  child: SvgPicture.asset('lib/Assets/Icons/arrowDown_.svg'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        if (isRoleOpen)
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(22),
+                                bottomRight: Radius.circular(22),
+                              ),
+                              border: const Border(
+                                bottom: BorderSide(color: AppColors.Text300),
+                                left: BorderSide(color: AppColors.Text300),
+                                right: BorderSide(color: AppColors.Text300),
+                              ),
+                            ),
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                maxHeight: MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                padding: EdgeInsets.zero,
+                                itemCount: roles.length,
+                                itemBuilder: (context, index) {
+                                  final item = roles[index];
+                                  return MouseRegion(
+                                    onEnter: (_) => setState(() => hoveredIndex = index),
+                                    onExit: (_) => setState(() => hoveredIndex = -1),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          selectedRole = item;
+                                          isRoleOpen = false;
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.only(left: 57),
+                                        alignment: Alignment.centerLeft,
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                          color: hoveredIndex == index
+                                              ? Colors.grey.shade100
+                                              : Colors.transparent,
+                                          border: index != roles.length - 1
+                                              ? const Border(
+                                                  bottom: BorderSide(
+                                                    color: AppColors.Text300,
+                                                    width: 0.6,
+                                                  ),
+                                                )
+                                              : null,
+                                        ),
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w300,
+                                            color: AppColors.Text300,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Department",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w300,
+                            color: AppColors.Text400,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        InkWell(
+                          onTap: () => setState(() => isDepartmentOpen = !isDepartmentOpen),
+                          child: Container(
+                            width: double.infinity,
+                            height: 44,
+                            padding: const EdgeInsets.only(left: 27, right: 12),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: AppColors.Text300),
+                              borderRadius: BorderRadius.circular(22),
+                            ),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset('lib/Assets/Icons/department_.svg', width: 20, height: 20),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(
+                                    selectedDepartment,
+                                    style: const TextStyle(
+                                      color: AppColors.Text300,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                  ),
+                                ),
+                                AnimatedRotation(
+                                  turns: isDepartmentOpen ? 0.25 : 0.0,
+                                  duration: const Duration(milliseconds: 100),
+                                  child: SvgPicture.asset('lib/Assets/Icons/arrowDown_.svg'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        if (isDepartmentOpen)
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(22),
+                                bottomRight: Radius.circular(22),
+                              ),
+                              border: const Border(
+                                bottom: BorderSide(color: AppColors.Text300),
+                                left: BorderSide(color: AppColors.Text300),
+                                right: BorderSide(color: AppColors.Text300),
+                              ),
+                            ),
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                maxHeight: MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                padding: EdgeInsets.zero,
+                                itemCount: departments.length,
+                                itemBuilder: (context, index) {
+                                  final item = departments[index];
+                                  return MouseRegion(
+                                    onEnter: (_) => setState(() => hoveredIndex = index),
+                                    onExit: (_) => setState(() => hoveredIndex = -1),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          selectedDepartment = item;
+                                          isDepartmentOpen = false;
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.only(left: 57),
+                                        alignment: Alignment.centerLeft,
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                          color: hoveredIndex == index
+                                              ? Colors.grey.shade100
+                                              : Colors.transparent,
+                                          border: index != departments.length - 1
+                                              ? const Border(
+                                                  bottom: BorderSide(
+                                                    color: AppColors.Text300,
+                                                    width: 0.6,
+                                                  ),
+                                                )
+                                              : null,
+                                        ),
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w300,
+                                            color: AppColors.Text300,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
                   Align(
                       alignment: Alignment.topLeft,
                       child: Column(
@@ -187,7 +425,7 @@ class _YourInfoState extends State<YourInfo>{
                         ],
                       ),
                     ),
-                  const SizedBox(height: 90,),
+                  const SizedBox(height: 30,),
                   Button(
                       onTap: () {
                         setState(() {
@@ -207,286 +445,8 @@ class _YourInfoState extends State<YourInfo>{
                 ],
               ),
             ),
-            Positioned(
-              top:!_showUsernameError? 215 :225,
-              right: 29,
-              left: 29,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Role",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w300,
-                      color: AppColors.Text400,
-                    ),
-                  ),
-                  const SizedBox(height: 4,),
-                  InkWell(
-                    onTap: () => setState(() => isRoleOpen = !isRoleOpen),
-                    child: Container(
-                      width: 380,
-                      height: 44,
-                      padding: const EdgeInsets.only(
-                        left: 27,
-                        right: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border(
-                          bottom: BorderSide(
-                            color: AppColors.Text300,
-                            width: !isRoleOpen? 1 : 0.6,
-                          ),
-                          top: BorderSide(color: AppColors.Text300),
-                          left: BorderSide(color: AppColors.Text300),
-                          right: BorderSide(color: AppColors.Text300),
-                        ),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: !isRoleOpen? Radius.circular(22): Radius.circular(0),
-                          bottomRight: !isRoleOpen? Radius.circular(22): Radius.circular(0),
-                          topLeft: Radius.circular(22),
-                          topRight: Radius.circular(22),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset('lib/Assets/Icons/member_.svg', width: 20, height: 20,),
-                          const SizedBox(width: 10,),
-                          Expanded(
-                            child: Text(
-                              selectedRole,
-                              style: const TextStyle(
-                                color: AppColors.Text300,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
-                          ),
-                          Spacer(),
-                          AnimatedRotation(
-                            turns: isRoleOpen ? 0.25 : 0.0, 
-                            duration: const Duration(milliseconds: 100),
-                            child: SvgPicture.asset('lib/Assets/Icons/arrowDown_.svg'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  if (isRoleOpen)
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(22),
-                          bottomRight: Radius.circular(22),
-                        ),
-                        border: const Border(
-                          bottom: BorderSide(color: AppColors.Text300),
-                          left: BorderSide(color: AppColors.Text300),
-                          right: BorderSide(color: AppColors.Text300),
-                        ),
-                      ),
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxHeight: MediaQuery.of(context).size.height * 0.1, 
-                        ),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          itemCount: roles.length,
-                          itemBuilder: (context, index) {
-                            final item = roles[index];
-                            final isLast = index == roles.length - 1;
-
-                            return MouseRegion(
-                              onEnter: (_) => setState(() => hoveredIndex = index),
-                              onExit: (_) => setState(() => hoveredIndex = -1),
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    selectedRole = item;
-                                    isRoleOpen = false;
-                                  });
-                                },
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 30,
-                                  padding: const EdgeInsets.only(left: 57),
-                                  alignment: Alignment.centerLeft,
-                                  decoration: BoxDecoration(
-                                    color: hoveredIndex == index
-                                        ? Colors.grey.shade100
-                                        : Colors.transparent,
-                                    border: isLast
-                                        ? null
-                                        : const Border(
-                                            bottom: BorderSide(
-                                              color: AppColors.Text300,
-                                              width: 0.6,
-                                            ),
-                                          ),
-                                  ),
-                                  child: Text(
-                                    item,
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w300,
-                                      color: AppColors.Text300,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
             const SizedBox(height: 8),
-            Positioned(
-              top: !_showSkillsError ? 356 : 380,
-              right: 29,
-              left: 29,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Department",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w300,
-                      color: AppColors.Text400,
-                    ),
-                  ),
-                  const SizedBox(height: 4,),
-                  InkWell(
-                    onTap: () => setState(() => isDepartmentOpen = !isDepartmentOpen),
-                    child: Container(
-                      width: 380,
-                      height: 44,
-                      padding: const EdgeInsets.only(
-                        left: 27,
-                        right: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border(
-                          bottom: BorderSide(
-                            color: AppColors.Text300,
-                            width: !isDepartmentOpen? 1 : 0.6,
-                          ),
-                          top: BorderSide(color: AppColors.Text300),
-                          left: BorderSide(color: AppColors.Text300),
-                          right: BorderSide(color: AppColors.Text300),
-                        ),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: !isDepartmentOpen? Radius.circular(22): Radius.circular(0),
-                          bottomRight: !isDepartmentOpen? Radius.circular(22): Radius.circular(0),
-                          topLeft: Radius.circular(22),
-                          topRight: Radius.circular(22),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset('lib/Assets/Icons/department_.svg', width: 20, height: 20,),
-                          const SizedBox(width: 10,),
-                          Expanded(
-                            child: Text(
-                              selectedDepartment,
-                              style: const TextStyle(
-                                color: AppColors.Text300,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
-                          ),
-                          Spacer(),
-                          AnimatedRotation(
-                            turns: isDepartmentOpen ? 0.25 : 0.0, 
-                            duration: const Duration(milliseconds: 100),
-                            child: SvgPicture.asset('lib/Assets/Icons/arrowDown_.svg'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  if (isDepartmentOpen)
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(22),
-                          bottomRight: Radius.circular(22),
-                        ),
-                        border: const Border(
-                          bottom: BorderSide(color: AppColors.Text300),
-                          left: BorderSide(color: AppColors.Text300),
-                          right: BorderSide(color: AppColors.Text300),
-                        ),
-                      ),
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxHeight: MediaQuery.of(context).size.height * 0.1, 
-                        ),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          itemCount: departments.length,
-                          itemBuilder: (context, index) {
-                            final item = departments[index];
-                            final isLast = index == departments.length - 1;
-                            return MouseRegion(
-                              onEnter: (_) => setState(() => hoveredIndex = index),
-                              onExit: (_) => setState(() => hoveredIndex = -1),
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    selectedDepartment = item;
-                                    isDepartmentOpen = false;
-                                  });
-                                },
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 30,
-                                  padding: const EdgeInsets.only(left: 57),
-                                  alignment: Alignment.centerLeft,
-                                  decoration: BoxDecoration(
-                                    color: hoveredIndex == index
-                                        ? Colors.grey.shade100
-                                        : Colors.transparent,
-                                    border: isLast
-                                        ? null
-                                        : const Border(
-                                            bottom: BorderSide(
-                                              color: AppColors.Text300,
-                                              width: 0.6,
-                                            ),
-                                          ),
-                                  ),
-                                  child: Text(
-                                    item,
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w300,
-                                      color: AppColors.Text300,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
+            
             const SizedBox(height: 8),
           ], 
         ),
