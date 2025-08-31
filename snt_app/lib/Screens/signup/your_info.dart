@@ -70,7 +70,7 @@ class _YourInfoState extends State<YourInfo>{
       isLogin: false,
       child: Align(
         alignment: Alignment.topCenter,
-        child: Stack(
+        child: Column(
           children: [
             SingleChildScrollView(
               padding: const EdgeInsets.only(
@@ -121,39 +121,6 @@ class _YourInfoState extends State<YourInfo>{
                       ),
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Username",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w300,
-                              color: AppColors.Text400,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Input(
-                            prefixIcon: 'lib/Assets/Icons/profile_.svg', 
-                            placeholder: 'Username',
-                            controller: usernameController,
-                          ),
-                          if (_showUsernameError)
-                            Text(
-                              "This field is required",
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w300,
-                                color: AppColors.Error100,
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
                   const SizedBox(height: 8),
                   Align(
                     alignment: Alignment.topLeft,
@@ -399,7 +366,7 @@ class _YourInfoState extends State<YourInfo>{
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Skills and Interests",
+                            "Skills",
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               fontSize: 13,
@@ -410,7 +377,40 @@ class _YourInfoState extends State<YourInfo>{
                           const SizedBox(height: 4),
                           Input(
                             prefixIcon: 'lib/Assets/Icons/skills_.svg', 
-                            placeholder: 'e.g., Leadership, UX Design, Basketball, Reading',
+                            placeholder: 'eg, leadership, UX design',
+                            controller: usernameController,
+                          ),
+                          if (_showUsernameError)
+                            Text(
+                              "This field is required",
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w300,
+                                color: AppColors.Error100,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  const SizedBox(height: 8),
+                  Align(
+                      alignment: Alignment.topLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Interests",
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w300,
+                              color: AppColors.Text400,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Input(
+                            prefixIcon: 'lib/Assets/Icons/interests_.svg', 
+                            placeholder: 'e.g., Basketball, Reading',
                             controller: skillsController,
                           ),
                           if (_showSkillsError)
@@ -427,21 +427,21 @@ class _YourInfoState extends State<YourInfo>{
                     ),
                   const SizedBox(height: 30,),
                   Button(
-                      onTap: () {
-                        setState(() {
-                          _showUsernameError = usernameController.text.isEmpty;
-                          _showSkillsError = skillsController.text.isEmpty;
-                        });
+                    onTap: () {
+                      setState(() {
+                        _showUsernameError = usernameController.text.isEmpty;
+                        _showSkillsError = skillsController.text.isEmpty;
+                      });
               
-                        if (!_showUsernameError && !_showSkillsError) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (e) => HomeScreen()),
-                          );
-                        } 
-                      },
-                      buttonText: "Sign up"
-                    ),
+                      if (!_showUsernameError && !_showSkillsError) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (e) => HomeScreen()),
+                        );
+                      } 
+                    },
+                    buttonText: "Sign up"
+                  ),
                 ],
               ),
             ),

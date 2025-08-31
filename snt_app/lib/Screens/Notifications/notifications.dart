@@ -12,15 +12,13 @@ class NotificationsPage extends StatefulWidget {
 }
 
 class _NotificationsPageState extends State<NotificationsPage> {
-  // Added unique 'id' to each notification for stable keys
   List<Map<String, String>> notifications = List.generate(6, (index) {
     return {
       "id": "${index + 1}",
       "title": "Title of the event",
-      "description":
-          index == 2
-              ? "Lorem ipsum dolor sit amet consectetur Enim. This one has extra text to test expansion and truncation in the UI. More details can go here..."
-              : "Lorem ipsum dolor sit amet consectetur Enim.",
+      "description": index == 2
+          ? "Lorem ipsum dolor sit amet consectetur Enim. This one has extra text to test expansion and truncation in the UI. More details can go here..."
+          : "Lorem ipsum dolor sit amet consectetur Enim.",
       "time": "1 day ago",
     };
   });
@@ -33,13 +31,20 @@ class _NotificationsPageState extends State<NotificationsPage> {
       backgroundColor: AppColors.White,
       bottomNavigationBar: BottomNavBar(currentIndex: _selectedIndex),
       appBar: AppBar(
-        title: const Text('Notifications', style: TextStyles.TopNavBarTitle),
+        title: const Text(
+          'Notifications',
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: AppColors.Text400,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: AppColors.White,
         elevation: 0,
       ),
-      body:
-          notifications.isEmpty ? _buildEmptyState() : _buildNotificationList(),
+      body: notifications.isEmpty ? _buildEmptyState() : _buildNotificationList(),
     );
   }
 
@@ -56,15 +61,11 @@ class _NotificationsPageState extends State<NotificationsPage> {
                 fit: BoxFit.fitWidth,
                 width: MediaQuery.of(context).size.width,
               ),
-              // Semi-transparent dark overlay (optional for text readability)
               Container(
                 width: MediaQuery.of(context).size.width,
-                color: Colors.black.withValues(alpha: 0.3),
-                height: null, // lets container fill image height automatically
+                color: Colors.black.withAlpha(76), // ~0.3 opacity
               ),
-              // Text Column centered on top
               Positioned(
-                // You can adjust positioning here
                 bottom: 140,
                 left: 16,
                 right: 16,
@@ -78,7 +79,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         fontWeight: FontWeight.w500,
                         fontSize: 20,
                         color: AppColors.Neutral600,
-                        fontFamily: AppFonts.primaryFontFamily,
+                        fontFamily: 'Poppins',
                       ),
                     ),
                     SizedBox(height: 8),
@@ -89,7 +90,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         fontSize: 12,
                         color: AppColors.Neutral400,
                         height: 1.4,
-                        fontFamily: AppFonts.primaryFontFamily,
+                        fontFamily: 'Poppins',
                       ),
                     ),
                   ],
@@ -102,23 +103,21 @@ class _NotificationsPageState extends State<NotificationsPage> {
     );
   }
 
-  // In your State class
   Map<int, bool> expandedStates = {};
-  Map<int, bool> draggingStates = {}; // track dragging per card
+  Map<int, bool> draggingStates = {};
 
   Widget _buildNotificationList() {
     return ListView.separated(
       padding: const EdgeInsets.symmetric(vertical: 16),
       itemCount: notifications.length,
-      separatorBuilder:
-          (_, __) => const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            child: Divider(
-              color: AppColors.Neutral400,
-              height: 24,
-              thickness: 0.5,
-            ),
-          ),
+      separatorBuilder: (_, __) => const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24),
+        child: Divider(
+          color: AppColors.Neutral400,
+          height: 24,
+          thickness: 0.5,
+        ),
+      ),
       itemBuilder: (context, index) {
         final item = notifications[index];
         bool isExpanded = expandedStates[index] ?? false;
@@ -163,7 +162,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         style: TextStyle(
                           color: Color(0xFFECECEC),
                           fontWeight: FontWeight.bold,
-                          fontFamily: AppFonts.primaryFontFamily,
+                          fontFamily: 'Poppins',
                         ),
                       ),
                     ],
@@ -183,10 +182,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
                     topLeft: Radius.circular(12),
                     bottomLeft: Radius.circular(12),
                   ),
-                  color:
-                      draggingStates[index] ?? false
-                          ? AppColors.Main100
-                          : Colors.white,
+                  color: draggingStates[index] ?? false
+                      ? AppColors.Main100
+                      : Colors.white,
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,7 +208,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                               fontWeight: FontWeight.w600,
                               fontSize: 14,
                               color: AppColors.Text500,
-                              fontFamily: AppFonts.primaryFontFamily,
+                              fontFamily: 'Poppins',
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -228,13 +226,12 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                     style: const TextStyle(
                                       fontSize: 12,
                                       color: AppColors.Text400,
-                                      fontFamily: AppFonts.primaryFontFamily,
+                                      fontFamily: 'Poppins',
                                     ),
                                     maxLines: isExpanded ? null : 2,
-                                    overflow:
-                                        isExpanded
-                                            ? TextOverflow.visible
-                                            : TextOverflow.ellipsis,
+                                    overflow: isExpanded
+                                        ? TextOverflow.visible
+                                        : TextOverflow.ellipsis,
                                   ),
                                   if (item["description"]!.length > 60)
                                     GestureDetector(
@@ -252,10 +249,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                                 : "Show more",
                                             style: TextStyle(
                                               fontSize: 12,
-                                              color:
-                                                  AppColors
-                                                      .Main600, //Colors.blue.shade700,
+                                              color: AppColors.Main600,
                                               fontWeight: FontWeight.w500,
+                                              fontFamily: 'Poppins',
                                             ),
                                           ),
                                           Icon(
@@ -263,9 +259,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                                 ? Icons.arrow_drop_up
                                                 : Icons.arrow_drop_down,
                                             size: 18,
-                                            color:
-                                                AppColors
-                                                    .Main600, //Colors.blue.shade700,,
+                                            color: AppColors.Main600,
                                           ),
                                         ],
                                       ),
@@ -281,7 +275,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                               fontSize: 12,
                               color: AppColors.Main400,
                               fontWeight: FontWeight.w400,
-                              fontFamily: AppFonts.primaryFontFamily,
+                              fontFamily: 'Poppins',
                             ),
                           ),
                         ],

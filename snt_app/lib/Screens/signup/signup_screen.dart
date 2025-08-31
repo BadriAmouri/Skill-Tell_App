@@ -14,13 +14,13 @@ class SignupScreen extends StatefulWidget{
 class _SignupScreenState extends State<SignupScreen>{
   bool agree = false;
   bool _showEmailError = false;
-  bool _showCodeError = false;
+  bool _showUsernameError = false;
   final TextEditingController myEmailController = TextEditingController();
-  final TextEditingController myCodeController = TextEditingController();
+  final TextEditingController myUsernameController = TextEditingController();
   @override
   void dispose(){
     myEmailController.dispose();
-    myCodeController.dispose();
+    myUsernameController.dispose();
     super.dispose();
   } 
 
@@ -113,7 +113,7 @@ class _SignupScreenState extends State<SignupScreen>{
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Code",
+                      "Username",
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontSize: 13,
@@ -124,13 +124,13 @@ class _SignupScreenState extends State<SignupScreen>{
                     const SizedBox(height: 6),
                     Input(
                       prefixIcon: 'lib/Assets/Icons/profile_.svg', 
-                      placeholder: 'Code',
-                      controller: myCodeController,
+                      placeholder: 'Username',
+                      controller: myUsernameController,
                     ),
                     const SizedBox(height: 4),
-                    if (_showCodeError)
+                    if (_showUsernameError)
                       Text(
-                        "Please enter a correct code",
+                        "Please enter your user name",
                         style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w300,
@@ -183,16 +183,16 @@ class _SignupScreenState extends State<SignupScreen>{
                 onTap: () {
                   setState(() {
                     _showEmailError = myEmailController.text.isEmpty;
-                    _showCodeError = myCodeController.text.isEmpty;
+                    _showUsernameError = myUsernameController.text.isEmpty;
                   });
         
-                  if (!_showEmailError && !_showCodeError && agree) {
+                  if (!_showEmailError && !_showUsernameError && agree) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => CreatePassword()),
                     );
                   }
-                  if(!agree && !_showEmailError && !_showCodeError){
+                  if(!agree && !_showEmailError && !_showUsernameError){
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Padding(

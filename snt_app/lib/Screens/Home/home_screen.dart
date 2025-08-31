@@ -24,7 +24,12 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text(
           'Home',
-          style: TextStyles.TopNavBarTitle,
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: AppColors.Text400,
+          ),
         ),
         centerTitle: true,
         backgroundColor: AppColors.White,
@@ -33,35 +38,29 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavBar(currentIndex: _selectedIndex,),
       body: SafeArea(
         child: SingleChildScrollView(
-          // gotta fix the padding
           child: Column(
-            // fix the spacing
             children: [
 
-              // upcoming events
               Padding(
                 padding: EdgeInsets.only(left: 24, bottom: 2, top: 32),
-                child: UpcomingEventsSection(title: "Upcoming Events")
+                child: UpcomingEventsSection(title: "Upcoming Events"),
               ),
 
-              // prev events
               Padding(
                 padding: EdgeInsets.only(top: 10),
-                child: PreviousEventsSection(title: "Previous Events")
+                child: PreviousEventsSection(title: "Previous Events"),
               ),
 
-              // depatments
               Padding(
                 padding: EdgeInsets.only(top: 32),
-                child: DepartmentsSection(title: "Our Departments")
+                child: DepartmentsSection(title: "Our Departments"),
               ),
 
-              SizedBox(height: 32,)
+              SizedBox(height: 32),
             ],
           ),
         ),
-      )
+      ),
     );
   }
 }
-

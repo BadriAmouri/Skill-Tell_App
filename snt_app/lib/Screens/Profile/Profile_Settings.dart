@@ -4,6 +4,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:snt_app/Widgets/General/bottom_navbar.dart';
+import 'package:snt_app/Theme/theme.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:snt_app/Widgets/General/input.dart';
+import 'package:snt_app/Widgets/General/button.dart';
 
 class SettingsResult {
   final String email;
@@ -24,10 +28,9 @@ class SettingsResult {
 // profile_settings.dart
 
 // Colors
-const _kPurple = Color(0xFF7A5AF8);
+
 const _kMuted = Color(0xFFB9C1D0);
 const _kInputBorder = Color(0xFFD5DCE6);
-const _kCardShadow = Color(0x1A000000);
 
 class SettingsPage extends StatefulWidget {
   final String initialEmail;
@@ -111,13 +114,18 @@ class _SettingsPageState extends State<SettingsPage> {
         backgroundColor: Colors.white,
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: _kMuted),
+          icon: SvgPicture.asset(
+          'lib/Assets/Icons/arrowLeft_.svg', 
+          width: 24,
+          height: 24,
+          color: AppColors.Text400, 
+        ),
           onPressed: _finish,
         ),
         title: const Text('Settings',
-            style: TextStyle(color: _kMuted, fontWeight: FontWeight.w500, fontFamily: 'Poppins', fontSize: 16)),
+            style: TextStyle(color: AppColors.Text400, fontWeight: FontWeight.w500, fontFamily: 'Poppins', fontSize: 16)),
         actions: [
-          TextButton(onPressed: _finish, child: const Text('Save', style: TextStyle(color: _kPurple)))
+          TextButton(onPressed: _finish, child: const Text('Save', style: TextStyle(color: AppColors.Main400, fontFamily: 'Poppins')))
         ],
       ),
       body: SingleChildScrollView(
@@ -147,10 +155,15 @@ class _SettingsPageState extends State<SettingsPage> {
                     child: Container(
                       padding: const EdgeInsets.all(6),
                       decoration: const BoxDecoration(
-                        color: _kPurple,
+                        color: AppColors.Main400,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.camera_alt, color: Colors.white, size: 18),
+                      child: SvgPicture.asset(
+                      'lib/Assets/Icons/camera_.svg',
+                      height: 20,
+                      width: 20,
+                      color: Colors.white,
+                    ),
                     ),
                   ),
                 ),
@@ -169,11 +182,19 @@ class _SettingsPageState extends State<SettingsPage> {
               children: [
                 const _FieldLabel('Email'),
                 const SizedBox(height: 8),
-                _PillTextField(controller: _emailCtrl, prefix: Icons.email_outlined, hint: 'bessie.cooper@gmail.com'),
+                Input(
+                  prefixIcon: 'lib/Assets/Icons/email_.svg', 
+                  placeholder: 'Enter your email',
+                  controller: _emailCtrl,
+                ),
                 const SizedBox(height: 16),
                 const _FieldLabel('Username'),
                 const SizedBox(height: 8),
-                _PillTextField(controller: _usernameCtrl, prefix: Icons.person_outline, hint: 'Bessie Cooper'),
+                Input(
+                  prefixIcon: 'lib/Assets/Icons/profile_.svg', 
+                  placeholder: 'Enter your username',
+                  controller: _usernameCtrl,
+                ),
                 const SizedBox(height: 16),
 
                 // ——— Skills (multi-select) ———
@@ -218,23 +239,17 @@ class _SettingsPageState extends State<SettingsPage> {
 
           _Card(
             child: Column(children: [
-              _SwitchRow(icon: Icons.notifications_none_rounded, title: 'Enable notifications', value: notificationsEnabled, onChanged: (v) => setState(() => notificationsEnabled = v)),
+              _SwitchRow(iconPath: 'lib/Assets/Icons/Bell_.svg', title: 'Enable notifications', value: notificationsEnabled, onChanged: (v) => setState(() => notificationsEnabled = v)),
               const Divider(height: 1),
-              _SwitchRow(icon: Icons.dark_mode_outlined, title: 'dark mode', value: darkMode, onChanged: (v) => setState(() => darkMode = v)),
+              _SwitchRow(iconPath: 'lib/Assets/Icons/dark_mode_.svg', title: 'dark mode', value: darkMode, onChanged: (v) => setState(() => darkMode = v)),
               const Divider(height: 1),
-              _SwitchRow(icon: Icons.data_saver_off_outlined, title: 'data saver', value: dataSaver, onChanged: (v) => setState(() => dataSaver = v)),
+              _SwitchRow(iconPath: 'lib/Assets/Icons/data_.svg', title: 'data saver', value: dataSaver, onChanged: (v) => setState(() => dataSaver = v)),
               const SizedBox(height: 12),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _kPurple,
-                    elevation: 0,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
-                  ),
-                  child: const Text('Log out', style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Poppins', fontWeight: FontWeight.w500)),
+                child: Button(
+                  onTap: () {},
+                  buttonText: "Logout"
                 ),
               ),
             ]),
@@ -268,20 +283,13 @@ class _SettingsPageState extends State<SettingsPage> {
                 .toList()
               ..sort();
             return Column(mainAxisSize: MainAxisSize.min, children: [
-              Container(width: 44, height: 4, margin: const EdgeInsets.only(bottom: 10), decoration: BoxDecoration(color: _kInputBorder, borderRadius: BorderRadius.circular(2))),
-              Text(title, style: const TextStyle(fontFamily:'Poppins', fontSize:16, fontWeight: FontWeight.w600)),
+              Container(width: 44, height: 4, margin: const EdgeInsets.only(bottom: 10), decoration: BoxDecoration(color: AppColors.Text300, borderRadius: BorderRadius.circular(2))),
+              Text(title, style: const TextStyle(color:AppColors.Text400, fontFamily:'Poppins', fontSize:16, fontWeight: FontWeight.w600)),
               const SizedBox(height: 10),
-              TextField(
+              Input(
+                prefixIcon: 'lib/Assets/Icons/Search.svg', 
+                placeholder: 'Search or add new',
                 controller: controller,
-                onChanged: (_) => setSheet(() {}),
-                decoration: InputDecoration(
-                  hintText: 'Search or add new',
-                  prefixIcon: const Icon(Icons.search),
-                  isDense: true,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color:_kInputBorder)),
-                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color:_kInputBorder)),
-                ),
               ),
               const SizedBox(height: 10),
               Flexible(
@@ -293,8 +301,8 @@ class _SettingsPageState extends State<SettingsPage> {
                         dense: true,
                         value: selected.contains(o),
                         onChanged: (v){ setSheet((){ v==true ? selected.add(o) : selected.remove(o);}); },
-                        title: Text(o, style: const TextStyle(fontFamily:'Poppins')),
-                        activeColor: _kPurple,
+                        title: Text(o, style: const TextStyle(fontFamily:'Poppins', color: AppColors.Text400)),
+                        activeColor: AppColors.Main400,
                         controlAffinity: ListTileControlAffinity.leading,
                       ),
                   ],
@@ -305,8 +313,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 Expanded(
                   child: OutlinedButton.icon(
                     icon: const Icon(Icons.add),
-                    label: const Text('Add as new'),
-                    style: OutlinedButton.styleFrom(foregroundColor: _kPurple, side: const BorderSide(color: _kPurple)),
+                    label: const Text('Add as new', style: TextStyle(fontFamily:'Poppins', color: AppColors.Main400)),
+                    style: OutlinedButton.styleFrom(foregroundColor: AppColors.Main400, side: const BorderSide(color: AppColors.Main400)),
                     onPressed: () {
                       final t = controller.text.trim();
                       if (t.isEmpty) return;
@@ -319,9 +327,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: _kPurple),
+                    style: ElevatedButton.styleFrom(backgroundColor: AppColors.Main400),
                     onPressed: () { onDone(selected.toList()..sort()); Navigator.pop(context); },
-                    child: const Text('Done'),
+                    child: const Text('Done', style: TextStyle(fontFamily:'Poppins', color: Colors.white)),
                   ),
                 ),
               ]),
@@ -336,25 +344,32 @@ class _SettingsPageState extends State<SettingsPage> {
 // ——— helpers used above (unchanged from earlier look) ———
 class _SectionLabel extends StatelessWidget {
   final String text; const _SectionLabel(this.text);
-  @override Widget build(BuildContext context) => Text(text, style: const TextStyle(color:_kMuted,fontSize:16,fontWeight:FontWeight.w500,fontFamily:'Poppins'));
+  @override Widget build(BuildContext context) => Text(text, style: const TextStyle(color: AppColors.Text400,fontSize:16,fontWeight:FontWeight.w500,fontFamily:'Poppins'));
 }
 class _Card extends StatelessWidget {
   final Widget child; const _Card({required this.child});
   @override Widget build(BuildContext context) => Container(
     width: double.infinity, padding: const EdgeInsets.all(16),
     decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16),
-      border: Border.all(color:_kInputBorder), boxShadow: const [BoxShadow(color:_kCardShadow, blurRadius:6, offset: Offset(0,3))]),
+      border: Border.all(color:_kInputBorder), 
+      boxShadow: const [
+        BoxShadow(
+          color:Color.fromRGBO(0, 0, 0, 0.08), 
+          blurRadius:4, 
+          offset: Offset(2, 2)
+        )
+      ]),
     child: child);
 }
 class _FieldLabel extends StatelessWidget {
   final String text; const _FieldLabel(this.text);
-  @override Widget build(BuildContext context)=> Text(text, style: const TextStyle(color:_kMuted,fontSize:12.5,fontWeight:FontWeight.w500,fontFamily:'Poppins'));
+  @override Widget build(BuildContext context)=> Text(text, style: const TextStyle(color: AppColors.Text400,fontSize:13,fontWeight:FontWeight.w500,fontFamily:'Poppins'));
 }
 class _PillTextField extends StatelessWidget {
   final TextEditingController controller; final IconData prefix; final String hint;
   const _PillTextField({required this.controller,required this.prefix,required this.hint});
   @override Widget build(BuildContext context)=> TextField(
-    controller: controller, cursorColor:_kPurple,
+    controller: controller, cursorColor:AppColors.Main400,
     style: const TextStyle(color:_kMuted,fontFamily:'Poppins',fontSize:13),
     decoration: InputDecoration(
       isDense: true, contentPadding: const EdgeInsets.symmetric(horizontal:16,vertical:14),
@@ -367,38 +382,38 @@ class _PillTextField extends StatelessWidget {
 }
 class _ChipsEditor extends StatelessWidget {
   final List<String> items; final VoidCallback onAddTap; final ValueChanged<String> onDelete;
-  const _ChipsEditor({required this.items,required this.onAddTap,required this.onDelete});
+  const _ChipsEditor({required this.items, required this.onAddTap, required this.onDelete});
   @override Widget build(BuildContext context) => Wrap(
     spacing: 8, runSpacing: 8,
     children: [
       for (final s in items)
-        Chip(label: Text(s, style: const TextStyle(fontFamily:'Poppins',fontSize:12)),
+        Chip(label: Text(s, style: const TextStyle(color: AppColors.Text400,fontFamily:'Poppins',fontSize:12)),
           onDeleted: ()=>onDelete(s),
-          deleteIconColor: Colors.grey.shade600,
+          deleteIconColor: AppColors.Text400,
           backgroundColor: Colors.white,
           shape: StadiumBorder(side: BorderSide(color:_kInputBorder))),
-      InputChip(label: const Text('Add'), avatar: const Icon(Icons.add, size:18),
+      InputChip(label: const Text('Add', style: TextStyle(color: AppColors.Text400,fontFamily:'Poppins',fontSize:13)), avatar: const Icon(Icons.add, size:18, color: AppColors.Text400),
         onPressed: onAddTap,
         shape: StadiumBorder(side: BorderSide(color:_kInputBorder))),
     ],
   );
 }
 class _SwitchRow extends StatelessWidget {
-  final IconData icon; final String title; final bool value; final ValueChanged<bool> onChanged;
-  const _SwitchRow({required this.icon,required this.title,required this.value,required this.onChanged});
+  final String iconPath; final String title; final bool value; final ValueChanged<bool> onChanged;
+  const _SwitchRow({required this.iconPath,required this.title,required this.value,required this.onChanged});
   @override Widget build(BuildContext context)=> Padding(
     padding: const EdgeInsets.symmetric(vertical:12),
     child: Row(children:[
-      Container(width:36,height:36, decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), border: Border.all(color:_kPurple)),
-        alignment: Alignment.center, child: Icon(icon,color:_kPurple,size:20)),
+      Container(width:36,height:36,
+        alignment: Alignment.center, child: SvgPicture.asset(iconPath, height: 24, width: 24, color: AppColors.Main400,)),
       const SizedBox(width:12),
-      Expanded(child: Text(title, style: const TextStyle(fontFamily:'Poppins',fontSize:14,color: Colors.black87))),
+      Expanded(child: Text(title, style: const TextStyle(fontFamily:'Poppins',fontSize:14,color: AppColors.Text400))),
       Transform.scale(scale: .95, child: Switch.adaptive(
         value: value, onChanged: onChanged,
-        activeColor: Colors.white, activeTrackColor:_kPurple,
+        activeColor: AppColors.Main400, activeTrackColor:AppColors.Main300,
         trackOutlineColor: WidgetStateProperty.resolveWith((_)=> Colors.transparent),
-        thumbColor: WidgetStateProperty.resolveWith((s)=> s.contains(WidgetState.selected) ? Colors.white : const Color(0xFFDDE3EA)),
-        inactiveTrackColor: const Color(0xFFE8ECF2),
+        thumbColor: WidgetStateProperty.resolveWith((s)=> s.contains(WidgetState.selected) ? AppColors.Main400 : Colors.white),
+        inactiveTrackColor: AppColors.Text300,
       )),
     ]),
   );
