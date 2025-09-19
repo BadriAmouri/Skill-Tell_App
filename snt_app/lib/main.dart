@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snt_app/Screens/main_layout.dart';
+import 'package:snt_app/Screens/Splash/splash_screen.dart';
 import 'package:snt_app/Theme/theme.dart';
 
 void main() {
@@ -11,15 +12,20 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Skill & Tell App',
       theme: ThemeData(
-        fontFamily: 'Poppins', // Set default font
-        scaffoldBackgroundColor: Colors.white,
-        primaryColor: AppColors.Main600,
+        fontFamily: AppFonts.primaryFontFamily,
+        textTheme: ThemeData.light().textTheme.apply(
+          fontFamily: AppFonts.primaryFontFamily,
+        ),
       ),
-      home: const MainLayout(),
+      home: Scaffold(
+
+        body: SplashScreen(),
+      ),
+
     );
   }
 }
