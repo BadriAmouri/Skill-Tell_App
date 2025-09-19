@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:snt_app/Screens/main_layout.dart';
 import 'package:snt_app/Screens/Splash/splash_screen.dart';
 import 'package:snt_app/Theme/theme.dart';
 
