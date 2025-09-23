@@ -4,6 +4,7 @@ import 'package:snt_app/Widgets/General/bottom_navbar.dart';
 import 'package:snt_app/Widgets/General/input.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:snt_app/Widgets/HomePage/Departments/DepartmentMember/department_members_list.dart';
+// import 'package:snt_app/Widgets/HomePage/Departments/DepartmentMember/department_members_list.dart';
 
 class DepartmentMembers extends StatelessWidget {
   final int _selectedIndex = -1;

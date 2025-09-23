@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:snt_app/Models/event_model.dart';
+import 'package:intl/intl.dart';
+import 'package:snt_app/models/event_model.dart';
 import 'package:snt_app/Theme/text_styles.dart';
 import 'package:snt_app/Theme/theme.dart';
 
@@ -9,9 +10,13 @@ class UpcomingEventCard extends StatelessWidget {
   final EventModel event;
   const UpcomingEventCard({super.key, required this.event});
   
-  // final double cardWidth = MediaQuery.of(context).size.width * 0.7;
+
   final double cardWidth = 284;
   final double cardHeight = 359;
+
+    String formatEventDate(DateTime date) {
+    return DateFormat('yyyy-MM-dd').format(date.toLocal());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +132,7 @@ class UpcomingEventCard extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      event.date,
+                      formatEventDate(event.date),
                       style: TextStyles.DateAndLocation,
                       overflow: TextOverflow.ellipsis,
                     ),

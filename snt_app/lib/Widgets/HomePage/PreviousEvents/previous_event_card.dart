@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:snt_app/Models/event_model.dart';
+import 'package:snt_app/models/event_model.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:intl/intl.dart';
 
@@ -17,8 +17,8 @@ class PreviousEventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    String month = DateFormat.MMMM().format(DateTime.parse(event.date));
-    String day = DateFormat.d().format(DateTime.parse(event.date));
+    String month = DateFormat.MMMM().format(event.date);
+    String day = DateFormat.d().format(event.date);
 
     return Container(
       width: cardWidth,
@@ -31,12 +31,19 @@ class PreviousEventCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
-            child: Image.asset(
-              "lib/Assets/Images/event_bg.jpg", // fallback asset
-              fit: BoxFit.cover,
-              height: double.infinity,
-              width: double.infinity,
-            ),
+            child: event.imageUrl != null?
+              Image.network(
+                event.imageUrl!, // fallback asset
+                fit: BoxFit.cover,
+                height: double.infinity,
+                width: double.infinity,
+              )
+              :Image.asset(
+                "lib/Assets/Images/event_bg.jpg",
+                fit: BoxFit.cover,
+                height: double.infinity,
+                width: double.infinity,
+              ),
           ),
 
           // Dark gradient overlay

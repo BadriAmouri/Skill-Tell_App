@@ -1,32 +1,146 @@
-import 'dart:convert';
-import 'package:flutter/services.dart';
 import 'package:snt_app/Models/user_model.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserService {
-  Future<List<UserModel>> fetchUsers() async {
-    await Future.delayed(const Duration(seconds: 2));
+  final supabase = Supabase.instance.client;
 
-    final String response = await rootBundle.loadString('lib/Assets/Data/users.json');
-    final List<dynamic> data = json.decode(response);
-    return data.map((e) => UserModel.fromJson(e)).toList();
+  Future<UserModel?> getCurrentUser() async {
+    final currentUser = supabase.auth.currentUser;
+
+    if (currentUser == null) {
+      return null; // no user is logged in
+    }
+
+    final response = await supabase
+        .from('users')
+        .select()
+        .eq('user_id', currentUser.id)
+        .single();
+
+    // now email is already inside response
+    final userModel = UserModel.fromJson(response, response['email'] ?? '');
+    return userModel;
+}
+
+
+  // ----------------- USER UPDATES -----------------
+
+  Future<void> updateUsername(String username) async {
+    final user = supabase.auth.currentUser;
+    if (user == null) return;
+
+    await supabase.from('users').update({
+      'username': username,
+    }).eq('user_id', user.id);
   }
 
+  Future<void> addSkill(String skill) async {
+    final user = await getCurrentUser();
+    if (user == null) return;
 
-  Future<List<UserModel>> fetchUsersByDepartment(String department_name) async {
-    await Future.delayed(const Duration(seconds: 2));
+    final updatedSkills = [...user.skills, skill];
+    await supabase.from('users').update({
+      'skills': updatedSkills,
+    }).eq('user_id', user.userId);
+  }
 
-    final String response = await rootBundle.loadString('lib/Assets/Data/users.json');
-    final List<dynamic> data = json.decode(response);
+  Future<void> removeSkill(String skill) async {
+    final user = await getCurrentUser();
+    if (user == null) return;
 
-    // Convert JSON to List<UserModel>
-    List<UserModel> allUsers = data.map((e) => UserModel.fromJson(e)).toList();
+    final updatedSkills = user.skills.where((s) => s != skill).toList();
+    await supabase.from('users').update({
+      'skills': updatedSkills,
+    }).eq('user_id', user.userId);
+  }
 
-    // Filter by department
-    List<UserModel> filteredUsers = allUsers
-        .where((user) => user.department == department_name)
-        .toList();
+  Future<void> replaceSkills(List<String> newSkills) async {
+    final user = supabase.auth.currentUser;
+    if (user == null) return;
 
-    return filteredUsers;
+    await supabase.from('users').update({
+      'skills': newSkills,
+    }).eq('user_id', user.id);
+  }
+
+  Future<void> addInterest(String interest) async {
+    final user = await getCurrentUser();
+    if (user == null) return;
+
+    final updatedInterests = [...user.interests, interest];
+    await supabase.from('users').update({
+      'interests': updatedInterests,
+    }).eq('user_id', user.userId);
+  }
+
+  Future<void> removeInterest(String interest) async {
+    final user = await getCurrentUser();
+    if (user == null) return;
+
+    final updatedInterests =
+        user.interests.where((i) => i != interest).toList();
+    await supabase.from('users').update({
+      'interests': updatedInterests,
+    }).eq('user_id', user.userId);
+  }
+
+  Future<void> replaceInterests(List<String> newInterests) async {
+    final user = supabase.auth.currentUser;
+    if (user == null) return;
+
+    await supabase.from('users').update({
+      'interests': newInterests,
+    }).eq('user_id', user.id);
+  }
+
+  Future<void> updateRole(String role) async {
+    final user = supabase.auth.currentUser;
+    if (user == null) return;
+
+    await supabase.from('users').update({
+      'role': role,
+    }).eq('user_id', user.id);
+  }
+
+  Future<void> updateDateOfBirth(String dateOfBirth) async {
+    final user = supabase.auth.currentUser;
+    if (user == null) return;
+
+    await supabase.from('users').update({
+      'date_of_birth': dateOfBirth,
+    }).eq('user_id', user.id);
+  }
+
+  Future<void> updatePhoneNumber(String? phoneNumber) async {
+    final user = supabase.auth.currentUser;
+    if (user == null) return;
+
+    await supabase.from('users').update({
+      'phone_number': phoneNumber,
+    }).eq('user_id', user.id);
+  }
+
+  // ----------------- DEPARTMENT MEMBERS -----------------
+
+  Future<void> addToDepartment(String departmentId) async {
+    final user = supabase.auth.currentUser;
+    if (user == null) return;
+
+    await supabase.from('department_members').insert({
+      'user_id': user.id,
+      'department_name': departmentId,
+    });
+  }
+
+  Future<void> removeFromDepartment(String departmentId) async {
+    final user = supabase.auth.currentUser;
+    if (user == null) return;
+
+    await supabase
+        .from('department_members')
+        .delete()
+        .eq('user_id', user.id)
+        .eq('department_name', departmentId);
   }
 
 }

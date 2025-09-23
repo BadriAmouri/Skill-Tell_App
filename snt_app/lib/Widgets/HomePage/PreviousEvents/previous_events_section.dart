@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:snt_app/Models/event_model.dart';
+import 'package:snt_app/models/event_model.dart';
 import 'package:snt_app/Services/event_service.dart';
 import 'package:snt_app/Theme/text_styles.dart';
 import 'package:snt_app/Widgets/HomePage/PreviousEvents/previous_events_scrolling_view.dart';
@@ -16,9 +16,7 @@ class PreviousEventsSection extends StatelessWidget {
   });
 
   Future<List<EventModel>> fetchEvents() async {
-    final response = await eventService.fetchEvents();
-
-    return response;
+    return eventService.fetchPrevious();
   }
 
   @override

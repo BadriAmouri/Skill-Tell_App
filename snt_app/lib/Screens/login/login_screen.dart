@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:snt_app/Screens/Home/home_screen.dart';
 import 'package:snt_app/Screens/login/forgot_password_screen.dart';
+import 'package:snt_app/Services/auth_service.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:snt_app/Widgets/General/button.dart';
 import 'package:snt_app/Widgets/General/input.dart';
+import 'package:snt_app/Widgets/General/loading.dart';
 import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
+import 'package:snt_app/utils/regex_functions.dart';
 
 class LoginScreen extends StatefulWidget{
   const LoginScreen({super.key});
@@ -20,6 +23,9 @@ class _LoginScreenState extends State<LoginScreen>{
   bool _showPasswordError = false;
   final TextEditingController myEmailController = TextEditingController();
   final TextEditingController myPasswordController = TextEditingController();
+
+  final auth_service = AuthService();
+
   @override
   void dispose(){
     myEmailController.dispose();
@@ -34,7 +40,6 @@ class _LoginScreenState extends State<LoginScreen>{
         alignment: Alignment.topCenter,
         child: Padding(
           padding: const EdgeInsets.only(
-            top: 10,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -54,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen>{
                   right: 45,
                 ),
                 child: Text(
-                  "Lorem ipsum dolor sit amet consectetur. Tellus leo vitae aliquet vel tortor. Interdum tempus Interdum tempus",
+                  "Glad to see you again dearest skillnteller! Please enter your log in information.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
@@ -75,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen>{
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Email/Username",
+                        "Email",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: 13,
@@ -86,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen>{
                       const SizedBox(height: 6),
                       Input(
                         prefixIcon: 'lib/Assets/Icons/profile_.svg', 
-                        placeholder: 'Email/Username',
+                        placeholder: 'Email',
                         controller: myEmailController,
                       ),
                       const SizedBox(height: 4),
@@ -219,21 +224,10 @@ class _LoginScreenState extends State<LoginScreen>{
                 padding: const EdgeInsets.only(
                   left: 29,
                   right: 29,
+                  bottom: 30
                 ),
                 child: Button(
-                  onTap: () {
-                    setState(() {
-                      _showEmailError = myEmailController.text.isEmpty;
-                      _showPasswordError = myPasswordController.text.length < 8;
-                    });
-          
-                    if (!_showEmailError && !_showPasswordError) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (e) => HomeScreen()),
-                      );
-                    }
-                  },
+                  onTap: _login,
                   buttonText: 'Login',
                 ),
               ),
@@ -243,5 +237,46 @@ class _LoginScreenState extends State<LoginScreen>{
       ),
     );
   }
+
+  void _login() async {
+  setState(() {
+    _showEmailError = myEmailController.text.isEmpty || !isValidEmail(myEmailController.text.trim());
+    _showPasswordError = myPasswordController.text.length < 8;
+  });
+
+  if (!_showEmailError && !_showPasswordError) {
+    showLoadingDialog(context);
+
+    try {
+      final response = await auth_service.signInWithEmailPassword(
+        myEmailController.text.trim(),
+        myPasswordController.text.trim(),
+      );
+
+      hideLoadingDialog(context);
+
+      if (response.user != null) {
+        // Success → Go to home
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => HomeScreen()),
+          (Route<dynamic> route) => false,
+        );
+      } else {
+        //  Failed → Show error
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Invalid email or password")),
+        );
+      }
+    } catch (e) {
+      hideLoadingDialog(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Login error: Please verify your info..")),
+      );
+    }
+  }
+}
+
+
 }
   

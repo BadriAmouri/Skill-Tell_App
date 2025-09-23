@@ -9,7 +9,7 @@ class Input extends StatelessWidget {
   final bool obscureText;
   final TextEditingController? controller;
   final double height;
-  final String? initialValue;
+  final TextInputType textInputType;
 
   const Input({
     super.key,
@@ -19,7 +19,7 @@ class Input extends StatelessWidget {
     this.obscureText = false,
     this.controller,
     this.height = 44,
-    this.initialValue, 
+    this.textInputType = TextInputType.text
   });
 
   @override
@@ -27,6 +27,7 @@ class Input extends StatelessWidget {
     return SizedBox(
       height: height,
       child: TextField(
+        keyboardType: textInputType,
         controller: controller,
         obscureText: obscureText,
         style: const TextStyle(
@@ -43,7 +44,7 @@ class Input extends StatelessWidget {
               prefixIcon,
               width: 24,
               height: 24,
-              color: AppColors.Text300,
+              color: AppColors.Text400,
             )
           ),
           suffixIcon: suffixIcon,

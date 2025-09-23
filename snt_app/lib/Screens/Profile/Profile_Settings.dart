@@ -1,5 +1,3 @@
-// profile_settings.dart (top of file, outside widgets)
-import 'dart:typed_data';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +27,7 @@ class SettingsResult {
 
 // Colors
 
-const _kMuted = Color(0xFFB9C1D0);
+// const _kMuted = Color(0xFFB9C1D0);
 const _kInputBorder = Color(0xFFD5DCE6);
 
 class SettingsPage extends StatefulWidget {
@@ -365,21 +363,21 @@ class _FieldLabel extends StatelessWidget {
   final String text; const _FieldLabel(this.text);
   @override Widget build(BuildContext context)=> Text(text, style: const TextStyle(color: AppColors.Text400,fontSize:13,fontWeight:FontWeight.w500,fontFamily:'Poppins'));
 }
-class _PillTextField extends StatelessWidget {
-  final TextEditingController controller; final IconData prefix; final String hint;
-  const _PillTextField({required this.controller,required this.prefix,required this.hint});
-  @override Widget build(BuildContext context)=> TextField(
-    controller: controller, cursorColor:AppColors.Main400,
-    style: const TextStyle(color:_kMuted,fontFamily:'Poppins',fontSize:13),
-    decoration: InputDecoration(
-      isDense: true, contentPadding: const EdgeInsets.symmetric(horizontal:16,vertical:14),
-      prefixIcon: Icon(prefix,color:_kMuted), hintText: hint,
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(28), borderSide: const BorderSide(color:_kInputBorder)),
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(28), borderSide: const BorderSide(color:_kInputBorder)),
-      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(28), borderSide: const BorderSide(color:_kInputBorder)),
-    ),
-  );
-}
+// class _PillTextField extends StatelessWidget {
+//   final TextEditingController controller; final IconData prefix; final String hint;
+//   const _PillTextField({required this.controller,required this.prefix,required this.hint});
+//   @override Widget build(BuildContext context)=> TextField(
+//     controller: controller, cursorColor:AppColors.Main400,
+//     style: const TextStyle(color:_kMuted,fontFamily:'Poppins',fontSize:13),
+//     decoration: InputDecoration(
+//       isDense: true, contentPadding: const EdgeInsets.symmetric(horizontal:16,vertical:14),
+//       prefixIcon: Icon(prefix,color:_kMuted), hintText: hint,
+//       border: OutlineInputBorder(borderRadius: BorderRadius.circular(28), borderSide: const BorderSide(color:_kInputBorder)),
+//       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(28), borderSide: const BorderSide(color:_kInputBorder)),
+//       focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(28), borderSide: const BorderSide(color:_kInputBorder)),
+//     ),
+//   );
+// }
 class _ChipsEditor extends StatelessWidget {
   final List<String> items; final VoidCallback onAddTap; final ValueChanged<String> onDelete;
   const _ChipsEditor({required this.items, required this.onAddTap, required this.onDelete});
