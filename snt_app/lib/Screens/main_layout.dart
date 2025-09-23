@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:snt_app/Screens/contacts_screen.dart'; // Ensure this path is correct
+import 'package:snt_app/Widgets/General/bottom_navbar.dart';
 import './qr_code_screen.dart'; // Ensure this path is correct
-import './../Components/BottomNavBar.dart'; // Ensure this path is correct
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
@@ -22,27 +22,13 @@ class _MainLayoutState extends State<MainLayout> {
     Center(child: Text('Profile Screen')), // Index 4
   ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  void _onHomePressed() {
-    // Example: navigate to Card screen (index 0)
-    setState(() {
-      _selectedIndex = 0;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _widgetOptions[_selectedIndex], // Display the selected screen
-      bottomNavigationBar: CustomBottomNavBar(
+      bottomNavigationBar: BottomNavBar(
         currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        onHomePressed: _onHomePressed,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
