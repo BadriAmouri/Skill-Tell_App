@@ -195,6 +195,7 @@ class _SignupScreenState extends State<SignupScreen>{
                 padding: const EdgeInsets.only(
                   left: 29,
                   right: 29,
+                  bottom: 15,
                   top: SignUpLogInSpacingConsts.ContinueBtnTopPadding,
                 ),
                 child: Button(
