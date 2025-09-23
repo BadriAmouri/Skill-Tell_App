@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:snt_app/Services/auth_service.dart';
 import 'package:snt_app/Widgets/General/button.dart';
 import 'package:snt_app/Widgets/General/input.dart';
+import 'package:snt_app/Widgets/General/loading.dart';
 import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:snt_app/Screens/login/verify_code_screen.dart';
+import 'package:snt_app/utils/regex_functions.dart';
 
 class ForgotPasswordScreen extends StatefulWidget{
   const ForgotPasswordScreen({super.key});
@@ -31,7 +33,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
         child: Container(
           // color: Colors.red,
           padding: const EdgeInsets.only(
-            top: 10,
             left: 29,
             right: 29,
           ),
@@ -60,7 +61,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
                       color: AppColors.Text500,
                     ),
                   ),
-                  const SizedBox(width: 25,),
+                  const SizedBox(width: 7,),
                 ],
               ),
               const SizedBox(height: 8),
@@ -70,7 +71,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
                   right: 16,
                 ),
                 child: Text(
-                  "Lorem ipsum dolor sit amet consectetur. Tellus leo vitae aliquet vel tortor. Interdum tempus Interdum tempus",
+                  "Just type your email address bellow so we can set up another password for you.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
@@ -79,7 +80,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
                   ),
                 ),
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 20),
               Align(
                 alignment: Alignment.topLeft,
                 child: Column(
@@ -113,11 +114,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
                   ],
                 ),
               ),
-              const SizedBox(height: 100,),
+              
+              const SizedBox(height: 30,),
               Button(
                 onTap: _continue,
                 buttonText: 'Continue',
               ),
+              
+              const SizedBox(height: 130,),
             ],
           ),
         ),
@@ -125,42 +129,40 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
     );
   }
 
-  void _continue() async{
+  void _continue() async {
     setState(() {
-      _showEmailError = myEmailController.text.isEmpty && !isValidEmail(myEmailController.text);
+      _showEmailError = myEmailController.text.isEmpty ||
+          !isValidEmail(myEmailController.text.trim());
     });
 
     if (!_showEmailError) {
       showLoadingDialog(context);
-      await authService.sendEmailOtp(myEmailController.text);
-      hideLoadingDialog(context);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (e) => VerifyCodeScreen(email: myEmailController.text)),
-      );
+
+      try {
+        final otpSent = await authService.sendEmailOtp(myEmailController.text.trim());
+
+        hideLoadingDialog(context);
+
+        if (otpSent) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => VerifyCodeScreen(email: myEmailController.text.trim()),
+            ),
+          );
+        } else {
+          // show error to the user
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Verify you email address.")),
+          );
+        }
+      } catch (e) {
+        hideLoadingDialog(context);
+        print("Error sending OTP: $e");
+      }
     }
   }
 
-  bool isValidEmail(String email) {
-    final RegExp emailRegex = RegExp(
-      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-    );
-    return emailRegex.hasMatch(email);
-  }
 
-  void showLoadingDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
-  }
 
-  void hideLoadingDialog(BuildContext context) {
-    Navigator.of(context).pop(); 
-  }
 }

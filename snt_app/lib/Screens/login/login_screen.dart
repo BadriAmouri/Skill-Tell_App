@@ -7,7 +7,9 @@ import 'package:snt_app/Theme/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:snt_app/Widgets/General/button.dart';
 import 'package:snt_app/Widgets/General/input.dart';
+import 'package:snt_app/Widgets/General/loading.dart';
 import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
+import 'package:snt_app/utils/regex_functions.dart';
 
 class LoginScreen extends StatefulWidget{
   const LoginScreen({super.key});
@@ -38,7 +40,6 @@ class _LoginScreenState extends State<LoginScreen>{
         alignment: Alignment.topCenter,
         child: Padding(
           padding: const EdgeInsets.only(
-            top: 10,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -58,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen>{
                   right: 45,
                 ),
                 child: Text(
-                  "Lorem ipsum dolor sit amet consectetur. Tellus leo vitae aliquet vel tortor. Interdum tempus Interdum tempus",
+                  "Glad to see you again dearest skillnteller! Please enter your log in information.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
@@ -223,6 +224,7 @@ class _LoginScreenState extends State<LoginScreen>{
                 padding: const EdgeInsets.only(
                   left: 29,
                   right: 29,
+                  bottom: 30
                 ),
                 child: Button(
                   onTap: _login,
@@ -236,45 +238,45 @@ class _LoginScreenState extends State<LoginScreen>{
     );
   }
 
-  void _login() async{
-    setState(() {
-      _showEmailError = myEmailController.text.isEmpty || !isValidEmail(myEmailController.text.trim());
-      _showPasswordError = myPasswordController.text.length < 8;
-    });
+  void _login() async {
+  setState(() {
+    _showEmailError = myEmailController.text.isEmpty || !isValidEmail(myEmailController.text.trim());
+    _showPasswordError = myPasswordController.text.length < 8;
+  });
 
-    if (!_showEmailError && !_showPasswordError) {
-      showLoadingDialog(context);
-      auth_service.signInWithEmailPassword(myEmailController.text, myPasswordController.text);
+  if (!_showEmailError && !_showPasswordError) {
+    showLoadingDialog(context);
+
+    try {
+      final response = await auth_service.signInWithEmailPassword(
+        myEmailController.text.trim(),
+        myPasswordController.text.trim(),
+      );
+
       hideLoadingDialog(context);
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (_) => HomeScreen()),
-        (Route<dynamic> route) => false,
+
+      if (response.user != null) {
+        // Success → Go to home
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => HomeScreen()),
+          (Route<dynamic> route) => false,
+        );
+      } else {
+        //  Failed → Show error
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Invalid email or password")),
+        );
+      }
+    } catch (e) {
+      hideLoadingDialog(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Login error: Please verify your info..")),
       );
     }
   }
+}
 
-  void showLoadingDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
-  }
 
-  void hideLoadingDialog(BuildContext context) {
-    Navigator.of(context).pop(); 
-  }
-
-  bool isValidEmail(String email) {
-    final RegExp emailRegex = RegExp(
-      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-    );
-    return emailRegex.hasMatch(email);
-  }
 }
   

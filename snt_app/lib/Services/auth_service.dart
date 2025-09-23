@@ -137,20 +137,23 @@ class AuthService {
   }
 
   // sent otp code while the user exists
-  Future<void> sendEmailOtp(String email) async {
+  Future<bool> sendEmailOtp(String email) async {
     if(! await doesUserExist(email)) {
       print("User does not exists!");
-      return;
+      return false;
     }
     try {
       await supabase.auth.resetPasswordForEmail(
         email,
       );
       print("OTP sent successfully");
+      return true;
     } on AuthException catch (e) {
       print("Error: ${e.message}"); // will say "User not found"
+      return false;
     } catch (e) {
       print("Unexpected error: $e");
+      return false;
     }
   }
 

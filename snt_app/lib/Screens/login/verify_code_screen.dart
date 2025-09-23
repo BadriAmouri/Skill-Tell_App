@@ -5,6 +5,7 @@ import 'package:snt_app/Screens/login/new_password_screen.dart';
 import 'package:snt_app/Services/auth_service.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/Widgets/General/button.dart';
+import 'package:snt_app/Widgets/General/loading.dart';
 import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
 
 class VerifyCodeScreen extends StatefulWidget {
@@ -46,7 +47,6 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
         child: Container(
           // color: Colors.red,
           padding: const EdgeInsets.only(
-            top: 10,
             left: 29,
             right: 29,
           ),
@@ -85,7 +85,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                   right: 16,
                 ),
                 child: Text(
-                  "Lorem ipsum dolor sit amet consectetur. Tellus leo vitae aliquet vel tortor. Interdum tempus Interdum tempus",
+                  "An OTP code is being sent to your Email address in few moments. Please enter it in the fields below.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
@@ -169,11 +169,12 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 70,),
+              const SizedBox(height: 30,),
               Button(
                 onTap: _continue,
                 buttonText: "Continue",
               ),
+              const SizedBox(height: 100,),
             ],
           ),
         ),
@@ -221,22 +222,6 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
       showErrorMessage(context, errorMessage);
       
     }
-  }
-
-  void showLoadingDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
-  }
-
-  void hideLoadingDialog(BuildContext context) {
-    Navigator.of(context).pop(); 
   }
 
   void showErrorMessage(BuildContext context, String message) {

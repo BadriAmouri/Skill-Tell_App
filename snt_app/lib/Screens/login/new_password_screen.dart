@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:snt_app/Services/auth_service.dart';
 import 'package:snt_app/Widgets/General/button.dart';
 import 'package:snt_app/Widgets/General/input.dart';
+import 'package:snt_app/Widgets/General/loading.dart';
 import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,7 +35,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen>{
         child: Container(
           // color: Colors.red,
           padding: const EdgeInsets.only(
-            top: 10,
             left: 29,
             right: 29,
           ),
@@ -72,7 +72,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen>{
                   right: 16,
                 ),
                 child: Text(
-                  "Lorem ipsum dolor sit amet consectetur. Tellus leo vitae aliquet vel tortor. Interdum tempus Interdum tempus",
+                  "Now enter your new password! Make sure to not forget it this time ;)",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
@@ -81,7 +81,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen>{
                   ),
                 ),
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               Align(
                 alignment: Alignment.topLeft,
                 child: Column(
@@ -186,6 +186,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen>{
                 onTap: _continue,
                 buttonText: "Login",
               ),
+              
+              const SizedBox(height: 60,),
             ],
           ),
         ),
@@ -193,41 +195,34 @@ class _NewPasswordScreenState extends State<NewPasswordScreen>{
     );
   }
 
-  void _continue() {
+  void _continue() async {
     setState(() {
       _passwordTooShort = myPasswordController.text.length < 8;
       _passwordsDoNotMatch = myPasswordController.text != confirmPasswordController.text;
     });
 
-    showAboutDialog(context: context);
+    if (_passwordTooShort || _passwordsDoNotMatch) return;
 
-    authService.setNewPasswordAfterOtp(myPasswordController.text);
+    showLoadingDialog(context);
 
-    hideLoadingDialog(context);
-    
-    if (!_passwordTooShort && !_passwordsDoNotMatch) {
+    try {
+      await authService.setNewPasswordAfterOtp(myPasswordController.text);
+
+      hideLoadingDialog(context);
+
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (_) => HomeScreen()),
         (Route<dynamic> route) => false,
       );
+    } catch (e) {
+      hideLoadingDialog(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Failed to update password: $e")),
+      );
     }
   }
 
-  void showLoadingDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
-  }
 
-  void hideLoadingDialog(BuildContext context) {
-    Navigator.of(context).pop(); 
-  }
 
 }
