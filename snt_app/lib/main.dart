@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:snt_app/Config/supabass_config.dart';
-import 'package:snt_app/Screens/signup/signup_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:snt_app/Screens/Splash/splash_screen.dart';
 import 'package:snt_app/Theme/theme.dart';
@@ -35,7 +34,7 @@ class MainApp extends StatelessWidget {
 
         resizeToAvoidBottomInset: true,
 
-        body: SignupScreen(),
+        body: SplashScreen(),
       ),
 
     );
