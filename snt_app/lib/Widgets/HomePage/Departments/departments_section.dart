@@ -15,10 +15,8 @@ class DepartmentsSection extends StatelessWidget {
     required this.title,
   });
 
-  Future<List<DepartmentModel>> fetchEvents() async {
-    final response = await departmentService.fetchDepartments();
-
-    return response;
+  Future<List<DepartmentModel>> fetchDepartments() async {
+    return departmentService.fetchDepartments();
   }
 
   @override
@@ -39,7 +37,7 @@ class DepartmentsSection extends StatelessWidget {
         ),
 
         FutureBuilder<List<DepartmentModel>>(
-          future: fetchEvents(),
+          future: fetchDepartments(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Container(

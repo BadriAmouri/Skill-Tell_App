@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:snt_app/Screens/login/new_password_screen.dart';
+import 'package:snt_app/Screens/signup/create_password.dart';
 import 'package:snt_app/Services/auth_service.dart';
+import 'package:snt_app/Theme/spacing_consts.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/Widgets/General/button.dart';
+import 'package:snt_app/Widgets/General/error.dart';
 import 'package:snt_app/Widgets/General/loading.dart';
 import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
 
-class VerifyCodeScreen extends StatefulWidget {
+class OTPCodeVerification extends StatefulWidget {
   
   final String email;
 
-  const VerifyCodeScreen({
+  const OTPCodeVerification({
     super.key,
     required this.email,
   });
 
   @override
-  State<VerifyCodeScreen> createState() => _VerifyCodeScreenState();
+  State<OTPCodeVerification> createState() => _OTPCodeVerificationState();
 }
 
-class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
+class _OTPCodeVerificationState extends State<OTPCodeVerification> {
 
   final List<TextEditingController> _controllers = List.generate(6, (_) => TextEditingController());
   final auth_service = AuthService();
@@ -42,6 +44,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
+      isLogin: false,
       child: Align(
         alignment: Alignment.topCenter,
         child: Container(
@@ -94,7 +97,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: SignUpLogInSpacingConsts.UnderDesc),
               Row(
                 spacing: 8,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -143,7 +146,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                   );
                 }),
               ),
-              const SizedBox( height: 20,),
+              const SizedBox( height: 8,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -169,17 +172,18 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 30,),
+              const SizedBox(height: SignUpLogInSpacingConsts.ContinueBtnTopPadding,),
               Button(
                 onTap: _continue,
                 buttonText: "Continue",
               ),
-              const SizedBox(height: 100,),
+              SizedBox(height: 130,)
             ],
           ),
         ),
       ),
     );
+
   }
 
   void _resendCode(){
@@ -188,7 +192,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
       controller.clear();
     }
 
-    auth_service.sendEmailOtp(widget.email);
+    auth_service.resendEmailOtp(widget.email);
   }
 
 
@@ -202,14 +206,14 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
       
       showLoadingDialog(context);
 
-      bool otpVerification = await auth_service.verifyEmailOtp(email: widget.email, otpCode: otpCode);
+      bool otpVerification = await auth_service.verifyEmailOtpForSignup(widget.email, otpCode);
 
       hideLoadingDialog(context);
 
       if(otpVerification) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (e) => NewPasswordScreen()),
+          MaterialPageRoute(builder: (e) => CreatePassword(email: widget.email,)),
         );
       }
       else {
@@ -224,12 +228,5 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
     }
   }
 
-  void showErrorMessage(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(message),
-          backgroundColor: AppColors.Error100,
-        ),
-      );
-  }
+  
 }

@@ -1,0 +1,4 @@
+
+const supabaseUrl = 'https://fynexkbvctfcilosaoki.supabase.co';
+
+const supabaseKey ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ5bmV4a2J2Y3RmY2lsb3Nhb2tpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUyNjU4NTAsImV4cCI6MjA3MDg0MTg1MH0.FsS01719-tk56WPCgyx8DAJoCQS4HTk26WG9vIqM-3Q';

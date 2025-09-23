@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snt_app/Models/user_model.dart';
+import 'package:snt_app/Services/department_service.dart';
 import 'package:snt_app/Services/user_service.dart';
 import 'package:snt_app/Widgets/HomePage/Departments/DepartmentMember/department_member_card.dart';
 
@@ -14,13 +15,13 @@ class DepartmentMembersList extends StatefulWidget {
 }
 
 class _DepartmentMembersListState extends State<DepartmentMembersList> {
-  final UserService _userService = UserService();
+  final departmentService = DepartmentService();
   late Future<List<UserModel>> _futureUsers;
 
   @override
   void initState() {
     super.initState();
-    _futureUsers = _userService.fetchUsersByDepartment(widget.departmentName);
+    _futureUsers = departmentService.getUsersByDepartment(widget.departmentName);
   }
 
   @override

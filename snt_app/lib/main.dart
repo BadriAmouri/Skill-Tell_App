@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:snt_app/Screens/main_layout.dart';
+import 'package:snt_app/Config/supabass_config.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:snt_app/Screens/Splash/splash_screen.dart';
 import 'package:snt_app/Theme/theme.dart';
 
-void main() {
+Future<void> main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+    url: supabaseUrl,
+    anonKey: supabaseKey,
+  );
+  
   runApp(const MainApp());
 }
 
@@ -22,6 +31,8 @@ class MainApp extends StatelessWidget {
         ),
       ),
       home: Scaffold(
+
+        resizeToAvoidBottomInset: true,
 
         body: SplashScreen(),
       ),

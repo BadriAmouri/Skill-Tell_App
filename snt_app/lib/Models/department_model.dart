@@ -9,8 +9,8 @@ class DepartmentModel {
 
   factory DepartmentModel.fromJson(Map<String, dynamic> json) {
     return DepartmentModel(
-      name: json['name'],
-      imageUrl: json['image_url'] == "" ? null : json['image_url'],
+      name: json['name'] ?? '',
+      imageUrl: json['image_url'] == "" ? null : json['image_url'], // cast uuid[] into List<String>
     );
   }
 

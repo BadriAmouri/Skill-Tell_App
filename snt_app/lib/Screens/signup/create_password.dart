@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:snt_app/Theme/spacing_consts.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/Widgets/General/button.dart';
 import 'package:snt_app/Widgets/General/input.dart';
@@ -7,7 +8,8 @@ import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
 import 'package:snt_app/Screens/signup/your_info.dart';
 
 class CreatePassword extends StatefulWidget{
-  const CreatePassword({super.key});
+  final String email;
+  const CreatePassword({super.key, required this.email});
 
   @override
   State<CreatePassword> createState() => _CreatePasswordState();
@@ -34,7 +36,6 @@ class _CreatePasswordState extends State<CreatePassword>{
         child: Container(
           // color: Colors.red,
           padding: const EdgeInsets.only(
-            top: 10,
             left: 29,
             right: 29,
           ),
@@ -42,6 +43,7 @@ class _CreatePasswordState extends State<CreatePassword>{
             mainAxisSize: MainAxisSize.min,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -53,7 +55,6 @@ class _CreatePasswordState extends State<CreatePassword>{
                       height: 25,
                     ),
                   ),
-                  const SizedBox(width: 26,),
                   Text(
                     "Create password",
                     textAlign: TextAlign.center,
@@ -62,7 +63,8 @@ class _CreatePasswordState extends State<CreatePassword>{
                       fontWeight: FontWeight.w500,
                       color: AppColors.Text500,
                     ),
-                  )
+                  ),
+                  SizedBox(width: 25, height: 25,)
                 ],
               ),
               const SizedBox(height: 8),
@@ -72,7 +74,7 @@ class _CreatePasswordState extends State<CreatePassword>{
                   right: 16,
                 ),
                 child: Text(
-                  "Lorem ipsum dolor sit amet consectetur. Tellus leo vitae aliquet vel tortor. Interdum tempus Interdum tempus",
+                  "Please enter and confirm your password.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
@@ -81,7 +83,7 @@ class _CreatePasswordState extends State<CreatePassword>{
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: SignUpLogInSpacingConsts.UnderDesc),
               Align(
                 alignment: Alignment.topLeft,
                 child: Column(
@@ -181,29 +183,32 @@ class _CreatePasswordState extends State<CreatePassword>{
                   ],
                 ),
               ),
-              const SizedBox(height: 30,),
+              const SizedBox(height: SignUpLogInSpacingConsts.ContinueBtnTopPadding,),
               Button(
-                onTap: () {
-                  setState(() {
-                    _passwordTooShort = myPasswordController.text.length < 8;
-                    _passwordsDoNotMatch = myPasswordController.text != confirmPasswordController.text;
-                  });
-
-                  if (!_passwordTooShort && !_passwordsDoNotMatch) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (e) => YourInfo()
-                      ),
-                    );
-                  }
-                },
+                onTap: _continue,
                 buttonText: "Continue",
               ),
+              SizedBox(height: 100,)
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _continue() {
+    setState(() {
+      _passwordTooShort = myPasswordController.text.length < 8;
+      _passwordsDoNotMatch = myPasswordController.text != confirmPasswordController.text;
+    });
+
+    if (!_passwordTooShort && !_passwordsDoNotMatch) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (e) => YourInfo(password: myPasswordController.text, email: widget.email)
+        ),
+      );
+    }
   }
 }
