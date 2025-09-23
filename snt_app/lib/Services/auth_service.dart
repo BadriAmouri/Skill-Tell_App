@@ -6,7 +6,7 @@ class AuthService {
   final supabase = Supabase.instance.client;
 
   // send otp
-  Future<void> requestEmailOtp(String email) async {
+  Future<void> resendEmailOtp(String email) async {
     try {
       await supabase.auth.signInWithOtp(
         email: email,
@@ -18,6 +18,30 @@ class AuthService {
       rethrow;
     }
   }
+
+  Future<bool> requestEmailOtp(String email) async {
+    try {
+      // 1. Check if email already exists in your "users" table
+      final userCheck = await supabase.from('users').select().eq('email', email);
+      if (userCheck.isNotEmpty) {
+        print("Email already in use.");
+        return false;
+      }
+
+      // 2. Start fresh sign-in with OTP
+      await supabase.auth.signInWithOtp(
+        email: email,
+        shouldCreateUser: true,
+      );
+      print("OTP sent to $email");
+      return true;
+
+    } catch (e) {
+      print("Error in requestEmailOtp: $e");
+      return false;
+    }
+  }
+
 
 
   // verify otp

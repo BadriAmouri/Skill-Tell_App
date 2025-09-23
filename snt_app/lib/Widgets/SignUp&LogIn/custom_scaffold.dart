@@ -18,7 +18,6 @@ class CustomScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -63,7 +62,7 @@ class CustomScaffold extends StatelessWidget {
 
                         // bottom container
                         Container(
-                          padding: const EdgeInsets.only(top: 40),
+                          padding: const EdgeInsets.only(top: 20),
                           decoration: const BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
@@ -112,7 +111,6 @@ class CustomScaffold extends StatelessWidget {
                                   ),
                                 ),
 
-                                const SizedBox(height: 20),
 
                                 // form content
                                 Padding(

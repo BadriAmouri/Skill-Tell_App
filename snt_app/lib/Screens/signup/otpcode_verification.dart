@@ -3,8 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:snt_app/Screens/signup/create_password.dart';
 import 'package:snt_app/Services/auth_service.dart';
+import 'package:snt_app/Theme/spacing_consts.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/Widgets/General/button.dart';
+import 'package:snt_app/Widgets/General/error.dart';
+import 'package:snt_app/Widgets/General/loading.dart';
 import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
 
 class OTPCodeVerification extends StatefulWidget {
@@ -47,7 +50,6 @@ class _OTPCodeVerificationState extends State<OTPCodeVerification> {
         child: Container(
           // color: Colors.red,
           padding: const EdgeInsets.only(
-            top: 10,
             left: 29,
             right: 29,
           ),
@@ -86,7 +88,7 @@ class _OTPCodeVerificationState extends State<OTPCodeVerification> {
                   right: 16,
                 ),
                 child: Text(
-                  "Lorem ipsum dolor sit amet consectetur. Tellus leo vitae aliquet vel tortor. Interdum tempus Interdum tempus",
+                  "An OTP code is being sent to your Email address in few moments. Please enter it in the fields below.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
@@ -95,7 +97,7 @@ class _OTPCodeVerificationState extends State<OTPCodeVerification> {
                   ),
                 ),
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: SignUpLogInSpacingConsts.UnderDesc),
               Row(
                 spacing: 8,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -144,7 +146,7 @@ class _OTPCodeVerificationState extends State<OTPCodeVerification> {
                   );
                 }),
               ),
-              const SizedBox( height: 20,),
+              const SizedBox( height: 8,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -170,16 +172,18 @@ class _OTPCodeVerificationState extends State<OTPCodeVerification> {
                   ),
                 ],
               ),
-              const SizedBox(height: 70,),
+              const SizedBox(height: SignUpLogInSpacingConsts.ContinueBtnTopPadding,),
               Button(
                 onTap: _continue,
                 buttonText: "Continue",
               ),
+              SizedBox(height: 130,)
             ],
           ),
         ),
       ),
     );
+
   }
 
   void _resendCode(){
@@ -188,7 +192,7 @@ class _OTPCodeVerificationState extends State<OTPCodeVerification> {
       controller.clear();
     }
 
-    auth_service.requestEmailOtp(widget.email);
+    auth_service.resendEmailOtp(widget.email);
   }
 
 
@@ -224,28 +228,5 @@ class _OTPCodeVerificationState extends State<OTPCodeVerification> {
     }
   }
 
-  void showLoadingDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
-  }
-
-  void hideLoadingDialog(BuildContext context) {
-    Navigator.of(context).pop(); 
-  }
-
-  void showErrorMessage(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(message),
-          backgroundColor: AppColors.Error100,
-        ),
-      );
-  }
+  
 }

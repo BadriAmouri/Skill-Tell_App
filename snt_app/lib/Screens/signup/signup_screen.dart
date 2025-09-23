@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:snt_app/Screens/signup/otpcode_verification.dart';
 import 'package:snt_app/Services/auth_service.dart';
+import 'package:snt_app/Theme/spacing_consts.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/Widgets/General/button.dart';
 import 'package:snt_app/Widgets/General/input.dart';
+import 'package:snt_app/Widgets/General/loading.dart';
 import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
+import 'package:snt_app/utils/regex_functions.dart';
 
 class SignupScreen extends StatefulWidget{
   const SignupScreen({super.key});
@@ -17,6 +20,7 @@ class _SignupScreenState extends State<SignupScreen>{
   bool agree = false;
   bool _showEmailError = false;
   bool _showCodeError = false;
+  bool _usedEmail = false;
   final TextEditingController myEmailController = TextEditingController();
   final TextEditingController myCodeController = TextEditingController();
 
@@ -37,7 +41,7 @@ class _SignupScreenState extends State<SignupScreen>{
         alignment: Alignment.topCenter,
         child: Padding(
           padding: const EdgeInsets.only(
-            top: 10,
+            top: 0,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -57,7 +61,7 @@ class _SignupScreenState extends State<SignupScreen>{
                   right: 45,
                 ),
                 child: Text(
-                  "Lorem ipsum dolor sit amet consectetur. Tellus leo vitae aliquet vel tortor. Interdum tempus Interdum tempus",
+                  "We can't wait for you to be a part of our team!! Join us with your Email now!",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
@@ -66,7 +70,7 @@ class _SignupScreenState extends State<SignupScreen>{
                   ),
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: SignUpLogInSpacingConsts.UnderDesc),
               Padding(
                 padding: const EdgeInsets.only(
                   left: 29,
@@ -102,6 +106,15 @@ class _SignupScreenState extends State<SignupScreen>{
                             color: AppColors.Error100,
                           ),
                         ),
+                      if (_usedEmail)
+                        Text(
+                          "This Email is already used.",
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w300,
+                            color: AppColors.Error100,
+                          ),
+                        )
                     ],
                   ),
                 ),
@@ -182,7 +195,7 @@ class _SignupScreenState extends State<SignupScreen>{
                 padding: const EdgeInsets.only(
                   left: 29,
                   right: 29,
-                  top: 30,
+                  top: SignUpLogInSpacingConsts.ContinueBtnTopPadding,
                 ),
                 child: Button(
                   onTap: () {
@@ -199,33 +212,35 @@ class _SignupScreenState extends State<SignupScreen>{
   }
 
 
-  void _continue() {
+  void _continue() async {
+    final email = myEmailController.text.trim();
+
+    // run async OTP request first
+    showLoadingDialog(context);
+    final otpResult = await auth_service.requestEmailOtp(email);
+    hideLoadingDialog(context);
+
     setState(() {
-      _showEmailError = myEmailController.text.isEmpty || !isValidEmail(myEmailController.text.trim());
+      _showEmailError = email.isEmpty || !isValidEmail(email);
       _showCodeError = myCodeController.text.isEmpty;
+      _usedEmail = !otpResult;
     });
 
-    if (!_showEmailError && !_showCodeError && agree) {
-      auth_service.requestEmailOtp(myEmailController.text.trim());
-      // go to OTP code verification !
+    if (!_showEmailError && !_showCodeError && agree && !_usedEmail) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => OTPCodeVerification(email: myEmailController.text.trim(),)),
+        MaterialPageRoute(
+          builder: (context) => OTPCodeVerification(email: email),
+        ),
       );
     }
-    if(!agree && !_showEmailError && !_showCodeError){
+
+    if (!agree && !_showEmailError && !_showCodeError) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0),
-            child: Text(
-              "You must agree on the terms and conditions to proceed",
-              style: TextStyle(
-                fontSize: 14, 
-                color: Colors.white, 
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+          content: Text(
+            "You must agree on the terms and conditions to proceed",
+            style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w400),
           ),
           backgroundColor: AppColors.Error100,
         ),
@@ -233,12 +248,5 @@ class _SignupScreenState extends State<SignupScreen>{
     }
   }
 
-
-  bool isValidEmail(String email) {
-    final RegExp emailRegex = RegExp(
-      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-    );
-    return emailRegex.hasMatch(email);
-  }
 
 }

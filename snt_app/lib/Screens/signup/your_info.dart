@@ -4,10 +4,13 @@ import 'package:snt_app/Models/department_model.dart';
 import 'package:snt_app/Screens/Home/home_screen.dart';
 import 'package:snt_app/Services/auth_service.dart';
 import 'package:snt_app/Services/department_service.dart';
+import 'package:snt_app/Theme/spacing_consts.dart';
 import 'package:snt_app/Widgets/General/button.dart';
 import 'package:snt_app/Widgets/General/input.dart';
+import 'package:snt_app/Widgets/General/loading.dart';
 import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
 import 'package:snt_app/Theme/theme.dart';
+import 'package:snt_app/utils/regex_functions.dart';
 
 class YourInfo extends StatefulWidget {
   final String email;
@@ -25,8 +28,11 @@ class _YourInfoState extends State<YourInfo> {
   bool isDepartmentOpen = false;
   late String selectedRole;
   String selectedDepartment = "";
+  bool _isUsernameEmpty = false;
   bool _showUsernameError = false;
+  bool _isSkillsEmpty = false;
   bool _showSkillsError = false;
+  bool _isInterestsEmpty = false;
   bool _showInterestsError = false;
   bool _showDobError = false;
 
@@ -75,7 +81,7 @@ class _YourInfoState extends State<YourInfo> {
       zoomheight: true,
       isLogin: false,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 29, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 29),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -108,7 +114,7 @@ class _YourInfoState extends State<YourInfo> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
-                "Lorem ipsum dolor sit amet consectetur. Tellus leo vitae aliquet vel tortor. Interdum tempus Interdum tempus",
+                "Let's get to know YOU! please fill up the following fields with your information.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14,
@@ -117,7 +123,7 @@ class _YourInfoState extends State<YourInfo> {
                 ),
               ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: SignUpLogInSpacingConsts.UnderDesc),
 
             // Username
             Text(
@@ -134,9 +140,18 @@ class _YourInfoState extends State<YourInfo> {
               placeholder: 'username',
               controller: usernameController,
             ),
-            if (_showUsernameError)
+            if (_isUsernameEmpty)
               Text(
                 "This field is required",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.Error100,
+                ),
+              ),
+            if (_showUsernameError)
+              Text(
+                "You can only use letters, numbers, spaces between words, and {. / - / _}",
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w300,
@@ -297,9 +312,18 @@ class _YourInfoState extends State<YourInfo> {
               placeholder: 'e.g., Leadership, UX Design, Photography',
               controller: skillsController,
             ),
-            if (_showSkillsError)
+            if (_isSkillsEmpty)
               Text(
                 "This field is required",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.Error100,
+                ),
+            ),
+            if (_showSkillsError)
+              Text(
+                "You should enter something like this: Skill, Skill, Skill",
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w300,
@@ -324,7 +348,7 @@ class _YourInfoState extends State<YourInfo> {
               placeholder: 'e.g., Sports, Reading, Taylor Swift,',
               controller: interestsController,
             ),
-            if (_showSkillsError)
+            if (_isSkillsEmpty)
               Text(
                 "This field is required",
                 style: TextStyle(
@@ -333,8 +357,17 @@ class _YourInfoState extends State<YourInfo> {
                   color: AppColors.Error100,
                 ),
             ),
+            if (_showInterestsError)
+              Text(
+                "You should enter something like this: Interest, Interest, Interest",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.Error100,
+                ),
+            ),
             
-            const SizedBox(height: 40),
+            const SizedBox(height: SignUpLogInSpacingConsts.ContinueBtnTopPadding),
 
             // Button
             Button(
@@ -441,13 +474,16 @@ class _YourInfoState extends State<YourInfo> {
 
   void _signup() async {
     setState(() {
-      _showUsernameError  = !isValidUsername(usernameController.text);
-      _showSkillsError    = !isValidSkills(skillsController.text);
+      _isUsernameEmpty  = usernameController.text.isEmpty;
+      _showUsernameError =  !isValidUsername(usernameController.text);
+      _isSkillsEmpty    = skillsController.text.isEmpty;
+      _showSkillsError = !isValidSkills(skillsController.text);
+      _isInterestsEmpty = interestsController.text.isEmpty;
       _showInterestsError = !isValidSkills(interestsController.text);
       _showDobError       = !isValidDateOfBirth(dobController.text);
     });
 
-    if (_showUsernameError || _showSkillsError || _showInterestsError || _showDobError) {
+    if (_isUsernameEmpty || _isSkillsEmpty || _isInterestsEmpty || _showDobError || _showUsernameError || _showInterestsError || _showSkillsError) {
       return; // validation failed
     }
 
@@ -496,43 +532,6 @@ class _YourInfoState extends State<YourInfo> {
     }
   }
 
-
-  bool isValidUsername(String username) {
-    if (username.isEmpty) return false;
-    final regex = RegExp(r'^[a-zA-Z0-9._-]+$');
-    return regex.hasMatch(username) && !username.contains(' ');
-  }
-  bool isValidDateOfBirth(String dob) {
-    if (dob.isEmpty) return false;
-    final regex = RegExp(r'^\d{4}-\d{2}-\d{2}$');
-    if (!regex.hasMatch(dob)) return false;
-    final parts = dob.split('-');
-    final year = int.tryParse(parts[0]);
-    final month = int.tryParse(parts[1]);
-    final day = int.tryParse(parts[2]);
-
-    if (day == null || month == null || year == null) return false;
-
-    try {
-      final date = DateTime(year, month, day);
-      if (date.day != day || date.month != month || date.year != year) {
-        return false;
-      }
-
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
-  bool isValidSkills(String text) {
-    if (text.trim().isEmpty) return false;
-    final parts = text.split(',');
-    final trimmedParts = parts.map((e) => e.trim()).toList();
-    if (trimmedParts.any((p) => p.isEmpty)) return false;
-    if (trimmedParts.length < 1) return false;
-    return true;
-  }
-
   List<String> parseSkills(String text) {
     return text
         .split(',')
@@ -569,22 +568,6 @@ class _YourInfoState extends State<YourInfo> {
         ],
       ),
     );
-  }
-
-  void showLoadingDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
-  }
-
-  void hideLoadingDialog(BuildContext context) {
-    Navigator.of(context).pop(); 
   }
 
 }

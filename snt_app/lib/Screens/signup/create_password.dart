@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:snt_app/Theme/spacing_consts.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/Widgets/General/button.dart';
 import 'package:snt_app/Widgets/General/input.dart';
@@ -35,7 +36,6 @@ class _CreatePasswordState extends State<CreatePassword>{
         child: Container(
           // color: Colors.red,
           padding: const EdgeInsets.only(
-            top: 10,
             left: 29,
             right: 29,
           ),
@@ -74,7 +74,7 @@ class _CreatePasswordState extends State<CreatePassword>{
                   right: 16,
                 ),
                 child: Text(
-                  "Lorem ipsum dolor sit amet consectetur. Tellus leo vitae aliquet vel tortor. Interdum tempus Interdum tempus",
+                  "Please enter and confirm your password.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
@@ -83,7 +83,7 @@ class _CreatePasswordState extends State<CreatePassword>{
                   ),
                 ),
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: SignUpLogInSpacingConsts.UnderDesc),
               Align(
                 alignment: Alignment.topLeft,
                 child: Column(
@@ -183,11 +183,12 @@ class _CreatePasswordState extends State<CreatePassword>{
                   ],
                 ),
               ),
-              const SizedBox(height: 50,),
+              const SizedBox(height: SignUpLogInSpacingConsts.ContinueBtnTopPadding,),
               Button(
                 onTap: _continue,
                 buttonText: "Continue",
               ),
+              SizedBox(height: 100,)
             ],
           ),
         ),
