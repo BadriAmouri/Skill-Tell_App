@@ -1,39 +1,44 @@
+// UpcomingEventsSection - Updated
 import 'package:flutter/material.dart';
 import 'package:snt_app/models/event_model.dart';
 import 'package:snt_app/services/event_service.dart';
 import 'package:snt_app/Theme/text_styles.dart';
 import 'package:snt_app/Widgets/HomePage/UpcomingEvents/upcoming_event_scrolling_view.dart';
 
-class UpcomingEventsSection extends StatelessWidget {
-
+class UpcomingEventsSection extends StatefulWidget {
   final String title;
-  final EventService eventService = EventService();
   
-
-  UpcomingEventsSection({
+  const UpcomingEventsSection({
     super.key,
     required this.title,
   });
 
-  Future<List<EventModel>> fetchEvents() async {
-    return eventService.fetchUpcoming();
+  @override
+  State<UpcomingEventsSection> createState() => _UpcomingEventsSectionState();
+}
+
+class _UpcomingEventsSectionState extends State<UpcomingEventsSection> {
+  final EventService eventService = EventService();
+  late Future<List<EventModel>> _eventsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _eventsFuture = eventService.fetchUpcoming();
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
-
       crossAxisAlignment: CrossAxisAlignment.start,
-
       children: [
         // title
         Text(
-          title,
+          widget.title,
           style: TextStyles.Subtitle
         ),
-
         FutureBuilder<List<EventModel>>(
-          future: fetchEvents(),
+          future: _eventsFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Container(
@@ -49,7 +54,6 @@ class UpcomingEventsSection extends StatelessWidget {
             }
           }
         )
-              
       ],
     );
   }

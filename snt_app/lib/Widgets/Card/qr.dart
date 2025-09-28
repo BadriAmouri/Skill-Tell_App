@@ -48,7 +48,7 @@ class QRProfileCard extends StatelessWidget {
             height: 120,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('lib/assetss/logo.png'),
+                image: AssetImage('lib/Assets/Images/logo.png'),
                 fit: BoxFit.contain,
               ),
             ),
