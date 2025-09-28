@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:snt_app/Screens/Card/profile_card_screen.dart';
 import 'package:snt_app/Screens/Home/home_screen.dart';
 import 'package:snt_app/Screens/Profile/Profile_screen.dart';
+import 'package:snt_app/Screens/contacts_screen.dart';
 import 'package:snt_app/Screens/empty_screen.dart';
 import 'package:snt_app/Screens/Notifications/notifications.dart';
 
@@ -37,7 +38,7 @@ class BottomNavBar extends StatelessWidget {
     // Default navigation for other indexes
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => EmptyScreen(selectedIndex: index)),
+      MaterialPageRoute(builder: (context) => ContactsScreen()),
     );
   }
   }
