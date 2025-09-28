@@ -24,7 +24,7 @@ class _PreviousEventsSectionState extends State<PreviousEventsSection> {
   @override
   void initState() {
     super.initState();
-    _eventsFuture = eventService.fetchEvents();
+    _eventsFuture = eventService.fetchPrevious();
   }
 
   @override

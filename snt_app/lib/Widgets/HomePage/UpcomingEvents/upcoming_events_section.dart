@@ -24,7 +24,7 @@ class _UpcomingEventsSectionState extends State<UpcomingEventsSection> {
   @override
   void initState() {
     super.initState();
-    _eventsFuture = eventService.fetchEvents();
+    _eventsFuture = eventService.fetchUpcoming();
   }
 
   @override
