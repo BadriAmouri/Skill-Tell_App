@@ -43,7 +43,7 @@ class MemberCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Image.asset("lib/Assets/Images/logoclub-2.png", width: 50,),
+                      Image.asset("lib/Assets/Images/logo.png", width: 50,),
                       Text(
                         "Member card",
                         style: TextStyle(

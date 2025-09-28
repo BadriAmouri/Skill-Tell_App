@@ -1,44 +1,47 @@
+// PreviousEventsSection - Updated
 import 'package:flutter/material.dart';
 import 'package:snt_app/Models/event_model.dart';
 import 'package:snt_app/Services/event_service.dart';
 import 'package:snt_app/Theme/text_styles.dart';
 import 'package:snt_app/Widgets/HomePage/PreviousEvents/previous_events_scrolling_view.dart';
 
-class PreviousEventsSection extends StatelessWidget {
-
+class PreviousEventsSection extends StatefulWidget {
   final String title;
-  final EventService eventService = EventService();
   
-
-  PreviousEventsSection({
+  const PreviousEventsSection({
     super.key,
     required this.title,
   });
 
-  Future<List<EventModel>> fetchEvents() async {
-    final response = await eventService.fetchEvents();
+  @override
+  State<PreviousEventsSection> createState() => _PreviousEventsSectionState();
+}
 
-    return response;
+class _PreviousEventsSectionState extends State<PreviousEventsSection> {
+  final EventService eventService = EventService();
+  late Future<List<EventModel>> _eventsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _eventsFuture = eventService.fetchEvents();
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
-
       crossAxisAlignment: CrossAxisAlignment.start,
-
       children: [
         // title
         Padding(
           padding: const EdgeInsets.only(left: 24),
           child: Text(
-            title,
+            widget.title,
             style: TextStyles.Subtitle
           ),
         ),
-
         FutureBuilder<List<EventModel>>(
-          future: fetchEvents(),
+          future: _eventsFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Container(
@@ -54,7 +57,6 @@ class PreviousEventsSection extends StatelessWidget {
             }
           }
         )
-              
       ],
     );
   }
