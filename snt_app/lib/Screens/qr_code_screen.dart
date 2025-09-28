@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:snt_app/Widgets/General/bottom_navbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:ui';
-import '../Components/BottomNavBar.dart';
 
 // ===== Centralized Colors for Design =====
 class DesignColors {
@@ -25,20 +25,6 @@ class QrCodeScreen extends StatefulWidget {
 
 class _QrCodeScreenState extends State<QrCodeScreen> {
   int _selectedIndex = 3;
-
-  // Handle bottom nav bar item taps
-  void _onItemTapped(int index) {
-    if (index != _selectedIndex) {
-      setState(() {
-        _selectedIndex = index;
-      });
-    }
-  }
-
-  // Handle home button press
-  void _onHomePressed() {
-    Navigator.of(context).pop();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,10 +62,8 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
       ),
 
       // ===== Bottom Navigation Bar =====
-      bottomNavigationBar: CustomBottomNavBar(
+      bottomNavigationBar: BottomNavBar(
         currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        onHomePressed: _onHomePressed,
       ),
     );
   }

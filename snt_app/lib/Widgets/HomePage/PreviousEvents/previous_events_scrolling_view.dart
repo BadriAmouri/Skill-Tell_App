@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:snt_app/Models/event_model.dart';
+import 'package:snt_app/models/event_model.dart';
 import 'package:snt_app/Widgets/HomePage/PreviousEvents/previous_event_card.dart';
 
 class PreviousEventScrollingView extends StatefulWidget {

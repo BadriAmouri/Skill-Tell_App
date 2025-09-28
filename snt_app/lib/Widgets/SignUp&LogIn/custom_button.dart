@@ -5,24 +5,37 @@ class CustomButton extends StatelessWidget {
   final Color? color;
   final String? buttonText;
   final Color? textColor;
+  final bool pushReplacement;
   const CustomButton({
     super.key,
     required this.onTap,
     required this.color,
     required this.buttonText,
-    required this.textColor
+    required this.textColor,
+    this.pushReplacement = false
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context, 
-          MaterialPageRoute(
-            builder: (e) => onTap!,
-          ),
-        );
+        if(pushReplacement) {
+          Navigator.pushReplacement(
+            context, 
+            MaterialPageRoute(
+              builder: (e) => onTap!,
+            ),
+          );
+        }
+        else {
+          Navigator.push(
+            context, 
+            MaterialPageRoute(
+              builder: (e) => onTap!,
+            ),
+          );
+        }
+        
       },
       child: Container(
         padding: const EdgeInsets.only(

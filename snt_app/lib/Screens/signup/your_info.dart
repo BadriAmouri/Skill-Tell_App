@@ -1,27 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:snt_app/Models/department_model.dart';
 import 'package:snt_app/Screens/Home/home_screen.dart';
+import 'package:snt_app/Services/auth_service.dart';
+import 'package:snt_app/Services/department_service.dart';
+import 'package:snt_app/Theme/spacing_consts.dart';
 import 'package:snt_app/Widgets/General/button.dart';
 import 'package:snt_app/Widgets/General/input.dart';
+import 'package:snt_app/Widgets/General/loading.dart';
 import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
 import 'package:snt_app/Theme/theme.dart';
+import 'package:snt_app/utils/regex_functions.dart';
 
-class YourInfo extends StatefulWidget{
-  const YourInfo({super.key});
+class YourInfo extends StatefulWidget {
+  final String email;
+  final String password;
+  const YourInfo({super.key, required this.password, required this.email});
 
   @override
   State<YourInfo> createState() => _YourInfoState();
 }
-class _YourInfoState extends State<YourInfo>{
-  double topValue = 340;
+
+class _YourInfoState extends State<YourInfo> {
+
   int hoveredIndex = -1;
   bool isRoleOpen = false;
   bool isDepartmentOpen = false;
   late String selectedRole;
-  late String selectedDepartment;
+  String selectedDepartment = "";
+  bool _isUsernameEmpty = false;
   bool _showUsernameError = false;
+  bool _isSkillsEmpty = false;
   bool _showSkillsError = false;
-
+  bool _isInterestsEmpty = false;
+  bool _showInterestsError = false;
+  bool _showDobError = false;
 
   final List<String> roles = [
     "Member",
@@ -32,35 +45,34 @@ class _YourInfoState extends State<YourInfo>{
     "Secretary general",
     "Other"
   ];
-  final List<String>departments = [
-    "UI/UX department",
-    "Graphic design department",
-    "Marketing department",
-    "Logistics department",
-    "Production department",
-    "Sponsoring department",
-    "Media department",
-    "Communication department",
-    "HR department",
-    "AI department",
-    "Relax department",
-    "Dev department",
-    "Planning department",
-    "Event department"
-  ];
+
+  final department_service = DepartmentService();
+  final auth_service = AuthService();
+
+  late Future<List<DepartmentModel>> _departmentsFuture;
+
+  List<String> department_names = [];
+
   final TextEditingController usernameController = TextEditingController();
+  final TextEditingController dobController = TextEditingController();   // NEW
+  final TextEditingController phoneController = TextEditingController(); // NEW
   final TextEditingController skillsController = TextEditingController();
+  final TextEditingController interestsController = TextEditingController();
+
+
   @override
-  void dispose(){
+  void dispose() {
     usernameController.dispose();
+    dobController.dispose();     // NEW
+    phoneController.dispose();   // NEW
     skillsController.dispose();
     super.dispose();
   }
-  @override
+
   void initState() {
     super.initState();
     selectedRole = roles.first;
-    selectedDepartment = departments.first;
+    _departmentsFuture = department_service.fetchDepartments();
   }
 
   @override
@@ -68,389 +80,494 @@ class _YourInfoState extends State<YourInfo>{
     return CustomScaffold(
       zoomheight: true,
       isLogin: false,
-      child: Align(
-        alignment: Alignment.topCenter,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 29),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SingleChildScrollView(
-              padding: const EdgeInsets.only(
-                top: 10,
-                left: 29,
-                right: 29,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: SvgPicture.asset(
-                          'lib/Assets/Icons/arrowLeft_.svg', 
-                          width: 25,
-                          height: 25,
-                        ),
-                      ),
-                      const SizedBox(width: 80,),
-                      Text(
-                        "Your info",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 23,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.Text500,
-                        ),
-                      )
-                    ],
+            // Top bar with back + title
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: SvgPicture.asset(
+                    'lib/Assets/Icons/arrowLeft_.svg',
+                    width: 25,
+                    height: 25,
                   ),
-                  const SizedBox(height: 8),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 16,
-                      right: 16,
-                    ),
-                    child: Text(
-                      "Lorem ipsum dolor sit amet consectetur. Tellus leo vitae aliquet vel tortor. Interdum tempus Interdum tempus",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w300,
-                        color: AppColors.Text400,
-                      ),
-                    ),
+                ),
+                Text(
+                  "Your Info",
+                  style: TextStyle(
+                    fontSize: 23,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.Text500,
                   ),
-                  const SizedBox(height: 8),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Role",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w300,
-                            color: AppColors.Text400,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        InkWell(
-                          onTap: () => setState(() => isRoleOpen = !isRoleOpen),
-                          child: Container(
-                            width: double.infinity,
-                            height: 44,
-                            padding: const EdgeInsets.only(left: 27, right: 12),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: AppColors.Text300),
-                              borderRadius: BorderRadius.circular(22),
-                            ),
-                            child: Row(
-                              children: [
-                                SvgPicture.asset('lib/Assets/Icons/member_.svg', width: 20, height: 20),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: Text(
-                                    selectedRole,
-                                    style: const TextStyle(
-                                      color: AppColors.Text300,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w300,
-                                    ),
-                                  ),
-                                ),
-                                AnimatedRotation(
-                                  turns: isRoleOpen ? 0.25 : 0.0,
-                                  duration: const Duration(milliseconds: 100),
-                                  child: SvgPicture.asset('lib/Assets/Icons/arrowDown_.svg'),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        if (isRoleOpen)
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: const BorderRadius.only(
-                                bottomLeft: Radius.circular(22),
-                                bottomRight: Radius.circular(22),
-                              ),
-                              border: const Border(
-                                bottom: BorderSide(color: AppColors.Text300),
-                                left: BorderSide(color: AppColors.Text300),
-                                right: BorderSide(color: AppColors.Text300),
-                              ),
-                            ),
-                            child: ConstrainedBox(
-                              constraints: BoxConstraints(
-                                maxHeight: MediaQuery.of(context).size.height * 0.1,
-                              ),
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                padding: EdgeInsets.zero,
-                                itemCount: roles.length,
-                                itemBuilder: (context, index) {
-                                  final item = roles[index];
-                                  return MouseRegion(
-                                    onEnter: (_) => setState(() => hoveredIndex = index),
-                                    onExit: (_) => setState(() => hoveredIndex = -1),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          selectedRole = item;
-                                          isRoleOpen = false;
-                                        });
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.only(left: 57),
-                                        alignment: Alignment.centerLeft,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                          color: hoveredIndex == index
-                                              ? Colors.grey.shade100
-                                              : Colors.transparent,
-                                          border: index != roles.length - 1
-                                              ? const Border(
-                                                  bottom: BorderSide(
-                                                    color: AppColors.Text300,
-                                                    width: 0.6,
-                                                  ),
-                                                )
-                                              : null,
-                                        ),
-                                        child: Text(
-                                          item,
-                                          style: const TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w300,
-                                            color: AppColors.Text300,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Department",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w300,
-                            color: AppColors.Text400,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        InkWell(
-                          onTap: () => setState(() => isDepartmentOpen = !isDepartmentOpen),
-                          child: Container(
-                            width: double.infinity,
-                            height: 44,
-                            padding: const EdgeInsets.only(left: 27, right: 12),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: AppColors.Text300),
-                              borderRadius: BorderRadius.circular(22),
-                            ),
-                            child: Row(
-                              children: [
-                                SvgPicture.asset('lib/Assets/Icons/department_.svg', width: 20, height: 20),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: Text(
-                                    selectedDepartment,
-                                    style: const TextStyle(
-                                      color: AppColors.Text300,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w300,
-                                    ),
-                                  ),
-                                ),
-                                AnimatedRotation(
-                                  turns: isDepartmentOpen ? 0.25 : 0.0,
-                                  duration: const Duration(milliseconds: 100),
-                                  child: SvgPicture.asset('lib/Assets/Icons/arrowDown_.svg'),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        if (isDepartmentOpen)
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: const BorderRadius.only(
-                                bottomLeft: Radius.circular(22),
-                                bottomRight: Radius.circular(22),
-                              ),
-                              border: const Border(
-                                bottom: BorderSide(color: AppColors.Text300),
-                                left: BorderSide(color: AppColors.Text300),
-                                right: BorderSide(color: AppColors.Text300),
-                              ),
-                            ),
-                            child: ConstrainedBox(
-                              constraints: BoxConstraints(
-                                maxHeight: MediaQuery.of(context).size.height * 0.1,
-                              ),
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                padding: EdgeInsets.zero,
-                                itemCount: departments.length,
-                                itemBuilder: (context, index) {
-                                  final item = departments[index];
-                                  return MouseRegion(
-                                    onEnter: (_) => setState(() => hoveredIndex = index),
-                                    onExit: (_) => setState(() => hoveredIndex = -1),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          selectedDepartment = item;
-                                          isDepartmentOpen = false;
-                                        });
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.only(left: 57),
-                                        alignment: Alignment.centerLeft,
-                                        height: 30,
-                                        decoration: BoxDecoration(
-                                          color: hoveredIndex == index
-                                              ? Colors.grey.shade100
-                                              : Colors.transparent,
-                                          border: index != departments.length - 1
-                                              ? const Border(
-                                                  bottom: BorderSide(
-                                                    color: AppColors.Text300,
-                                                    width: 0.6,
-                                                  ),
-                                                )
-                                              : null,
-                                        ),
-                                        child: Text(
-                                          item,
-                                          style: const TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w300,
-                                            color: AppColors.Text300,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Skills",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w300,
-                              color: AppColors.Text400,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Input(
-                            prefixIcon: 'lib/Assets/Icons/skills_.svg', 
-                            placeholder: 'eg, leadership, UX design',
-                            controller: usernameController,
-                          ),
-                          if (_showUsernameError)
-                            Text(
-                              "This field is required",
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w300,
-                                color: AppColors.Error100,
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  const SizedBox(height: 8),
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Interests",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w300,
-                              color: AppColors.Text400,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Input(
-                            prefixIcon: 'lib/Assets/Icons/interests_.svg', 
-                            placeholder: 'e.g., Basketball, Reading',
-                            controller: skillsController,
-                          ),
-                          if (_showSkillsError)
-                            Text(
-                              "this field is required",
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w300,
-                                color: AppColors.Error100,
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  const SizedBox(height: 30,),
-                  Button(
-                    onTap: () {
-                      setState(() {
-                        _showUsernameError = usernameController.text.isEmpty;
-                        _showSkillsError = skillsController.text.isEmpty;
-                      });
-              
-                      if (!_showUsernameError && !_showSkillsError) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (e) => HomeScreen()),
-                        );
-                      } 
-                    },
-                    buttonText: "Sign up"
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(width: 25, height: 25),
+              ],
             ),
             const SizedBox(height: 8),
+
+            // Subtitle
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                "Let's get to know YOU! please fill up the following fields with your information.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.Text400,
+                ),
+              ),
+            ),
+            const SizedBox(height: SignUpLogInSpacingConsts.UnderDesc),
+
+            // Username
+            Text(
+              "Username",
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w300,
+                color: AppColors.Text400,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Input(
+              prefixIcon: 'lib/Assets/Icons/profile_.svg',
+              placeholder: 'username',
+              controller: usernameController,
+            ),
+            if (_isUsernameEmpty)
+              Text(
+                "This field is required",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.Error100,
+                ),
+              ),
+            if (_showUsernameError)
+              Text(
+                "You can only use letters, numbers, spaces between words, and {. / - / _}",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.Error100,
+                ),
+              ),
+            const SizedBox(height: 10),
+            Text(
+              "Date of Birth",
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w300,
+                color: AppColors.Text400,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Input(
+              prefixIcon: 'lib/Assets/Icons/Calendar.svg', // add a calendar icon to assets
+              placeholder: 'YYYY-MM-DD',
+              controller: dobController,
+            ),
+            if (_showDobError)
+              Text(
+                "Enter a valid date of birth following the pattern: YYYY-MM-DD",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.Error100,
+                ),
+              ),
+            const SizedBox(height: 10),
+
+            Text(
+              "Phone Number (optional)",
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w300,
+                color: AppColors.Text400,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Input(
+              prefixIcon: 'lib/Assets/Icons/Call.svg', // add a phone icon to assets
+              placeholder: '0512312312',
+              controller: phoneController,
+              textInputType: TextInputType.number,
+            ),
+            const SizedBox(height: 10),
+
+            // Role dropdown
+            Text(
+              "Role",
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w300,
+                color: AppColors.Text400,
+              ),
+            ),
+            const SizedBox(height: 6),
+            _buildDropdown(
+              icon: 'lib/Assets/Icons/Member.svg',
+              value: selectedRole,
+              items: roles,
+              isOpen: isRoleOpen,
+              onTap: () => setState(() => isRoleOpen = !isRoleOpen),
+              onSelect: (val) {
+                setState(() {
+                  selectedRole = val;
+                  isRoleOpen = false;
+                });
+              },
+            ),
+            const SizedBox(height: 10),
+
+            // Department dropdown
+            Text(
+              "Department",
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w300,
+                color: AppColors.Text400,
+              ),
+            ),
+            const SizedBox(height: 6),
+            FutureBuilder<List<DepartmentModel>>(
+              future: _departmentsFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  // Loading placeholder
+                  return _disabledDropdownPlaceholder("Loading departments...");
+                }
+                if (snapshot.hasError) {
+                  // Error with retry
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _disabledDropdownPlaceholder("Failed to load"),
+                      const SizedBox(height: 8),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _departmentsFuture = department_service.fetchDepartments();
+                          });
+                        },
+                        child: Text(
+                          "Tap to retry",
+                          style: TextStyle(
+                            color: AppColors.Error100,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+
+                final departments = snapshot.data ?? [];
+                department_names = departments.map((d) => d.name).toList();
+
+                if (department_names.isEmpty) {
+                  return _disabledDropdownPlaceholder("No departments available");
+                }
+
+                // Ensure selectedDepartment is valid once
+                if (selectedDepartment.isEmpty || !department_names.contains(selectedDepartment)) {
+                  selectedDepartment = department_names.first;
+                }
+
+                return _buildDropdown(
+                  icon: 'lib/Assets/Icons/Chart.svg',
+                  value: selectedDepartment,
+                  items: department_names,
+                  isOpen: isDepartmentOpen,
+                  onTap: () => setState(() => isDepartmentOpen = !isDepartmentOpen),
+                  onSelect: (val) {
+                    setState(() {
+                      selectedDepartment = val;
+                      isDepartmentOpen = false;
+                    });
+                  },
+                );
+              },
+            ),
+            const SizedBox(height: 10),
+
+            // Skills
+            Text(
+              "Skills",
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w300,
+                color: AppColors.Text400,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Input(
+              prefixIcon: 'lib/Assets/Icons/skills_.svg',
+              placeholder: 'e.g., Leadership, UX Design, Photography',
+              controller: skillsController,
+            ),
+            if (_isSkillsEmpty)
+              Text(
+                "This field is required",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.Error100,
+                ),
+            ),
+            if (_showSkillsError)
+              Text(
+                "You should enter something like this: Skill, Skill, Skill",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.Error100,
+                ),
+            ),
+
+            const SizedBox(height: 10),
+
+            // Skills
+            Text(
+              "Interests",
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w300,
+                color: AppColors.Text400,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Input(
+              prefixIcon: 'lib/Assets/Icons/skills_.svg',
+              placeholder: 'e.g., Sports, Reading, Taylor Swift,',
+              controller: interestsController,
+            ),
+            if (_isSkillsEmpty)
+              Text(
+                "This field is required",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.Error100,
+                ),
+            ),
+            if (_showInterestsError)
+              Text(
+                "You should enter something like this: Interest, Interest, Interest",
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.Error100,
+                ),
+            ),
             
-            const SizedBox(height: 8),
-          ], 
+            const SizedBox(height: SignUpLogInSpacingConsts.ContinueBtnTopPadding),
+
+            // Button
+            Button(
+              onTap: _signup,
+              buttonText: "Sign up",
+            ),
+          ],
         ),
       ),
     );
   }
+
+  /// Reusable dropdown widget
+  Widget _buildDropdown({
+    required String icon,
+    required String value,
+    required List<String> items,
+    required bool isOpen,
+    required VoidCallback onTap,
+    required Function(String) onSelect,
+  }) {
+    return Column(
+      children: [
+        InkWell(
+          onTap: onTap,
+          child: Container(
+            height: 44,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: AppColors.Text300, width: 1),
+              borderRadius: BorderRadius.circular(22),
+            ),
+            child: Row(
+              children: [
+                SvgPicture.asset(icon, width: 20, height: 20),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    value,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w300,
+                      color: AppColors.Text300,
+                    ),
+                  ),
+                ),
+                AnimatedRotation(
+                  turns: isOpen ? 0.25 : 0,
+                  duration: const Duration(milliseconds: 100),
+                  child: SvgPicture.asset('lib/Assets/Icons/arrowDown_.svg'),
+                ),
+              ],
+            ),
+          ),
+        ),
+        if (isOpen)
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(22),
+                bottomRight: Radius.circular(22),
+              ),
+              border: const Border(
+                left: BorderSide(color: AppColors.Text300),
+                right: BorderSide(color: AppColors.Text300),
+                bottom: BorderSide(color: AppColors.Text300),
+              ),
+            ),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.2,
+              ),
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  final item = items[index];
+                  return GestureDetector(
+                    onTap: () => onSelect(item),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
+                      child: Text(
+                        item,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w300,
+                          color: AppColors.Text300,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  void _signup() async {
+    setState(() {
+      _isUsernameEmpty  = usernameController.text.isEmpty;
+      _showUsernameError =  !isValidUsername(usernameController.text);
+      _isSkillsEmpty    = skillsController.text.isEmpty;
+      _showSkillsError = !isValidSkills(skillsController.text);
+      _isInterestsEmpty = interestsController.text.isEmpty;
+      _showInterestsError = !isValidSkills(interestsController.text);
+      _showDobError       = !isValidDateOfBirth(dobController.text);
+    });
+
+    if (_isUsernameEmpty || _isSkillsEmpty || _isInterestsEmpty || _showDobError || _showUsernameError || _showInterestsError || _showSkillsError) {
+      return; // validation failed
+    }
+
+    if (selectedDepartment.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please select a department"))
+      );
+      return;
+    }
+
+    showLoadingDialog(context);
+
+    try {
+      await auth_service.setPasswordAndCreateProfile(
+        password: widget.password,
+        username: usernameController.text,
+        skills: parseSkills(skillsController.text),
+        interests: parseSkills(interestsController.text),
+        departmentName: selectedDepartment,
+        dateOfBirth: dobController.text,
+        role: selectedRole,
+        phoneNumber: phoneController.text, 
+      );
+
+      print("profile created");
+
+      await auth_service.signInWithEmailPassword(widget.email, widget.password);
+
+      print("sign in");
+
+      hideLoadingDialog(context);
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => HomeScreen()),
+        (Route<dynamic> route) => false,
+      );
+
+
+      print("navigating to home");
+
+    } catch (e) {
+      debugPrint("Signup error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Failed to sign up: $e")),
+      );
+    }
+  }
+
+  List<String> parseSkills(String text) {
+    return text
+        .split(',')
+        .map((e) => e.trim())       // remove extra spaces
+        .where((e) => e.isNotEmpty) // remove empty entries
+        .toList();
+  }
+
+
+  Widget _disabledDropdownPlaceholder(String text) {
+    return Container(
+      height: 44,
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: AppColors.Text300, width: 1),
+        borderRadius: BorderRadius.circular(22),
+      ),
+      child: Row(
+        children: [
+          SvgPicture.asset('lib/Assets/Icons/Chart.svg', width: 20, height: 20),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              text,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w300,
+                color: AppColors.Text300,
+              ),
+            ),
+          ),
+          SvgPicture.asset('lib/Assets/Icons/arrowDown_.svg'),
+        ],
+      ),
+    );
+  }
+
 }

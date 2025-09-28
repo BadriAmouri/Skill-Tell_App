@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:snt_app/Services/auth_service.dart';
 import 'package:snt_app/Widgets/General/button.dart';
 import 'package:snt_app/Widgets/General/input.dart';
+import 'package:snt_app/Widgets/General/loading.dart';
 import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:snt_app/Screens/login/verify_code_screen.dart';
+import 'package:snt_app/utils/regex_functions.dart';
 
 class ForgotPasswordScreen extends StatefulWidget{
   const ForgotPasswordScreen({super.key});
@@ -15,6 +18,8 @@ class ForgotPasswordScreen extends StatefulWidget{
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
   final TextEditingController myEmailController = TextEditingController();
   bool _showEmailError = false;
+
+  final authService = AuthService();
   @override
   void dispose(){
     myEmailController.dispose();
@@ -28,7 +33,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
         child: Container(
           // color: Colors.red,
           padding: const EdgeInsets.only(
-            top: 10,
             left: 29,
             right: 29,
           ),
@@ -36,6 +40,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
             mainAxisSize: MainAxisSize.min,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -47,7 +52,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
                       height: 25,
                     ),
                   ),
-                  const SizedBox(width: 40,),
                   Text(
                     "Forgot password ?",
                     textAlign: TextAlign.center,
@@ -56,7 +60,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
                       fontWeight: FontWeight.w500,
                       color: AppColors.Text500,
                     ),
-                  )
+                  ),
+                  const SizedBox(width: 7,),
                 ],
               ),
               const SizedBox(height: 8),
@@ -66,7 +71,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
                   right: 16,
                 ),
                 child: Text(
-                  "Lorem ipsum dolor sit amet consectetur. Tellus leo vitae aliquet vel tortor. Interdum tempus Interdum tempus",
+                  "Just type your email address bellow so we can set up another password for you.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
@@ -82,7 +87,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Email/Username",
+                      "Email",
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontSize: 13,
@@ -93,7 +98,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
                     const SizedBox(height: 6),
                     Input(
                       prefixIcon: 'lib/Assets/Icons/profile_.svg', 
-                      placeholder: 'Email/Username',
+                      placeholder: 'Email',
                       controller: myEmailController,
                     ),
                     const SizedBox(height: 4),
@@ -109,26 +114,55 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
                   ],
                 ),
               ),
-              const SizedBox(height: 100,),
+              
+              const SizedBox(height: 30,),
               Button(
-                onTap: () {
-                  setState(() {
-                    _showEmailError = myEmailController.text.isEmpty;
-                  });
-
-                  if (!_showEmailError) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (e) => VerifyCodeScreen()),
-                    );
-                  }
-                },
+                onTap: _continue,
                 buttonText: 'Continue',
               ),
+              
+              const SizedBox(height: 130,),
             ],
           ),
         ),
       ),
     );
   }
+
+  void _continue() async {
+    setState(() {
+      _showEmailError = myEmailController.text.isEmpty ||
+          !isValidEmail(myEmailController.text.trim());
+    });
+
+    if (!_showEmailError) {
+      showLoadingDialog(context);
+
+      try {
+        final otpSent = await authService.sendEmailOtp(myEmailController.text.trim());
+
+        hideLoadingDialog(context);
+
+        if (otpSent) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => VerifyCodeScreen(email: myEmailController.text.trim()),
+            ),
+          );
+        } else {
+          // show error to the user
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Verify you email address.")),
+          );
+        }
+      } catch (e) {
+        hideLoadingDialog(context);
+        print("Error sending OTP: $e");
+      }
+    }
+  }
+
+
+
 }
