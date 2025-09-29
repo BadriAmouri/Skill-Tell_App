@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:snt_app/Screens/Profile/Profile_Settings.dart';
 import 'package:snt_app/Widgets/General/bottom_navbar.dart';
 import 'package:snt_app/Widgets/General/button.dart';
+import 'package:snt_app/Widgets/General/custom_app_bar.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -23,6 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: CustomAppBar(title: 'Profile'),
       body: Stack(children: [
         Container(
           height: 1450,
@@ -35,29 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         SingleChildScrollView(
           child: Column(children: [
-            const SizedBox(height: 20),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              const SizedBox(width: 16),
-              const Text(
-                "Profile",
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-              ),
-              IconButton(
-                icon: SvgPicture.asset(
-                  'lib/Assets/Icons/back_.svg',
-                  width: 24,
-                  height: 24,
-                  color: Colors.white,
-                ),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ]),
-            const SizedBox(height: 120),
+            const SizedBox(height: 100),
 
             Stack(clipBehavior: Clip.none, children: [
               Container(

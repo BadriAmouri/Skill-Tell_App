@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:snt_app/Widgets/General/bottom_navbar.dart';
+import 'package:snt_app/Widgets/General/custom_app_bar.dart';
 import 'package:snt_app/Theme/text_styles.dart';
 import 'package:snt_app/Theme/theme.dart';
 
@@ -18,21 +19,10 @@ class _NotificationsPageState extends State<NotificationsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.White,
-      bottomNavigationBar: BottomNavBar(currentIndex: _selectedIndex),
-      appBar: AppBar(
-        title: const Text(
-          'Notifications',
-          style: TextStyle(
-            fontFamily: AppFonts.primaryFontFamily,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: AppColors.Text400,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: AppColors.White,
-        elevation: 0,
+      appBar: const CustomAppBar(
+        title: 'Notifications',
       ),
+      bottomNavigationBar: BottomNavBar(currentIndex: _selectedIndex),
       body: _buildEmptyState(),
     );
   }
