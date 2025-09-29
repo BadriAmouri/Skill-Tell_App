@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:snt_app/Models/user_model.dart';
 import 'package:snt_app/Screens/signup/create_password.dart';
 import 'package:snt_app/Services/auth_service.dart';
 import 'package:snt_app/Theme/spacing_consts.dart';
@@ -13,9 +14,11 @@ import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
 class OTPCodeVerification extends StatefulWidget {
   
   final String email;
+  final UserModel userModel;
 
   const OTPCodeVerification({
     super.key,
+    required this.userModel,
     required this.email,
   });
 
@@ -213,7 +216,7 @@ class _OTPCodeVerificationState extends State<OTPCodeVerification> {
       if(otpVerification) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (e) => CreatePassword(email: widget.email,)),
+          MaterialPageRoute(builder: (e) => CreatePassword(email: widget.email, userModel: widget.userModel,)),
         );
       }
       else {

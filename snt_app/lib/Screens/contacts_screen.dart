@@ -246,12 +246,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
 
                           const SizedBox(height: 20),
 
-                          // ===== Mission Section =====
-                          _buildTextSection(
-                            title: "Mission",
-                            text:
-                                "Lorem ipsum dolor sit amet, consectetur. Dignissim curabitur pellentesque semper aliquam egestas. A massa at tempor sem eu volutpat egestas massa. Diam id varius ut sed. Nunc dictumt aenean ut amet vel eu tempus libero. massa at tempor sem eu volutpat egestas massa. Diam id varius ut sed. Nunc dictumt aenean ut amet vel eu tempus libero.",
-                          ),
+                          
                         ],
                       ),
                     ),
@@ -324,7 +319,6 @@ class _ContactsScreenState extends State<ContactsScreen> {
           text,
           style: TextStyle(
             fontSize: 14,
-            color: Color(0xFF657084),
             fontFamily: AppFonts.primaryFontFamily,
             height: 1.5,
           ),

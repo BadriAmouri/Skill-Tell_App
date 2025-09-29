@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:snt_app/Models/department_model.dart';
+import 'package:snt_app/Models/user_model.dart';
 import 'package:snt_app/Screens/Home/home_screen.dart';
 import 'package:snt_app/Services/auth_service.dart';
 import 'package:snt_app/Services/department_service.dart';
+import 'package:snt_app/Services/shared_prefs_service.dart';
 import 'package:snt_app/Theme/spacing_consts.dart';
 import 'package:snt_app/Widgets/General/button.dart';
 import 'package:snt_app/Widgets/General/input.dart';
@@ -12,16 +14,21 @@ import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/utils/regex_functions.dart';
 
-class YourInfo extends StatefulWidget {
-  final String email;
-  final String password;
-  const YourInfo({super.key, required this.password, required this.email});
-
+class YourInfoScreen extends StatefulWidget {
+  final UserModel userModel;
+  final String? password; // Add password parameter
+  
+  const YourInfoScreen({
+    Key? key, 
+    required this.userModel,
+    this.password,
+  }) : super(key: key);
+  
   @override
-  State<YourInfo> createState() => _YourInfoState();
+  State<YourInfoScreen> createState() => _YourInfoScreenState();
 }
 
-class _YourInfoState extends State<YourInfo> {
+class _YourInfoScreenState extends State<YourInfoScreen> {
 
   int hoveredIndex = -1;
   bool isRoleOpen = false;
@@ -53,11 +60,11 @@ class _YourInfoState extends State<YourInfo> {
 
   List<String> department_names = [];
 
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController dobController = TextEditingController();   // NEW
-  final TextEditingController phoneController = TextEditingController(); // NEW
-  final TextEditingController skillsController = TextEditingController();
-  final TextEditingController interestsController = TextEditingController();
+  late TextEditingController usernameController;
+  late TextEditingController dobController;
+  late TextEditingController phoneController;
+  late TextEditingController skillsController;
+  late TextEditingController interestsController;
 
 
   @override
@@ -73,6 +80,12 @@ class _YourInfoState extends State<YourInfo> {
     super.initState();
     selectedRole = roles.first;
     _departmentsFuture = department_service.fetchDepartments();
+
+    usernameController = TextEditingController(text: widget.userModel.username);
+    dobController = TextEditingController();   // NEW
+    phoneController = TextEditingController(); // NEW
+    skillsController = TextEditingController();
+    interestsController = TextEditingController();
   }
 
   @override
@@ -371,7 +384,7 @@ class _YourInfoState extends State<YourInfo> {
 
             // Button
             Button(
-              onTap: _signup,
+              onTap: _finishSignup,
               buttonText: "Sign up",
             ),
           ],
@@ -472,7 +485,7 @@ class _YourInfoState extends State<YourInfo> {
     );
   }
 
-  void _signup() async {
+  void _finishSignup() async {
     setState(() {
       _isUsernameEmpty  = usernameController.text.isEmpty;
       _showUsernameError =  !isValidUsername(usernameController.text);
@@ -497,34 +510,47 @@ class _YourInfoState extends State<YourInfo> {
     showLoadingDialog(context);
 
     try {
-      await auth_service.setPasswordAndCreateProfile(
-        password: widget.password,
+      // First create the user profile in Supabase
+      if (widget.password != null) {
+        await auth_service.setPasswordAndCreateProfile(
+          password: widget.password!,
+          username: usernameController.text,
+          skills: parseSkills(skillsController.text),
+          interests: parseSkills(interestsController.text),
+          departmentName: selectedDepartment,
+          dateOfBirth: dobController.text,
+          phoneNumber: phoneController.text.isNotEmpty ? phoneController.text : null,
+          role: selectedRole,
+        );
+      }
+
+      // Create complete user model for local storage
+      final completeUser = UserModel(
+        userId: widget.userModel.userId,
         username: usernameController.text,
+        email: widget.userModel.email,
         skills: parseSkills(skillsController.text),
         interests: parseSkills(interestsController.text),
-        departmentName: selectedDepartment,
-        dateOfBirth: dobController.text,
         role: selectedRole,
-        phoneNumber: phoneController.text, 
+        dateOfBirth: dobController.text,
+        phoneNumber: phoneController.text.isNotEmpty ? phoneController.text : null,
+        pfp: null, // Initial profile picture is null
+        isLoggedIn: true,
       );
 
-      print("profile created");
-
-      await auth_service.signInWithEmailPassword(widget.email, widget.password);
-
-      print("sign in");
+      // Then save to SharedPreferences
+      await SharedPrefsService.saveUser(completeUser);
 
       hideLoadingDialog(context);
+
+      // Navigate to home screen
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (_) => HomeScreen()),
-        (Route<dynamic> route) => false,
+        (route) => false,
       );
-
-
-      print("navigating to home");
-
     } catch (e) {
+      hideLoadingDialog(context);
       debugPrint("Signup error: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Failed to sign up: $e")),
