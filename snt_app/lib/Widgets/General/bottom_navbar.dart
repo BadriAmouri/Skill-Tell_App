@@ -129,7 +129,7 @@ class BottomNavBar extends StatelessWidget {
             style: TextStyle(
               color: isActive ?  AppColors.Main400 : AppColors.Neutral400,
               fontSize: 12,
-              fontFamily: 'Poppins',
+              fontFamily: AppFonts.primaryFontFamily,
             ),
           ),
         ],

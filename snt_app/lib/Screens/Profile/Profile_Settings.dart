@@ -121,7 +121,7 @@ class _SettingsPageState extends State<SettingsPage> {
           onPressed: _finish,
         ),
         title: const Text('Settings',
-            style: TextStyle(color: AppColors.Text400, fontWeight: FontWeight.w500, fontFamily: 'Poppins', fontSize: 16)),
+            style: TextStyle(color: AppColors.Text400, fontWeight: FontWeight.w500, fontFamily: AppFonts.primaryFontFamily, fontSize: 16)),
         actions: [
           TextButton(onPressed: _finish, child: const Text('Save', style: TextStyle(color: AppColors.Main400, fontFamily: 'Poppins')))
         ],

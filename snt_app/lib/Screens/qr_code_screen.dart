@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/Widgets/General/bottom_navbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:ui';
@@ -39,7 +40,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
           'Skill&Tell QR code',
           style: TextStyle(
             color: DesignColors.appBarTitle,
-            fontFamily: 'Poppins',
+            fontFamily: AppFonts.primaryFontFamily,
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
@@ -173,7 +174,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
                       style: TextStyle(
                         color: DesignColors.scanMeText,
                         fontSize: 14,
-                        fontFamily: 'Poppins',
+                        fontFamily: AppFonts.primaryFontFamily,
                         letterSpacing: 1.2,
                       ),
                     ),

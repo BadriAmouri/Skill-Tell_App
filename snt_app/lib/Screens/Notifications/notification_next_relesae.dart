@@ -34,7 +34,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
         title: const Text(
           'Notifications',
           style: TextStyle(
-            fontFamily: 'Poppins',
+            fontFamily: AppFonts.primaryFontFamily,
             fontSize: 16,
             fontWeight: FontWeight.w600,
             color: AppColors.Text400,
@@ -79,7 +79,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         fontWeight: FontWeight.w500,
                         fontSize: 20,
                         color: AppColors.Neutral600,
-                        fontFamily: 'Poppins',
+                        fontFamily: AppFonts.primaryFontFamily,
                       ),
                     ),
                     SizedBox(height: 8),
@@ -90,7 +90,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         fontSize: 12,
                         color: AppColors.Neutral400,
                         height: 1.4,
-                        fontFamily: 'Poppins',
+                        fontFamily: AppFonts.primaryFontFamily,
                       ),
                     ),
                   ],
@@ -162,7 +162,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         style: TextStyle(
                           color: Color(0xFFECECEC),
                           fontWeight: FontWeight.bold,
-                          fontFamily: 'Poppins',
+                          fontFamily: AppFonts.primaryFontFamily,
                         ),
                       ),
                     ],
@@ -208,7 +208,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                               fontWeight: FontWeight.w600,
                               fontSize: 14,
                               color: AppColors.Text500,
-                              fontFamily: 'Poppins',
+                              fontFamily: AppFonts.primaryFontFamily,
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -226,7 +226,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                     style: const TextStyle(
                                       fontSize: 12,
                                       color: AppColors.Text400,
-                                      fontFamily: 'Poppins',
+                                      fontFamily: AppFonts.primaryFontFamily,
                                     ),
                                     maxLines: isExpanded ? null : 2,
                                     overflow: isExpanded
@@ -251,7 +251,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                               fontSize: 12,
                                               color: AppColors.Main600,
                                               fontWeight: FontWeight.w500,
-                                              fontFamily: 'Poppins',
+                                              fontFamily: AppFonts.primaryFontFamily,
                                             ),
                                           ),
                                           Icon(
@@ -275,7 +275,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                               fontSize: 12,
                               color: AppColors.Main400,
                               fontWeight: FontWeight.w400,
-                              fontFamily: 'Poppins',
+                              fontFamily: AppFonts.primaryFontFamily,
                             ),
                           ),
                         ],
