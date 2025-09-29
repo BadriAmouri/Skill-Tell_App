@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:snt_app/Widgets/General/bottom_navbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'qr_code_screen.dart';
 
@@ -11,9 +12,12 @@ class ContactsScreen extends StatefulWidget {
 }
 
 class _ContactsScreenState extends State<ContactsScreen> {
+
+  final _selectedIndex = 2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomNavBar(currentIndex: _selectedIndex), // Add this line
       body: Stack(
         fit: StackFit.expand,
         children: [

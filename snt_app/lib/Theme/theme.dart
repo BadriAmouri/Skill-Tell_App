@@ -31,5 +31,5 @@ class AppColors {
 
 // need to be changed
 class AppFonts {
-  static const String primaryFontFamily = 'Poppins';
+  static const String primaryFontFamily = 'Ubuntu';
 }

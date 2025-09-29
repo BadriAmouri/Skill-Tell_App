@@ -33,108 +33,85 @@ class _NotificationsPageState extends State<NotificationsPage> {
         backgroundColor: AppColors.White,
         elevation: 0,
       ),
-      body: _buildComingSoonState(),
+      body: _buildEmptyState(),
     );
   }
 
-  Widget _buildComingSoonState() {
-    return Center(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Club Logo
-               Container(
-                        width: 120,
-                        height: 120,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.Main600.withOpacity(0.3),
-                              blurRadius: 20,
-                              offset: const Offset(0, 10),
-                            ),
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.asset(
-                            'lib/Assets/Images/logo.png',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-              
-              const SizedBox(height: 32),
-              
-              // Title
-              const Text(
-                "Notifications Coming Soon",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
-                  color: AppColors.Text500,
-                  fontFamily: AppFonts.primaryFontFamily
+  Widget _buildEmptyState() {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('lib/Assets/Images/notification_bg.png'), // Replace with your background image path
+          fit: BoxFit.cover,
+          opacity: 0.3, // Adjust opacity if needed
+        ),
+      ),
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment.center,
+            radius: 0.8,
+            colors: [
+              AppColors.Main200.withOpacity(0.3),
+              AppColors.Main100.withOpacity(0.2),
+              AppColors.White.withOpacity(0.0),
+            ],
+            stops: const [0.0, 0.5, 1.0],
+          ),
+        ),
+        child: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Bell illustration
+                Image.asset(
+                  'lib/Assets/Images/no_notification.png',
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.contain,
                 ),
-              ),
-              
-              const SizedBox(height: 16),
-              
-              // Description
-              const Text(
-                "We're working on building our notification system to keep you updated with all the latest club news, events, and announcements.",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: AppColors.Text400,
-                  height: 1.5,
-                  fontFamily: AppFonts.primaryFontFamily,
-                ),
-              ),
-              
-              const SizedBox(height: 24),
-              
-              // Additional message
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppColors.Main100,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: AppColors.Main200,
-                    width: 1,
+                
+                const SizedBox(height: 32),
+                
+                // Title
+                Text(
+                  "You're all caught up",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 22,
+                    color: AppColors.Text500,
+                    fontFamily: AppFonts.primaryFontFamily,
                   ),
                 ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.info_outline,
-                      color: AppColors.Main600,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        "Stay tuned! This feature will be available in an upcoming update.",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: AppColors.Main600,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: AppFonts.primaryFontFamily
-                        ),
-                      ),
-                    ),
-                  ],
+                
+                const SizedBox(height: 16),
+                
+                // Description
+                Text(
+                  "We're building our notification system to keep you updated with club news and events.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: AppColors.Text400,
+                    height: 1.5,
+                    fontFamily: AppFonts.primaryFontFamily,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
+    )
     );
+    
   }
 }
