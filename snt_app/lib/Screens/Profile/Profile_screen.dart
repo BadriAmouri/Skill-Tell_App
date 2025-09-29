@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:snt_app/Theme/theme.dart';
@@ -6,6 +7,8 @@ import 'package:snt_app/Screens/Profile/Profile_Settings.dart';
 import 'package:snt_app/Widgets/General/bottom_navbar.dart';
 import 'package:snt_app/Widgets/General/button.dart';
 import 'package:snt_app/Widgets/General/custom_app_bar.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -19,6 +22,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List<String> skills = ["Leadership", "UX Design"];
   List<String> interests = ["Basketball", "Reading"];
   Uint8List? avatarBytes;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAvatar();
+  }
+
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      final bytes = await image.readAsBytes();
+      setState(() {
+        avatarBytes = bytes;
+      });
+      _saveAvatar(bytes);
+    }
+  }
+
+  Future<void> _saveAvatar(Uint8List bytes) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String base64Image = base64Encode(bytes);
+    await prefs.setString('avatar', base64Image);
+  }
+
+  Future<void> _loadAvatar() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? base64Image = prefs.getString('avatar');
+    if (base64Image != null) {
+      setState(() {
+        avatarBytes = base64Decode(base64Image);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +76,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         SingleChildScrollView(
           child: Column(children: [
             const SizedBox(height: 100),
-
             Stack(clipBehavior: Clip.none, children: [
               Container(
                 height: 760,
@@ -88,21 +125,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     value: "UI/UX design",
                   ),
                   const SizedBox(height: 30),
-
                   _tagsCard(
                     title: "Skills",
                     iconPath: 'lib/Assets/Icons/skills_.svg',
                     tags: skills,
                   ),
                   const SizedBox(height: 20),
-
                   _tagsCard(
                     title: "Interests",
                     iconPath: 'lib/Assets/Icons/interests_.svg',
                     tags: interests,
                   ),
                   const SizedBox(height: 30),
-
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Button(
@@ -134,21 +168,59 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ]),
               ),
-
+              // MODIFIED AVATAR WIDGET
               Positioned(
                 top: -60,
                 left: 0,
                 right: 0,
-                child: CircleAvatar(
-                  radius: 60,
-                  backgroundColor: Colors.white,
-                  child: CircleAvatar(
-                    radius: 53,
-                    backgroundImage: avatarBytes != null
-                        ? MemoryImage(avatarBytes!)
-                        : const NetworkImage('https://via.placeholder.com/150')
-                            as ImageProvider,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: _pickImage,
+                      child: SizedBox(
+                        height: 120,
+                        width: 120,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            CircleAvatar(
+                              radius: 60,
+                              backgroundColor: Colors.white,
+                              child: CircleAvatar(
+                                radius: 53,
+                                backgroundImage: avatarBytes != null
+                                    ? MemoryImage(avatarBytes!)
+                                    : const NetworkImage(
+                                            'https://via.placeholder.com/150')
+                                        as ImageProvider,
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  color: AppColors.Accent300,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Colors.white,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: const Icon(
+                                  Icons.edit,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ]),
