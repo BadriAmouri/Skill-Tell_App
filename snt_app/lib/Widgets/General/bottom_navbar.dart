@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:snt_app/Screens/Card/profile_card_screen.dart';
 import 'package:snt_app/Screens/Home/home_screen.dart';
-import 'package:snt_app/Screens/Profile/Profile_screen.dart';
-import 'package:snt_app/Screens/empty_screen.dart';
-import 'package:snt_app/Screens/Notifications/notifications.dart';
-
+import 'package:snt_app/Screens/Profile/Profile_screen.dart' show ProfileScreen;
+import 'package:snt_app/Screens/contacts_screen.dart';
+import 'package:snt_app/Screens/Notifications/notifications.dart' show NotificationsPage;
 import 'package:snt_app/Theme/theme.dart';
+
 class BottomNavBar extends StatelessWidget {
 
   final int currentIndex;
@@ -16,28 +16,28 @@ class BottomNavBar extends StatelessWidget {
     // Navigate to NotificationsPage
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => ProfileCard()),
+      MaterialPageRoute(builder: (context) => const ProfileCard()),
     );
   } 
   else if (index == 1) {
     // Navigate to NotificationsPage
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => NotificationsPage()),
+      MaterialPageRoute(builder: (context) => const NotificationsPage()),
     );
   } 
   else if (index == 3) {
     // Navigate to NotificationsPage
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => ProfileScreen()),
+      MaterialPageRoute(builder: (context) => const ProfileScreen()),
     );
   } 
   else {
     // Default navigation for other indexes
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => EmptyScreen(selectedIndex: index)),
+      MaterialPageRoute(builder: (context) => const ContactsScreen()),
     );
   }
   }
@@ -129,7 +129,7 @@ class BottomNavBar extends StatelessWidget {
             style: TextStyle(
               color: isActive ?  AppColors.Main400 : AppColors.Neutral400,
               fontSize: 12,
-              fontFamily: 'Poppins',
+              fontFamily: AppFonts.primaryFontFamily,
             ),
           ),
         ],

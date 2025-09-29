@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/Widgets/Card/card.dart';
 import 'package:snt_app/Widgets/General/bottom_navbar.dart';
+import 'package:snt_app/Widgets/General/custom_app_bar.dart';
 
 class ProfileCard extends StatefulWidget {
   const ProfileCard({super.key});
@@ -17,19 +18,8 @@ class _ProfileCardState extends State<ProfileCard> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.White,
-      appBar: AppBar(
-        title: const Text(
-          'Profile Card',
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: AppColors.Text500,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: AppColors.White,
-        elevation: 0,
+      appBar: const CustomAppBar(
+        title: 'Profile Card',
       ),
       bottomNavigationBar: BottomNavBar(currentIndex: _selectedIndex),
       body: SafeArea(

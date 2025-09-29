@@ -26,7 +26,7 @@ class EmptyScreen extends StatelessWidget {
         child: Text(
           'EMPTY Screen!',
           style: TextStyle(
-            fontFamily: 'Poppins',
+            fontFamily: AppFonts.primaryFontFamily,
             fontWeight: FontWeight.w500,
             fontSize: 18,
             color: AppColors.Main600,

@@ -8,6 +8,8 @@ import 'package:snt_app/Widgets/General/input.dart';
 import 'package:snt_app/Widgets/General/loading.dart';
 import 'package:snt_app/Widgets/SignUp&LogIn/custom_scaffold.dart';
 import 'package:snt_app/utils/regex_functions.dart';
+import 'package:snt_app/Models/user_model.dart';
+import 'package:snt_app/Services/shared_prefs_service.dart';
 
 class SignupScreen extends StatefulWidget{
   const SignupScreen({super.key});
@@ -228,10 +230,27 @@ class _SignupScreenState extends State<SignupScreen>{
     });
 
     if (!_showEmailError && !_showCodeError && agree && !_usedEmail) {
+      // Create a new UserModel with initial values
+      final newUser = UserModel(
+        userId: DateTime.now().millisecondsSinceEpoch.toString(), // This should be replaced with actual user ID after auth
+        username: email.split('@')[0], // Initial username from email
+        email: email,
+        skills: [], // Empty initially, user can add later
+        interests: [], // Empty initially, user can add later
+        role: 'member', // Default role
+        dateOfBirth: '', // Will be set in next screens
+        phoneNumber: null,
+        isLoggedIn: false,
+      );
+
+      // Save the user data
+      await SharedPrefsService.saveUser(newUser);
+
+      // Navigate to OTP verification
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => OTPCodeVerification(email: email),
+          builder: (context) => OTPCodeVerification(email: email , userModel : newUser),
         ),
       );
     }

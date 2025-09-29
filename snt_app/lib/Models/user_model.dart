@@ -4,10 +4,12 @@ class UserModel {
   final String email; // still comes from auth.users
   final List<String> skills;
   final List<String> interests;
+  final String? department; // Ensure this exists
   final String role;
   final String? pfp; // Nullable
   final String dateOfBirth;
   final String? phoneNumber; // Nullable
+  final bool? isLoggedIn; // Nullable
 
   UserModel({
     required this.userId,
@@ -18,7 +20,9 @@ class UserModel {
     required this.role,
     this.pfp,
     required this.dateOfBirth,
+    this.department,
     this.phoneNumber,
+    this.isLoggedIn,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json, String email) {
@@ -36,6 +40,7 @@ class UserModel {
       pfp: json['pfp'] as String?, 
       dateOfBirth: json['date_of_birth'] as String,
       phoneNumber: json['phone_number'] as String?,
+      
     );
   }
 
@@ -50,6 +55,9 @@ class UserModel {
       'pfp': pfp,
       'date_of_birth': dateOfBirth,
       'phone_number': phoneNumber,
+      'isLoggedIn': isLoggedIn,
+      'department': department,
     };
+
   }
 }

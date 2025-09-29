@@ -29,7 +29,7 @@ class DepartmentMembers extends StatelessWidget {
         title: Text(
           department_name,
           style: const TextStyle(
-            fontFamily: 'Poppins',
+            fontFamily: AppFonts.primaryFontFamily,
             fontSize: 16,
             fontWeight: FontWeight.w600,
             color: AppColors.Text400,
