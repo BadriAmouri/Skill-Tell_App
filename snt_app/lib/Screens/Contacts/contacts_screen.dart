@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/Widgets/General/bottom_navbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'qr_code_screen.dart';
@@ -12,10 +13,12 @@ class ContactsScreen extends StatefulWidget {
 }
 
 class _ContactsScreenState extends State<ContactsScreen> {
+
+  final _selectedIndex = 2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavBar(currentIndex: 2),
+      bottomNavigationBar: BottomNavBar(currentIndex: _selectedIndex), // Add this line
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -47,7 +50,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
-                              fontFamily: 'Inter',
+                              fontFamily: AppFonts.primaryFontFamily,
                             ),
                           ),
                         ),
@@ -169,7 +172,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                               style: TextStyle(
                                 fontSize: 20,
                                 color: Color(0xFF657084),
-                                fontFamily: 'Futura Lt BT',
+                                fontFamily: AppFonts.primaryFontFamily,
                                 height: 1.5,
                               ),
                             ),
@@ -211,7 +214,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                           _buildTextSection(
                             title: "About",
                             text:
-                                "Lorem ipsum dolor sit amet, consectetur. Dignissim curabitur pellentesque semper aliquam egestas. A massa at tempor sem eu volutpat egestas massa. Diam id varius ut sed. Nunc dictumt aenean ut amet vel eu tempus libero. massa at tempor sem eu volutpat egestas massa. Diam id varius ut sed. Nunc dictumt aenean ut amet vel eu tempus libero.",
+                               "Founded in March 2022, the Skill&Tell Club brings together students passionate about artificial intelligence and new technologies. Its mission is to promote learning, collaboration, and the dissemination of AI knowledge through innovative projects. Our goal is to create an environment conducive to learning, experimentation, and collaboration while encouraging students to apply AI to solve real-world problems"
                           ),
 
                           const SizedBox(height: 20),
@@ -220,17 +223,30 @@ class _ContactsScreenState extends State<ContactsScreen> {
                           _buildTextSection(
                             title: "Vision",
                             text:
-                                "Lorem ipsum dolor sit amet, consectetur. Dignissim curabitur pellentesque semper aliquam egestas. A massa at tempor sem eu volutpat egestas massa. Diam id varius ut sed. Nunc dictumt aenean ut amet vel eu tempus libero. massa at tempor sem eu volutpat egestas massa. Diam id varius ut sed. Nunc dictumt aenean ut amet vel eu tempus libero.",
+                                "Skill&Tell Club is a unique space where learning meets fun. Our goals include:\n\n" +
+                                "• Organizing high-quality events that dynamically emphasize the importance of skills development and personal growth.\n\n" +
+                                "• Providing a wide range of training sessions, both internal and external, focused on essential skills for success across diverse domains.\n\n" +
+                                "• Maintaining educational continuity on social media to inspire and introduce a larger audience to the exciting world of skill development and personal growth.\n\n" +
+                                "• Creating a collaborative space for students to share their knowledge and skills, fostering mutual exchange and enrichment.\n\n" +
+                                "• Building a strong and cohesive community where members can learn from each other, share experiences, and grow together toward excellence.",
                           ),
 
                           const SizedBox(height: 20),
 
-                          // ===== Mission Section =====
+                          // ===== Values Section =====
                           _buildTextSection(
-                            title: "Mission",
+                            title: "OUR VALUES",
                             text:
-                                "Lorem ipsum dolor sit amet, consectetur. Dignissim curabitur pellentesque semper aliquam egestas. A massa at tempor sem eu volutpat egestas massa. Diam id varius ut sed. Nunc dictumt aenean ut amet vel eu tempus libero. massa at tempor sem eu volutpat egestas massa. Diam id varius ut sed. Nunc dictumt aenean ut amet vel eu tempus libero.",
+                                "• Curiosity and creativity\n\n" +
+                                "• Teamwork\n\n" +
+                                "• Sharing knowledge and skills\n\n" +
+                                "• Making a positive impact on the community\n\n" +
+                                "• Excellence and inclusion",
                           ),
+
+                          const SizedBox(height: 20),
+
+                          
                         ],
                       ),
                     ),
@@ -255,7 +271,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
           style: TextStyle(
             fontSize: 16,
             color: Color(0xFFeddbff),
-            fontFamily: 'Futura Lt BT',
+            fontFamily: AppFonts.primaryFontFamily,
           ),
         ),
         const SizedBox(height: 8),
@@ -265,7 +281,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
             fontSize: 32,
             fontWeight: FontWeight.normal,
             color: Color(0xFFD7AEFF),
-            fontFamily: 'Futura Lt BT',
+            fontFamily: AppFonts.primaryFontFamily,
           ),
         ),
       ],
@@ -295,7 +311,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
             fontSize: 24,
             fontWeight: FontWeight.bold,
             color: Color(0xFFFF6D00),
-            fontFamily: 'Futura Md BT',
+            fontFamily: AppFonts.primaryFontFamily,
           ),
         ),
         const SizedBox(height: 10),
@@ -303,8 +319,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
           text,
           style: TextStyle(
             fontSize: 14,
-            color: Color(0xFF657084),
-            fontFamily: 'Futura Md BT',
+            fontFamily: AppFonts.primaryFontFamily,
             height: 1.5,
           ),
         ),

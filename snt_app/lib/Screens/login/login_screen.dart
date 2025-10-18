@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:snt_app/Screens/Home/home_screen.dart';
 import 'package:snt_app/Screens/login/forgot_password_screen.dart';
 import 'package:snt_app/Services/auth_service.dart';
+import 'package:snt_app/Services/shared_prefs_service.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:snt_app/Widgets/General/button.dart';
@@ -256,6 +257,9 @@ class _LoginScreenState extends State<LoginScreen>{
       hideLoadingDialog(context);
 
       if (response.user != null) {
+        // Set logged in state to true
+        await SharedPrefsService.setIsLoggedIn(true);
+        
         // Success → Go to home
         Navigator.pushAndRemoveUntil(
           context,
@@ -279,4 +283,4 @@ class _LoginScreenState extends State<LoginScreen>{
 
 
 }
-  
+

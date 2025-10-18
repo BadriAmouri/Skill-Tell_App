@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/Widgets/General/bottom_navbar.dart';
+import 'package:snt_app/Widgets/General/custom_app_bar.dart';
 import 'package:snt_app/Widgets/HomePage/Departments/departments_section.dart';
 import 'package:snt_app/Widgets/HomePage/PreviousEvents/previous_events_section.dart';
 import 'package:snt_app/Widgets/HomePage/UpcomingEvents/upcoming_events_section.dart';
@@ -20,20 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.White,
-      appBar: AppBar(
-        title: const Text(
-          'Home',
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: AppColors.Text400,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: AppColors.White,
-        elevation: 0,
-      ),
+      appBar: CustomAppBar(title: 'Home'),
       bottomNavigationBar: BottomNavBar(currentIndex: _selectedIndex,),
       body: SafeArea(
         child: SingleChildScrollView(
