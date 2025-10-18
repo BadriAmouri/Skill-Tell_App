@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:snt_app/Screens/contacts_screen.dart'; // Ensure this path is correct
+import 'package:snt_app/Screens/Contacts/contacts_screen.dart'; // Ensure this path is correct
 import 'package:snt_app/Widgets/General/bottom_navbar.dart';
-import './qr_code_screen.dart'; // Ensure this path is correct
+import 'Contacts/qr_code_screen.dart'; // Ensure this path is correct
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key});

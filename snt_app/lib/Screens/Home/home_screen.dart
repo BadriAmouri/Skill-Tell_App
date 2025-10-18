@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:snt_app/Theme/text_styles.dart';
 import 'package:snt_app/Theme/theme.dart';
 import 'package:snt_app/Widgets/General/bottom_navbar.dart';
 import 'package:snt_app/Widgets/HomePage/Departments/departments_section.dart';
