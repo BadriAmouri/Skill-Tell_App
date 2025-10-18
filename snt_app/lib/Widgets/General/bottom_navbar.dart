@@ -4,7 +4,6 @@ import 'package:snt_app/Screens/Card/profile_card_screen.dart';
 import 'package:snt_app/Screens/Contacts/contacts_screen.dart';
 import 'package:snt_app/Screens/Home/home_screen.dart';
 import 'package:snt_app/Screens/Profile/Profile_screen.dart' show ProfileScreen;
-import 'package:snt_app/Screens/contacts_screen.dart';
 import 'package:snt_app/Screens/Notifications/notifications.dart' show NotificationsPage;
 import 'package:snt_app/Theme/theme.dart';
 
