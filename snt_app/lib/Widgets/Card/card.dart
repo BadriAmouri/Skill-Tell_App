@@ -99,7 +99,12 @@ class _MemberCardState extends State<MemberCard> {
         children: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(right: 25, left: 25, top: 5, bottom: 25),
+              padding: const EdgeInsets.only(
+                right: 25,
+                left: 25,
+                top: 5,
+                bottom: 25,
+              ),
               child: Column(
                 children: [
                   Row(
@@ -116,7 +121,8 @@ class _MemberCardState extends State<MemberCard> {
                         ),
                       ),
                       QrImageView(
-                        data: user.userId, // Use user's unique ID for the QR code
+                        data:
+                            user.userId, // Use user's unique ID for the QR code
                         version: QrVersions.auto,
                         size: 50,
                       ),
@@ -133,16 +139,22 @@ class _MemberCardState extends State<MemberCard> {
                           decoration: BoxDecoration(
                             color: const Color.fromRGBO(217, 217, 217, 1),
                             borderRadius: BorderRadius.circular(8),
-                            image: avatarBytes != null
-                                ? DecorationImage(
-                                    image: MemoryImage(avatarBytes),
-                                    fit: BoxFit.cover,
-                                  )
-                                : null,
+                            image:
+                                avatarBytes != null
+                                    ? DecorationImage(
+                                      image: MemoryImage(avatarBytes),
+                                      fit: BoxFit.cover,
+                                    )
+                                    : null,
                           ),
-                          child: avatarBytes == null
-                              ? const Icon(Icons.person, size: 80, color: Colors.white)
-                              : null,
+                          child:
+                              avatarBytes == null
+                                  ? const Icon(
+                                    Icons.person,
+                                    size: 80,
+                                    color: Colors.white,
+                                  )
+                                  : null,
                         ),
                         const SizedBox(width: 16),
                         // User Info from SharedPrefsService
@@ -152,11 +164,20 @@ class _MemberCardState extends State<MemberCard> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               _buildInfoRow("Name", user.username),
-                              _buildInfoRow("Email", user.email),
-                              _buildInfoRow("Phone number", user.phoneNumber ?? 'N/A'),
-                              _buildInfoRow("Date of birth", user.dateOfBirth ?? 'N/A'),
+                              _buildAdaptiveEmailRow("Email", user.email),
+                              _buildInfoRow(
+                                "Phone number",
+                                user.phoneNumber ?? 'N/A',
+                              ),
+                              _buildInfoRow(
+                                "Date of birth",
+                                user.dateOfBirth ?? 'N/A',
+                              ),
                               _buildInfoRow("School", "ENSIAS"),
-                              _buildInfoRow("Department", user.department ?? 'N/A'),
+                              _buildInfoRow(
+                                "Department",
+                                user.department ?? 'N/A',
+                              ),
                             ],
                           ),
                         ),
@@ -222,9 +243,7 @@ class _MemberCardState extends State<MemberCard> {
     return const SizedBox(
       height: 320,
       width: 550,
-      child: Center(
-        child: CircularProgressIndicator(),
-      ),
+      child: Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -274,5 +293,48 @@ class _MemberCardState extends State<MemberCard> {
         ),
       ],
     );
+  }
+
+  /// Special builder for email that adapts font size based on text length
+  Widget _buildAdaptiveEmailRow(String label, String email) {
+    // Calculate if the email is too long and needs smaller font
+    final bool needsSmallFont = _isEmailTooLong(email);
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontFamily: AppFonts.primaryFontFamily,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: AppColors.Neutral400,
+          ),
+        ),
+        Expanded(
+          child: Text(
+            email,
+            textAlign: TextAlign.right,
+            style: TextStyle(
+              fontFamily: AppFonts.primaryFontFamily,
+              fontSize:
+                  needsSmallFont ? 11 : 14, // Smaller font for long emails
+              fontWeight: FontWeight.w400,
+              color: AppColors.Neutral300,
+            ),
+            overflow:
+                TextOverflow.ellipsis, // Fallback in case it still overflows
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Helper method to determine if email is too long and needs smaller font
+  bool _isEmailTooLong(String email) {
+    // You can adjust this threshold based on your layout
+    const int maxComfortableLength = 25;
+    return email.length > maxComfortableLength;
   }
 }

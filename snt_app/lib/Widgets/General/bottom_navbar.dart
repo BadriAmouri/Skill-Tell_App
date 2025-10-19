@@ -4,83 +4,93 @@ import 'package:snt_app/Screens/Card/profile_card_screen.dart';
 import 'package:snt_app/Screens/Contacts/contacts_screen.dart';
 import 'package:snt_app/Screens/Home/home_screen.dart';
 import 'package:snt_app/Screens/Profile/Profile_screen.dart' show ProfileScreen;
-import 'package:snt_app/Screens/Notifications/notifications.dart' show NotificationsPage;
+import 'package:snt_app/Screens/Notifications/notifications.dart'
+    show NotificationsPage;
 import 'package:snt_app/Theme/theme.dart';
 
 class BottomNavBar extends StatelessWidget {
-
   final int currentIndex;
 
   void onTap(int index, BuildContext context) {
-  if (index == 0) {
-    // Navigate to NotificationsPage
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const ProfileCard()),
-    );
-  } 
-  else if (index == 1) {
-    // Navigate to NotificationsPage
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const NotificationsPage()),
-    );
-  }
-   else if (index == 2) {
-    // Navigate to NotificationsPage
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => ContactsScreen()),
-    );
-  } 
-  else if (index == 3) {
-    // Navigate to NotificationsPage
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const ProfileScreen()),
-    );
-  } 
-  else {
-    // Default navigation for other indexes
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const ContactsScreen()),
-    );
-  }
+    if (index == 0) {
+      // Navigate to NotificationsPage
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const ProfileCard()),
+      );
+    } else if (index == 1) {
+      // Navigate to NotificationsPage
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const NotificationsPage()),
+      );
+    } else if (index == 2) {
+      // Navigate to NotificationsPage
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ContactsScreen()),
+      );
+    } else if (index == 3) {
+      // Navigate to NotificationsPage
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const ProfileScreen()),
+      );
+    } else {
+      // Default navigation for other indexes
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const ContactsScreen()),
+      );
+    }
   }
 
-  const BottomNavBar({
-    
-    Key? key,
-    required this.currentIndex,
-  }) : super(key: key);
+  const BottomNavBar({Key? key, required this.currentIndex}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
-      ),
+      decoration: const BoxDecoration(color: Colors.transparent),
       height: 90, // give actual space for navbar
       child: Stack(
         clipBehavior: Clip.none,
         children: [
           Positioned(
-            bottom: 0,
+            bottom: 5,
             left: 0,
             right: 0,
             child: CustomPaint(
               painter: _NavBarPainter(),
               child: SizedBox(
-                height: 65,
+                height: 72,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _navItem('lib/Assets/Icons/solar_card-outline.svg', "Card", 0, context),
-                    _navItem('lib/Assets/Icons/Notification.svg', "Notifications", 1, context),
+                    _navItem(
+                      'lib/Assets/Icons/solar_card-outline.svg',
+                      "Card",
+                      0,
+                      context,
+                    ),
+                    _navItem(
+                      'lib/Assets/Icons/Notification.svg',
+                      "Notifications",
+                      1,
+                      context,
+                    ),
                     const SizedBox(width: 48), // space for FAB
-                    _navItem('lib/Assets/Icons/Call.svg', "Contacts", 2, context),
-                    _navItem('lib/Assets/Icons/Profile.svg', "Profile", 3, context),
+                    _navItem(
+                      'lib/Assets/Icons/Call.svg',
+                      "About us",
+                      2,
+                      context,
+                    ),
+                    _navItem(
+                      'lib/Assets/Icons/Profile.svg',
+                      "Profile",
+                      3,
+                      context,
+                    ),
                   ],
                 ),
               ),
@@ -89,7 +99,7 @@ class BottomNavBar extends StatelessWidget {
 
           // Floating Home Button
           Positioned(
-            top: -12, // just slightly above the navbar
+            top: -15, // just slightly above the navbar
             left: 0,
             right: 0,
             child: Center(
@@ -107,7 +117,11 @@ class BottomNavBar extends StatelessWidget {
                     color: AppColors.Main400,
                     shape: BoxShape.circle,
                   ),
-                  child: Image.asset('lib/Assets/Icons/Home.png', width: 15, height: 15),
+                  child: Image.asset(
+                    'lib/Assets/Icons/Home.png',
+                    width: 15,
+                    height: 15,
+                  ),
                 ),
               ),
             ),
@@ -115,7 +129,6 @@ class BottomNavBar extends StatelessWidget {
         ],
       ),
     );
-
   }
 
   Widget _navItem(String icon, String label, int index, BuildContext context) {
@@ -134,7 +147,7 @@ class BottomNavBar extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
-              color: isActive ?  AppColors.Main400 : AppColors.Neutral400,
+              color: isActive ? AppColors.Main400 : AppColors.Neutral400,
               fontSize: 12,
               fontFamily: AppFonts.primaryFontFamily,
             ),
@@ -144,6 +157,7 @@ class BottomNavBar extends StatelessWidget {
     );
   }
 }
+
 class _NavBarPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -155,21 +169,25 @@ class _NavBarPainter extends CustomPainter {
 
     // Left curve into the cutout
     path.quadraticBezierTo(
-      (size.width / 2) - fabRadius - 10, 0,
-      (size.width / 2) - fabRadius, 20,
+      (size.width / 2) - fabRadius - 10,
+      0,
+      (size.width / 2) - fabRadius,
+      23,
     );
 
     // Big central arc for the home button
     path.arcToPoint(
-      Offset((size.width / 2) + fabRadius, 20),
+      Offset((size.width / 2) + fabRadius, 23),
       radius: const Radius.circular(50),
       clockwise: false,
     );
 
     // Right curve out of the cutout
     path.quadraticBezierTo(
-      (size.width / 2) + fabRadius + 10, 0,
-      (size.width / 2) + fabRadius + 20, 0,
+      (size.width / 2) + fabRadius + 10,
+      0,
+      (size.width / 2) + fabRadius + 20,
+      0,
     );
 
     path.lineTo(size.width, 0);
@@ -177,9 +195,13 @@ class _NavBarPainter extends CustomPainter {
     path.lineTo(0, size.height);
     path.close();
 
-    Paint shadowPaint = Paint()
-      ..color = Color.fromRGBO(0, 0, 0, 0.1) // opacity = 0.1
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10); // blur = 10
+    Paint shadowPaint =
+        Paint()
+          ..color = Color.fromRGBO(0, 0, 0, 0.1) // opacity = 0.1
+          ..maskFilter = const MaskFilter.blur(
+            BlurStyle.normal,
+            10,
+          ); // blur = 10
 
     canvas.save();
     canvas.translate(0, -5); // Y offset = -5 (move shadow up)
