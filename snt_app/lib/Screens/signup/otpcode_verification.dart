@@ -102,12 +102,12 @@ class _OTPCodeVerificationState extends State<OTPCodeVerification> {
               ),
               const SizedBox(height: SignUpLogInSpacingConsts.UnderDesc),
               Row(
-                spacing: 8,
+                spacing: MediaQuery.of(context).size.width * 0.015,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(6, (index) {
                   return SizedBox(
-                    width: 52,
-                    height: 52,
+                    width: MediaQuery.of(context).size.width * 0.12,
+                    height: MediaQuery.of(context).size.width * 0.12,
                     child: TextFormField(
                       controller: _controllers[index],
                       keyboardType: TextInputType.number,
@@ -116,7 +116,19 @@ class _OTPCodeVerificationState extends State<OTPCodeVerification> {
                       textAlignVertical: TextAlignVertical.center,
                       maxLength: 1,
                       onChanged: (value) {
-                        setState(() {}); 
+                        setState(() {});
+
+                        if (value.isNotEmpty) {
+                          // Move to next field if not the last one
+                          if (index < _controllers.length - 1) {
+                            FocusScope.of(context).nextFocus();
+                          } else {
+                            FocusScope.of(context).unfocus(); // close keyboard on last box
+                          }
+                        } else if (value.isEmpty && index > 0) {
+                          // If user deletes, move back to previous field
+                          FocusScope.of(context).previousFocus();
+                        }
                       },
                       decoration: InputDecoration(
                         counterText: "",

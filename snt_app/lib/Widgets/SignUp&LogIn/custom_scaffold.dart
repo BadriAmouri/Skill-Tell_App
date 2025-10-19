@@ -47,14 +47,14 @@ class CustomScaffold extends StatelessWidget {
                         // logo section
                         Padding(
                           padding: EdgeInsets.only(
-                            top: !zoomheight ? 30 : 0,
-                            left: !zoomheight ? 30 : 0,
-                            right: !zoomheight ? 30 : 0,
+                            top: !zoomheight ? 20 : 0,
+                            left: !zoomheight ? 20 : 0,
+                            right: !zoomheight ? 20 : 0,
                           ),
                           child: Image.asset(
                             'lib/Assets/Images/logo.png',
-                            height: 250,
-                            width: 200,
+                            height: 150,
+                            width: 100,
                           ),
                         ),
 
